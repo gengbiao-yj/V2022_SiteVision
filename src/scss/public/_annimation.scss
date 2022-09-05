@@ -1,0 +1,126 @@
+/*  动画
+------------------------------------------------ */
+@keyframes ShakeUpDown-sm {
+  0% {
+    transition: all ease-in-out;
+    transform: translateY(0px);
+  }
+
+  25% {
+    transform: translateY(5px);
+  }
+
+  50% {
+    transform: translateY(0px);
+  }
+
+  75% {
+    transform: translateY(-5px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/*  Vue 动画
+------------------------------------------------ */
+// 页面、布局切换
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+// 面包屑导航内容
+.breadcrumb-enter-active,
+.breadcrumb-leave-active {
+  transition: all 0.5s;
+}
+
+.breadcrumb-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.breadcrumb-leave-active {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.breadcrumb-move {
+  transition: all 0.5s;
+}
+
+.breadcrumb-leave-active {
+  position: absolute;
+}
+
+// tab menu 打开关闭
+.tab-menu-leave-active,
+.tab-menu-enter-active {
+  transition: all 0.3s;
+}
+
+.tab-menu-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.tab-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+// 上下渐进渐出
+.upDown-enter-active,
+.upDown-leave-active {
+  transition: all 0.2s;
+  position: absolute;
+}
+
+.upDown-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.upDown-leave-active {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.upDown-move {
+  transition: all 0.2s;
+}
+
+// 左侧滑出
+.fromLeft-enter-active,
+.fromLeft-leave-active {
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+}
+
+.fromLeft-enter-from,
+.fromLeft-leave-to {
+  opacity: 0;
+  transform: translateX(-150px);
+}
+
+.inOut-enter-from,
+.inOut-leave-to {
+  opacity: 0;
+}
+.inOut-enter-active,
+.inOut-leave-active {
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+}

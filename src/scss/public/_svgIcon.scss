@@ -1,0 +1,91 @@
+// 阿里图标库 svg 公共样式
+.icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: center;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+// svg 大小设置
+@mixin _svg-size($wh: 12px) {
+  width: $wh;
+  height: $wh;
+}
+
+.svg-12 {
+  @include _svg-size();
+}
+
+.svg-14 {
+  @include _svg-size(14px);
+}
+
+.svg-16 {
+  @include _svg-size(16px);
+}
+
+.svg-18 {
+  @include _svg-size(18px);
+}
+
+.svg-20 {
+  @include _svg-size(20px);
+}
+
+.svg-22 {
+  @include _svg-size(22px);
+}
+
+.svg-24 {
+  @include _svg-size(24px);
+}
+
+.svg-26 {
+  @include _svg-size(26px);
+}
+
+.svg-28 {
+  @include _svg-size(28px);
+}
+
+.svg-30 {
+  @include _svg-size(30px);
+}
+
+.svg-32 {
+  @include _svg-size(32px);
+}
+
+.svg-34 {
+  @include _svg-size(34px);
+}
+
+.svg-36 {
+  @include _svg-size(36px);
+}
+
+.svg-38 {
+  @include _svg-size(38px);
+}
+
+.svg-40 {
+  @include _svg-size(40px);
+}
+
+.svg-45 {
+  @include _svg-size(45px);
+}
+
+.svg-50 {
+  @include _svg-size(50px);
+}
+
+.svg-55 {
+  @include _svg-size(55px);
+}
+
+.svg-60 {
+  @include _svg-size(60px);
+}
+

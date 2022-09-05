@@ -1,0 +1,159 @@
+/*  sfc 组件内涉及element ui 的样式重写
+------------------------------------------------ */
+/// src\components\businessSelf\headerMenu\HeaderOption.vue
+.header-option-popover {
+  padding: 0 !important;
+}
+
+/// src\components\businessSelf\headerMenu\HeaderTabs.vue  tabs 标签页样式覆盖
+.header-tabs .el-tabs__header {
+  margin-bottom: 0px !important;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+
+  & .el-tabs__nav {
+    border: none !important;
+    line-height: 36px;
+  }
+
+  & .el-tabs__item:not(:first-child) {
+    margin-left: 10px !important;
+  }
+
+  & .el-tabs__item {
+    border: 1px solid var(--el-border-color-light) !important;
+    height: 26px;
+    line-height: 24px;
+    border-radius: 2px;
+    font-size: 12px;
+    &:hover {
+      border-color: var(--primary-color) !important;
+      color: var(--primary-color) !important;
+    }
+    &.is-active {
+      border-color: var(--primary-color) !important;
+      background: var(--primary-color) !important;
+      color: white !important;
+    }
+  }
+}
+
+/// src\components\PublicGlobal\SvTableColumnOption.vue  表格列配置的弹窗样式
+// el-tree 组件样式覆盖
+.table-column-tree {
+  // 隐藏展开收缩指示箭头
+  .el-tree-node__expand-icon {
+    display: none;
+  }
+  // 内容行高
+  .el-tree-node__content {
+    height: 35px;
+  }
+  // 父节点 - 《展示列》 增加边框
+  > div > .el-tree-node__content {
+    border-bottom: 1px #e7e7e7 solid;
+  }
+  // 取消组件自带拖拽指示线（组件拖拽指示线绝对定位，位置错乱，未找到原因，做隐藏处理）
+  .el-tree__drop-indicator {
+    display: none !important;
+  }
+  // 内容按钮、文字排布
+  .custom-tree-node {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  // 新增自定义拖拽指示线
+  & + .drag-line {
+    height: 1px;
+    background-color: var(--primary-color);
+    position: absolute;
+    top: 82px;
+    left: 10%;
+    right: 6%;
+    opacity: 0; // 默认隐藏
+  }
+}
+
+/*  form 表单内部组件样式重写
+------------------------------------------------ */
+// small-input 组件宽度同步 small-select
+.el-form-item__content .el-input.el-input--small .el-input__suffix .el-icon {
+  font-size: 14px;
+}
+
+// 表单验证通过，显示绿色
+.el-form-item.is-success .el-input__validateIcon {
+  color: #4cd900;
+}
+
+/*  el-menu 组件样式覆盖
+------------------------------------------------ */
+// menu - mode:vertical
+.el-menu--popup-container {
+  .el-menu-item:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    > span,
+    svg,
+    i {
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  .el-menu-item.is-active {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+  }
+}
+
+#defaultMenu {
+  // hover 状态样式重写
+  .el-sub-menu__title:hover,
+  .el-menu-item:hover {
+    background: none;
+    > span,
+    svg {
+      transition: all 0.2s ease;
+      color: var(--primary-color);
+    }
+  }
+
+  // focus 状态增加背景样式
+  .el-menu-item.is-active {
+    background-color: rgba(
+      var(--primary-color-r),
+      var(--primary-color-g),
+      var(--primary-color-b),
+      0.2
+    );
+  }
+}
+
+#primaryMenu {
+  // hover 状态样式重写
+  .el-sub-menu__title:hover,
+  .el-menu-item:hover {
+    background: none;
+    > span,
+    svg {
+      transition: all 0.2s ease;
+      color: white;
+    }
+  }
+
+  // focus 状态增加背景样式
+  .el-menu-item.is-active {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/*  element 主题颜色修改
+------------------------------------------------ */
+:root {
+  --el-color-primary: var(--primary-color) !important;
+}

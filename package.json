@@ -1,0 +1,73 @@
+{
+  "name": "sitesvision",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve:dev": "cross-env NODE_ENV=devProxy vue-cli-service serve --mode dev",
+    "serve:uat": "cross-env NODE_ENV=uatProxy vue-cli-service serve --mode uat",
+    "serve:prod": "cross-env NODE_ENV=prodProxy vue-cli-service serve --mode prod",
+    "build:dev": "vue-cli-service build --mode dev",
+    "build:uat": "vue-cli-service build --mode uat",
+    "build:prod": "vue-cli-service build --mode prod",
+    "lint": "vue-cli-service lint",
+    "preinstall": "npx only-allow yarn"
+  },
+  "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.3.0",
+    "@mapbox/mapbox-gl-language": "^1.0.0",
+    "axios": "^0.27.2",
+    "core-js": "^3.8.3",
+    "crypto-js": "^4.1.1",
+    "element-plus": "^2.2.6",
+    "js-md5": "^0.7.3",
+    "mapbox-gl": "^2.9.1",
+    "mitt": "^3.0.0",
+    "nanoid": "^4.0.0",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.0.14",
+    "qs": "^6.11.0",
+    "vue": "^3.2.13",
+    "vue-class-component": "^8.0.0-0",
+    "vue-router": "^4.0.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@types/crypto-js": "^4.1.1",
+    "@types/js-md5": "^0.4.3",
+    "@types/nprogress": "^0.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-typescript": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "prettier": "^2.4.1",
+    "sass": "^1.32.7",
+    "sass-loader": "^13.0.2",
+    "style-resources-loader": "^1.5.0",
+    "typescript": "~4.5.5",
+    "unplugin-auto-import": "^0.9.1",
+    "unplugin-vue-components": "^0.20.1",
+    "vue-cli-plugin-style-resources-loader": "^0.1.5"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "engines": {
+    "node": "14.x"
+  },
+  "gitHooks": {
+    "commit-msg": "commitlint -E GIT_PARAMS"
+  }
+}

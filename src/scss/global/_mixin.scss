@@ -1,0 +1,51 @@
+// 设定盒子大小
+@mixin box-size($w: 100%, $h: 100%) {
+  width: $w;
+  height: $h;
+}
+
+// 绝对定位
+@mixin abs-position($isTransform: false, $top: 50%, $left: 50%) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  @if ($isTransform) {
+    transform: scale(1) translate(-$top, -$left);
+  }
+}
+
+// flex 布局
+@mixin flex($dire: row, $just: center, $align: center) {
+  display: flex;
+  flex-direction: $dire;
+  justify-content: $just;
+  align-items: $align;
+}
+
+// 主题颜色
+@mixin primary-color($per: 1) {
+  color: rgba(
+    var(--primary-color-r),
+    var(--primary-color-g),
+    var(--primary-color-b),
+    $per
+  );
+}
+
+@mixin primary-bg-color($per: 1) {
+  background-color: rgba(
+    var(--primary-color-r),
+    var(--primary-color-g),
+    var(--primary-color-b),
+    $per
+  );
+}
+
+@mixin primary-border-color($per: 1) {
+  border-color: rgba(
+    var(--primary-color-r),
+    var(--primary-color-g),
+    var(--primary-color-b),
+    $per
+  );
+}
