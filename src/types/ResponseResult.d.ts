@@ -57,6 +57,31 @@ interface ListView {
   total: number; // 总数
 }
 
+/*  业务 - 系统管理模块各接口返回数据泛型
+------------------------------------------------ */
+// 企业信息
+interface CompanyInfo {
+  backImg: string; // 背景图
+  cusName: string; // 企业名称
+  logo: string; // 企业logo
+}
+
+interface BrandInfo {
+  brandCode: string;
+  brandId: number;
+  cnName: string;
+  creator: string;
+  cusNo: string;
+  enName: string;
+  siteIcon: string;
+  storeIcon: string;
+}
+
+interface Company {
+  brandList: Array<BrandInfo>;
+  companyInfo: CompanyInfo;
+}
+
 /*  第三方 - 高德地图
 ------------------------------------------------ */
 // IP 定位
@@ -75,5 +100,8 @@ export type {
   AmapV3IP,
   DataArea,
   ListView,
-  UploadImg
+  UploadImg,
+  Company,
+  CompanyInfo,
+  BrandInfo
 };

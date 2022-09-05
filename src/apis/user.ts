@@ -12,10 +12,12 @@ import type {
   ListViewParams,
   ListView,
   UploadImg,
-  changePwdParams
+  changePwdParams,
+  Company,
+  CompanyInfo
 } from '@/types/index';
 
-/*  注册登录 - start
+/*  用户
 ------------------------------------------------ */
 // 登录
 function login(Data: UserLoginParams) {
@@ -44,7 +46,7 @@ function changPwd(Data: changePwdParams) {
   });
 }
 
-/*  通用 - start
+/*  通用
 ------------------------------------------------ */
 // 省市区查询
 function dataArea(Data: DataAreaParams) {
@@ -64,7 +66,7 @@ function uploadImage(Data: any) {
   });
 }
 
-/*  列表模式
+/*  列表数据
 ------------------------------------------------ */
 // 机会点列表
 function listViewSites(Data: ListViewParams) {
@@ -102,6 +104,31 @@ function listViewTas(Data: ListViewParams) {
   });
 }
 
+/*  系统管理
+------------------------------------------------ */
+// 获取企业信息
+function getCompanyInfo(Data: { cusNo: string }) {
+  return http.request<ResponseResult<Company>>({
+    url: '/system/companyInfo',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
+// 保存企业信息
+function saveCompanyInfo(Data: CompanyInfo) {
+  return http.request<
+    ResponseResult<{
+      content: string; // 返回消息
+      type: string; // 消息类型
+    }>
+  >({
+    url: '/system/saveCompanyInfo',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
 export {
   login,
   dataArea,
@@ -111,5 +138,7 @@ export {
   listViewTas,
   uploadImage,
   saveUser,
-  changPwd
+  changPwd,
+  getCompanyInfo,
+  saveCompanyInfo
 };

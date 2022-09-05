@@ -1,27 +1,29 @@
 <!-- name: 个人信息 -->
 <script setup lang="ts">
 import basicPinia from '@/pinia/storagePinia';
-import { uploadImage, saveUser } from '@/apis/user';
+import { saveUser } from '@/apis/user';
 import { checkMail, checkPhone } from '@/utils';
 import { ElMessage } from 'element-plus';
 import type { UserLogin } from '@/types';
-import type { FormInstance, UploadRequestOptions } from 'element-plus';
+import type { FormInstance } from 'element-plus';
 
 const basicStore = basicPinia();
 
 const personSwitch = ref(false); // 编辑动作
-const personInfo = reactive<UserLogin>(basicStore.userInfo); // 个人信息
-const BASE_URL = basicStore.getBaseUrl();
+const personInfo = reactive<UserLogin>(basicStore.getUserInfo()); // 个人信息
 
 // 重置个人信息
 const resetInfo = () => {
-  personInfo.leader = '';
-  personInfo.loginName = '';
-  personInfo.dept = '';
-  personInfo.mail = '';
-  personInfo.phone = '';
-  personInfo.position = '';
-  personInfo.userName = '';
+  const { leader, loginName, dept, mail, phone, position, userName } =
+    basicStore.getUserInfo();
+
+  personInfo.leader = leader;
+  personInfo.loginName = loginName;
+  personInfo.dept = dept;
+  personInfo.mail = mail;
+  personInfo.phone = phone;
+  personInfo.position = position;
+  personInfo.userName = userName;
 };
 
 // 校验
@@ -55,24 +57,6 @@ const saveInfo = async () => {
     return;
   }
 };
-
-// 上传头像图片
-const uploadImg = async (file: UploadRequestOptions) => {
-  try {
-    let formData = new FormData();
-    formData.append('file', file.file);
-    const { data } = await uploadImage(formData);
-    if (data) {
-      ElMessage.success(data.message);
-      personInfo.avatar = data.url;
-      basicStore.setUserInfo(personInfo);
-    } else {
-      ElMessage.success('上传失败');
-    }
-  } catch (error) {
-    ElMessage.success('上传失败');
-  }
-};
 </script>
 
 <template>
@@ -95,92 +79,87 @@ const uploadImg = async (file: UploadRequestOptions) => {
       </div>
     </div>
     <div class="content">
-      <el-upload
-        :multiple="false"
-        :limit="1"
-        :disabled="!personSwitch"
-        :show-file-list="false"
-        :http-request="uploadImg"
-        accept="image/*"
+      <sv-replace-img
+        :edit="personSwitch"
+        :src="personInfo.avatar"
+        :size="70"
+        shape="circle"
+        class="mg-b-10 mg-l-20"
+        @success="e => (personInfo.avatar = e)"
       >
-        <el-avatar
-          :size="70"
-          class="mg-b-10 avatar"
-          :class="{ edit: personSwitch }"
-          :src="`${BASE_URL}/${personInfo.avatar}`"
-        >
+        <template #fail>
           <img src="../../../../public/resource/imgs/schoolboy.png" />
-        </el-avatar>
-      </el-upload>
+        </template>
+      </sv-replace-img>
       <el-form
         ref="rulesRef"
-        label-position="left"
-        label-width="80px"
+        label-position="right"
+        label-width="90px"
         :model="personInfo"
         :rules="rules"
         status-icon
       >
-        <el-form-item label="用户名" prop="userName">
+        <el-form-item label="用户名：" prop="userName">
           <transition name="inOut" mode="out-in" appear>
             <span class="pd-l-10" v-if="!personSwitch">{{
               personInfo.userName
             }}</span>
-            <el-input v-else v-model="personInfo.userName" />
+            <el-input v-else v-model="personInfo.userName" clearable />
           </transition>
         </el-form-item>
-        <el-form-item label="姓名" prop="loginName">
+        <el-form-item label="姓名：" prop="loginName">
           <transition name="inOut" mode="out-in" appear>
             <span class="pd-l-10" v-if="!personSwitch">{{
               personInfo.loginName
             }}</span>
-            <el-input v-else v-model="personInfo.loginName" />
+            <el-input v-else v-model="personInfo.loginName" clearable />
           </transition>
         </el-form-item>
-        <el-form-item label="手机号" prop="phone">
+        <el-form-item label="手机号：" prop="phone">
           <transition name="inOut" mode="out-in" appear>
             <span class="pd-l-10" v-if="!personSwitch">{{
               personInfo.phone
             }}</span>
-            <el-input v-else v-model="personInfo.phone" />
+            <el-input v-else v-model="personInfo.phone" clearable />
           </transition>
         </el-form-item>
-        <el-form-item label="邮箱" prop="mail">
+        <el-form-item label="邮箱：" prop="mail">
           <transition name="inOut" mode="out-in" appear>
             <span class="pd-l-10" v-if="!personSwitch">{{
               personInfo.mail
             }}</span>
-            <el-input v-else v-model="personInfo.mail" />
+            <el-input v-else v-model="personInfo.mail" clearable />
           </transition>
         </el-form-item>
-        <el-form-item label="直接上级">
+        <el-form-item label="直接上级：">
           <transition name="inOut" mode="out-in" appear>
             <span class="pd-l-10" v-if="!personSwitch">{{
               personInfo.leader
             }}</span>
-            <el-input v-else v-model="personInfo.leader" />
+            <el-input v-else v-model="personInfo.leader" clearable />
           </transition>
         </el-form-item>
-        <el-form-item label="部门">
+        <el-form-item label="部门：">
           <transition name="inOut" mode="out-in" appear>
             <span class="pd-l-10" v-if="!personSwitch">{{
               personInfo.dept
             }}</span>
-            <el-input v-else v-model="personInfo.dept" />
+            <el-input v-else v-model="personInfo.dept" clearable />
           </transition>
         </el-form-item>
-        <el-form-item label="职务">
+        <el-form-item label="职务：">
           <transition name="inOut" mode="out-in" appear>
             <span class="pd-l-10" v-if="!personSwitch">{{
               personInfo.position
             }}</span>
-            <el-input v-else v-model="personInfo.position" />
+            <el-input v-else v-model="personInfo.position" clearable />
           </transition>
         </el-form-item>
       </el-form>
     </div>
     <div class="footer" v-show="personSwitch">
-      <el-button @click="resetInfo">重置</el-button>
-      <el-button type="primary" @click="saveInfo">保存</el-button>
+      <el-button @click="resetInfo" size="small">重置</el-button>
+      <el-button type="primary" @click="saveInfo" size="small">保存</el-button>
     </div>
   </div>
 </template>
@@ -193,7 +172,7 @@ const uploadImg = async (file: UploadRequestOptions) => {
     @include flex(row, space-between, center);
     border-bottom: 0.8px solid #dedede;
 
-    > div {
+    > .left {
       @include flex(row, center, center);
     }
   }

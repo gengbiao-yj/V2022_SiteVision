@@ -57,6 +57,7 @@ declare module '@vue/runtime-core' {
     SvBadge: typeof import('./src/components/PublicGlobal/SvBadge.vue')['default']
     SvCopyrightLine: typeof import('./src/components/PublicGlobal/SvCopyrightLine.vue')['default']
     SvFullScreen: typeof import('./src/components/PublicGlobal/SvFullScreen.vue')['default']
+    SvReplaceImg: typeof import('./src/components/PublicGlobal/SvReplaceImg.vue')['default']
     SvTableBox: typeof import('./src/components/PublicGlobal/SvTableBox.vue')['default']
     SvTableColumnOption: typeof import('./src/components/PublicGlobal/SvTableColumnOption.vue')['default']
     SvTableFilter: typeof import('./src/components/PublicGlobal/SvTableFilter.vue')['default']

@@ -104,26 +104,26 @@ const init = () => {
     <div class="content" v-show="passwordSwitch">
       <el-form
         ref="rulesRef"
-        label-position="left"
+        label-position="right"
         label-width="80px"
         :model="passwordInfo"
         :rules="rules"
         status-icon
       >
-        <el-form-item label="旧密码" prop="oldPassword">
-          <el-input v-model="passwordInfo.oldPassword" />
+        <el-form-item label="旧密码：" prop="oldPassword">
+          <el-input v-model="passwordInfo.oldPassword" clearable />
         </el-form-item>
-        <el-form-item label="新密码" prop="newPassword">
-          <el-input v-model="passwordInfo.newPassword" />
+        <el-form-item label="新密码：" prop="newPassword">
+          <el-input v-model="passwordInfo.newPassword" clearable />
         </el-form-item>
-        <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input v-model="passwordInfo.confirmPassword" />
+        <el-form-item label="确认密码：" prop="confirmPassword">
+          <el-input v-model="passwordInfo.confirmPassword" clearable />
         </el-form-item>
       </el-form>
     </div>
     <div class="footer" v-show="passwordSwitch">
-      <el-button @click="resetInfo">重置</el-button>
-      <el-button type="primary" @click="saveInfo">保存</el-button>
+      <el-button @click="resetInfo" size="small">清空</el-button>
+      <el-button type="primary" @click="saveInfo" size="small">保存</el-button>
     </div>
   </div>
 </template>
@@ -136,7 +136,7 @@ const init = () => {
     @include flex(row, space-between, center);
     border-bottom: 0.8px solid #dedede;
 
-    > div {
+    > .left {
       @include flex(row, center, center);
     }
   }

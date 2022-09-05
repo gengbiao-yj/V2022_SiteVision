@@ -3,29 +3,37 @@
 import PersonInfo from '@/views/AccountSetting/components/PersonInfo.vue';
 import SecuritySet from '@/views/AccountSetting/components/SecuritySet.vue';
 
-const activeName = ref('1');
+const activeName = ref('0');
+
+const isComponent = [PersonInfo, SecuritySet];
 </script>
 
 <template>
-  <div style="height: 100%">
-    <el-tabs v-model="activeName" class="tabs-root">
-      <el-tab-pane label="个人信息" name="1">
-        <person-info />
-      </el-tab-pane>
-      <el-tab-pane label="安全设置" name="2">
-        <security-set />
-      </el-tab-pane>
-    </el-tabs>
+  <div class="account-set-root">
+    <div class="set-content">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="个人信息" name="0"> </el-tab-pane>
+        <el-tab-pane label="安全设置" name="1"> </el-tab-pane>
+      </el-tabs>
+      <transition name="inOut" mode="out-in" appear>
+        <component :is="isComponent[activeName]" />
+      </transition>
+    </div>
     <sv-copyright-line />
   </div>
 </template>
 
 <style scoped lang="scss">
+.account-set-root {
+  @include box-size(100%, 100%);
+  .set-content {
+    padding: 8px 10px;
+    background: white;
+    border-radius: 6px;
+    height: calc(100% - 45px);
+  }
+}
 .tabs-root {
-  @include box-size(100%, calc(100% - 45px));
-  background: white;
-  padding: 8px 10px;
-  border-radius: 6px;
 }
 </style>
 <script lang="ts">

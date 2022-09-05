@@ -11,7 +11,10 @@ import type {
   AmapV3IP,
   DataArea,
   ListView,
-  UploadImg
+  UploadImg,
+  Company,
+  CompanyInfo,
+  BrandInfo
 } from './ResponseResult';
 import type {
   StorageKeyType,
@@ -45,5 +48,8 @@ export type {
   ListViewParams,
   ListView,
   UploadImg,
-  changePwdParams
+  changePwdParams,
+  Company,
+  CompanyInfo,
+  BrandInfo
 };

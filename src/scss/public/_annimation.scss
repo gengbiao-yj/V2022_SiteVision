@@ -85,7 +85,6 @@
 .upDown-enter-active,
 .upDown-leave-active {
   transition: all 0.2s;
-  position: absolute;
 }
 
 .upDown-enter-from {
@@ -122,5 +121,4 @@
 .inOut-enter-active,
 .inOut-leave-active {
   transition: all 0.2s ease-in-out;
-  position: absolute;
 }

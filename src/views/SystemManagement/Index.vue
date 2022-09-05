@@ -1,13 +1,15 @@
 <!-- 系统维护 -->
 <script lang="ts" setup>
+import CompanyMaintain from '@/views/SystemManagement/components/CompanyMaintain.vue';
 import type { _HTMLDivElement } from '@/types';
 
+// 侧边菜单栏展开、折叠
 const isAsideCollapse = ref(false);
 const arg = [0, 160, 0];
 
+// 侧边菜单项选中样式过渡
 const tag = ref() as _HTMLDivElement;
 const asideMenu = ref() as _HTMLDivElement;
-// '#f1f1f1'
 let manageType = ref(0);
 const asideMenuChange = (i: number) => {
   if (asideMenu.value && tag.value) {
@@ -16,6 +18,8 @@ const asideMenuChange = (i: number) => {
     tag.value.style.transform = `translateY(${currentLi.offsetTop - 20}px)`;
   }
 };
+
+const isComponent = [CompanyMaintain];
 </script>
 <template>
   <div class="Sys-Mg-root">
@@ -28,47 +32,47 @@ const asideMenuChange = (i: number) => {
         <ul ref="asideMenu" class="aside-menu">
           <li @click="asideMenuChange(0)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 0 }">企业维护</span>
+            <span :class="{ 'primary-color': manageType === 0 }">企业维护</span>
           </li>
           <li @click="asideMenuChange(1)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 1 }">品牌维护</span>
+            <span :class="{ 'primary-color': manageType === 1 }">品牌维护</span>
           </li>
           <li @click="asideMenuChange(2)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 2 }">用户维护</span>
+            <span :class="{ 'primary-color': manageType === 2 }">用户维护</span>
           </li>
           <li @click="asideMenuChange(3)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 3 }"
+            <span :class="{ 'primary-color': manageType === 3 }"
               >数据项维护</span
             >
           </li>
           <li @click="asideMenuChange(4)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 4 }">字段管理</span>
+            <span :class="{ 'primary-color': manageType === 4 }">字段管理</span>
           </li>
           <li @click="asideMenuChange(5)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 5 }"
+            <span :class="{ 'primary-color': manageType === 5 }"
               >自定义图层维护</span
             >
           </li>
           <li @click="asideMenuChange(6)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 6 }">城市维护</span>
+            <span :class="{ 'primary-color': manageType === 6 }">城市维护</span>
           </li>
           <li @click="asideMenuChange(7)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 7 }">竞品维护</span>
+            <span :class="{ 'primary-color': manageType === 7 }">竞品维护</span>
           </li>
           <li @click="asideMenuChange(8)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 8 }">报告统计</span>
+            <span :class="{ 'primary-color': manageType === 8 }">报告统计</span>
           </li>
           <li @click="asideMenuChange(9)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType == 9 }">日志统计</span>
+            <span :class="{ 'primary-color': manageType === 9 }">日志统计</span>
           </li>
           <li ref="tag"></li>
         </ul>
@@ -84,7 +88,9 @@ const asideMenuChange = (i: number) => {
           <use href="#icon-zuohua"></use>
         </svg>
         <!-- 系统设置项 -->
-        <div>系统设置项</div>
+        <transition name="inOut" mode="out-in" appear>
+          <component :is="isComponent[manageType]" />
+        </transition>
       </div>
     </div>
     <sv-copyright-line />
