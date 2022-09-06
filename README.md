@@ -152,4 +152,12 @@
 | ----------- | --------------- | --------------- | --------------- | --------------- |
 | not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
-## 特别感谢
+## 截图
+
+![image](https://gitee.com/gengbiao-yangjie/tc-images/raw/master/picture/20220906/134435557-1.png)
+
+![image](https://gitee.com/gengbiao-yangjie/tc-images/raw/master/picture/20220906/134929970-1.png)
+
+![image](https://gitee.com/gengbiao-yangjie/tc-images/raw/master/picture/20220906/134940921-1.png)
+
+![image](https://gitee.com/gengbiao-yangjie/tc-images/raw/master/picture/20220906/134953715-1.png)
