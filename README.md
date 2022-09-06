@@ -109,7 +109,7 @@
   │  │  ├─ Axios        # axios 封装，供apis内部文件调用
   │  │  └─ ElementPlus  # ElementPlus 封装处理
   │  ├─ router          # 路由
-  │  ├─ scss            # 路由
+  │  ├─ scss            # 样式
   │  │  ├─ components   # ElementPlus 样式重写
   │  │  ├─ global       # 全局 scss 变量、mixin 混入文件目录
   │  │  ├─ public       # 公共样式文件目录
