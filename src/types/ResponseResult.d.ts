@@ -1,9 +1,10 @@
 /**
- * 各业务接口响应数据的类型集合
+ * 接口响应数据的类型集合
  */
 
 /*  业务 - 定义后台返回数据的泛型；<T> 业务数据泛型
 ------------------------------------------------ */
+// 接口请求统一返回的数据结构
 interface ResponseResult<T> {
   code: number;
   message: string;
@@ -66,6 +67,7 @@ interface CompanyInfo {
   logo: string; // 企业logo
 }
 
+// 品牌信息
 interface BrandInfo {
   brandCode: string;
   brandId: number;
@@ -77,6 +79,7 @@ interface BrandInfo {
   storeIcon: string;
 }
 
+// 企业、品牌集合信息
 interface Company {
   brandList: Array<BrandInfo>;
   companyInfo: CompanyInfo;
@@ -93,15 +96,3 @@ interface AmapV3IP {
   adcode: string; // 城市 adcode 编码
   centerLngLat: object; // rectangle 算出的中心点
 }
-
-export type {
-  ResponseResult,
-  UserLogin,
-  AmapV3IP,
-  DataArea,
-  ListView,
-  UploadImg,
-  Company,
-  CompanyInfo,
-  BrandInfo
-};

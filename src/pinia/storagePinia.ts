@@ -1,11 +1,5 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type {
-  UserLogin,
-  SystemSetType,
-  rgbType,
-  TabsItem
-} from '@/types/index';
 import { storage, colorTransition } from '@/utils';
 
 export default defineStore('basicPinia', () => {

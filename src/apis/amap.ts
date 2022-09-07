@@ -3,7 +3,6 @@
  */
 import axios from 'axios';
 import { AMAP } from '@/plugin/Axios/config';
-import type { AmapV3IP } from '@/types/index';
 
 // IP 定位
 const amapIP = async () => {

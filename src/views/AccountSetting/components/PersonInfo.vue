@@ -4,7 +4,6 @@ import basicPinia from '@/pinia/storagePinia';
 import { saveUser } from '@/apis/user';
 import { checkMail, checkPhone } from '@/utils';
 import { ElMessage } from 'element-plus';
-import type { UserLogin } from '@/types';
 import type { FormInstance } from 'element-plus';
 
 const basicStore = basicPinia();

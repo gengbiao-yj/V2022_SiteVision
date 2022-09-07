@@ -17,7 +17,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020
   },
-  // 自定义eslint规则，严格按照StandardJS
+  // 自定义eslint规则
   rules: {
     'vue/singleline-html-element-content-newline': 'off', // 单行 html 元素，内容前后强制换行
     'vue/multiline-html-element-content-newline': 'off', // 多行 html 元素，内容前后强制换行
@@ -213,8 +213,33 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'prod' ? 2 : 0, // 禁用 debugger
     'no-async-promise-executor': 'off' // Promise 回调函数禁止使用 async
   },
-  //当使用第三方的SDK时，eslint会报找不到，可以加入到globals，取消对这个的检查
+  // 配置全局变量、全局TS类型等，以解除'未声明'报错
   globals: {
-    fengmap: true
+    fengmap: true,
+    eventBusName: true,
+    _HTMLDivElement: true,
+    _SVGElement: true,
+    StorageKeyType: true,
+    SessionStorageValue: true,
+    LocalStorageValue: true,
+    GetLocalStorage: true,
+    rgbType: true,
+    UserLoginParams: true,
+    changePwdParams: true,
+    DataAreaParams: true,
+    ListViewParams: true,
+    ResponseResult: true,
+    UserLogin: true,
+    DataArea: true,
+    UploadImg: true,
+    ListView: true,
+    CompanyInfo: true,
+    BrandInfo: true,
+    Company: true,
+    AmapV3IP: true,
+    MenuItem: true,
+    POIItem: true,
+    SystemSetType: true,
+    TabsItem: true
   }
 };

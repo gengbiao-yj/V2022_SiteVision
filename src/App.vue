@@ -11,7 +11,6 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn';
 import en from 'element-plus/lib/locale/lang/en';
 import basicPinia from '@/pinia/storagePinia';
 import { colorTransition } from '@/utils';
-import type { rgbType } from '@/types/index';
 
 const basicStore = basicPinia();
 const { getSystemParams } = basicStore;

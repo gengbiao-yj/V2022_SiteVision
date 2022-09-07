@@ -1,6 +1,5 @@
 <!-- Tabs- 导航标签页 -->
 <script lang="ts" setup>
-import type { _HTMLDivElement, TabsItem } from '@/types/index';
 import type { TabsPaneContext } from 'element-plus';
 import basicPinia from '@/pinia/storagePinia';
 const basicStore = basicPinia();

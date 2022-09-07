@@ -1,7 +1,6 @@
 <!-- 系统维护 -->
 <script lang="ts" setup>
 import CompanyMaintain from '@/views/SystemManagement/components/CompanyMaintain.vue';
-import type { _HTMLDivElement } from '@/types';
 
 // 侧边菜单栏展开、折叠
 const isAsideCollapse = ref(false);

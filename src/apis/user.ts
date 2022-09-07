@@ -3,19 +3,6 @@
  */
 import { http } from '@/plugin/Axios/index';
 import qs from 'qs';
-import type {
-  DataAreaParams,
-  ResponseResult,
-  UserLogin,
-  UserLoginParams,
-  DataArea,
-  ListViewParams,
-  ListView,
-  UploadImg,
-  changePwdParams,
-  Company,
-  CompanyInfo
-} from '@/types/index';
 
 /*  用户
 ------------------------------------------------ */

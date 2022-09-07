@@ -1,6 +1,5 @@
 <!-- name: form 组件内部用省市区联动框 -->
 <script lang="ts" setup>
-import { DataArea } from '@/types';
 import { getDataArea } from '@/apis/common';
 import { defineProps, defineEmits } from 'vue';
 

@@ -9,6 +9,7 @@ interface MenuItem {
   value?: string;
   path?: string;
 }
+
 interface POIItem {
   name: string;
   title: string;
@@ -28,5 +29,3 @@ interface TabsItem {
   name: string,
   path: string
 }
-
-export type { POIItem, SystemSetType, MenuItem, TabsItem };

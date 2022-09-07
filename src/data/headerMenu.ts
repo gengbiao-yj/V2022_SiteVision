@@ -1,4 +1,3 @@
-import type { POIItem, MenuItem } from '@/types/index';
 // 智能推荐POIs
 export const POIs: Array<POIItem> = [
   {

@@ -1,5 +1,5 @@
 /**
- * 各业务接口请求参数的类型集合
+ * 接口请求参数的类型集合
  */
 
 /*  业务 - User 模块各接口的请求参数泛型
@@ -41,10 +41,3 @@ interface ListViewParams {
   size: number; // 每页长度
   page: number; // 页码
 }
-
-export type {
-  UserLoginParams,
-  DataAreaParams,
-  ListViewParams,
-  changePwdParams
-};

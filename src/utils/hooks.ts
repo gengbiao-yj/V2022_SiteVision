@@ -2,7 +2,6 @@
 import mitt from 'mitt';
 const EventBus = mitt();
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import type { eventBusName } from '@/types';
 
 /*  通用 start
 ------------------------------------------------ */

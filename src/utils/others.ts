@@ -5,12 +5,6 @@
 /*  资源引入
 ------------------------------------------------ */
 import CryptoJS from 'crypto-js';
-import type {
-  StorageKeyType,
-  GetLocalStorage,
-  LocalStorageValue,
-  SessionStorageValue
-} from '@/types/index';
 
 /*  数据加密解密
 ------------------------------------------------ */
@@ -118,7 +112,6 @@ export class StorageUtils {
 
 /* 颜色转换
 ------------------------------------------------ */
-import type { rgbType } from '@/types/index';
 export function colorTransition(color: string, type: 'rgb' | '#x6' | '#x3') {
   function toRGB(): rgbType {
     color = color.trim();
