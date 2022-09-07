@@ -1,7 +1,7 @@
 # sitesvision
 
 ## 简介
-基于 MapBox 与大数据的一款选址规划系统，采用时下流行的 Vue3 UI 库 Element-Plus UI；技术框架采用了 Vue3.2 + WebPack5 + TypeScript4.5 + Element-Plus。
+基于 MapBox 与大数据的一款选址规划系统，采用时下流行的 Vue3 UI 库 Element-Plus UI；技术框架采用了 Vue3.2 + WebPack5 + MapBox + TypeScript4.5 + Element-Plus。
 
 ## 特性
 
@@ -124,7 +124,6 @@
   ├─ .env.prod          # 生产环境配置文件
   ├─ .env.dev           # 开发环境配置文件
   ├─ .env.uat           # 测试环境配置文件
-  ├─ .env.prod          # 生产环境配置文件
   ├─ .eslintignore      # eslint 忽略检查文件配置
   ├─ .eslintrc.js       # eslint 代码检查配置
   ├─ .eslintrc-auto-import.json
