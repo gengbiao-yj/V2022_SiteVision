@@ -39,17 +39,15 @@ export default {
     > span {
       font-size: 15px;
     }
-    &::v-deep {
-      .el-button {
-        padding: 0px 20px !important;
-        height: 22px;
-        font-size: 13px;
-        background: var(--primary-color);
-        border-color: var(--primary-color);
-        transition: all 0.1s ease-in-out;
-        &:hover {
-          @include primary-bg-color(0.7);
-        }
+    &:deep(.el-button) {
+      padding: 0px 20px !important;
+      height: 22px;
+      font-size: 13px;
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      transition: all 0.1s ease-in-out;
+      &:hover {
+        @include primary-bg-color(0.7);
       }
     }
   }

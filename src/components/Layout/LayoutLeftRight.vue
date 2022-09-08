@@ -206,13 +206,11 @@ const drawClosed = () => {
 }
 
 .menu-draw {
-  &::v-deep {
-    .el-drawer {
-      width: 210px !important;
-    }
-    .el-drawer__body {
-      padding: 0px !important;
-    }
+  &:deep(.el-drawer) {
+    width: 210px !important;
+  }
+  &:deep(.el-drawer__body) {
+    padding: 0px !important;
   }
 }
 </style>

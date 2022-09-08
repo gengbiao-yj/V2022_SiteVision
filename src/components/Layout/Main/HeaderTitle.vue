@@ -35,13 +35,8 @@ getWatchBrowserWidth((val: number) => {
 </script>
 
 <template>
-  <transition-group name="breadcrumb">
-    <template v-if="!isAsideMenuCollapse">
-      <img src="@/assets/img/logo1.png" />
-      <!--      <span>智慧选址平台</span>-->
-    </template>
-    <img v-else src="@/assets/img/logo2.png" />
-  </transition-group>
+  <img src="@/assets/img/logo2.png" />
+  <span v-show="!isAsideMenuCollapse">智慧选址平台</span>
 </template>
 
 <style scoped lang="scss">
