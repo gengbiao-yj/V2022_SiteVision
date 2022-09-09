@@ -78,6 +78,11 @@ onBeforeMount(() => {
   getAreaList('0', 101);
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'SvAreaData'
+};
+</script>
 
 <template>
   <!-- 省份 -->
@@ -90,10 +95,10 @@ onBeforeMount(() => {
       @change="val => formItemChange(val, 101)"
     >
       <el-option
-        :label="e.cnName"
-        :value="e.code"
         v-for="(e, i) in provinceList"
         :key="i"
+        :label="e.cnName"
+        :value="e.code"
       />
     </el-select>
   </el-form-item>
@@ -107,10 +112,10 @@ onBeforeMount(() => {
       @change="val => formItemChange(val, 102)"
     >
       <el-option
-        :label="e.cnName"
-        :value="e.code"
         v-for="(e, i) in cityList"
         :key="i"
+        :label="e.cnName"
+        :value="e.code"
       />
     </el-select>
   </el-form-item>
@@ -124,19 +129,13 @@ onBeforeMount(() => {
       @change="val => formItemChange(val, 103)"
     >
       <el-option
-        :label="e.cnName"
-        :value="e.code"
         v-for="(e, i) in countyList"
         :key="i"
+        :label="e.cnName"
+        :value="e.code"
       />
     </el-select>
   </el-form-item>
 </template>
 
 <style scoped lang="scss"></style>
-
-<script lang="ts">
-export default {
-  name: 'SvAreaData'
-};
-</script>

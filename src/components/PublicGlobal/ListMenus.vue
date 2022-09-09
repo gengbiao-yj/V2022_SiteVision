@@ -14,13 +14,18 @@ const props = defineProps({
 
 const emit = defineEmits(['select']);
 </script>
+<script lang="ts">
+export default {
+  name: 'ListMenus'
+};
+</script>
 
 <template>
   <div class="list-menus-root">
     <div
-      class="type-item"
       v-for="(e, i) in props.list"
       :key="i"
+      class="type-item"
       @click="emit('select', e)"
     >
       <svg fill="currentColor" class="icon svg-14" aria-hidden="true">
@@ -70,9 +75,3 @@ const emit = defineEmits(['select']);
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'ListMenus'
-};
-</script>

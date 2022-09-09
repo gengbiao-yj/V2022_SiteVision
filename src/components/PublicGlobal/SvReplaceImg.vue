@@ -45,6 +45,11 @@ const uploadImg = async (file: UploadRequestOptions) => {
   }
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'SvReplaceImg'
+};
+</script>
 
 <template>
   <div class="root">
@@ -93,9 +98,3 @@ const uploadImg = async (file: UploadRequestOptions) => {
   line-height: 30px;
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SvReplaceImg'
-};
-</script>

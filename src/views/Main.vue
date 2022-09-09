@@ -33,6 +33,11 @@ const IPPosition = async () => {
   }
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'MainMap'
+};
+</script>
 
 <template>
   <!-- 过渡效果需要所有业务页面有唯一的根节点，务必使用div做包裹 -->
@@ -49,9 +54,3 @@ const IPPosition = async () => {
   overflow: hidden;
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'MainMap'
-};
-</script>

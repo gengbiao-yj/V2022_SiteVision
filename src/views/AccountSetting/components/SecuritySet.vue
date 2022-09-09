@@ -25,7 +25,11 @@ const resetInfo = () => {
 // 校验
 const rulesRef = ref<FormInstance>(); // form 表单实例
 // 新密码确认
-const confirmNewPassword = (rule: any, value: any, callback: any) => {
+const confirmNewPassword = (
+  rule: object,
+  value: string,
+  callback: (err?: object) => void
+) => {
   if (value === '') {
     callback(new Error('请确认密码'));
   } else {
@@ -80,6 +84,11 @@ const init = () => {
   }
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'SecuritySet'
+};
+</script>
 
 <template>
   <div class="info-box">
@@ -101,7 +110,7 @@ const init = () => {
         />
       </div>
     </div>
-    <div class="content" v-show="passwordSwitch">
+    <div v-show="passwordSwitch" class="content">
       <el-form
         ref="rulesRef"
         label-position="right"
@@ -121,9 +130,9 @@ const init = () => {
         </el-form-item>
       </el-form>
     </div>
-    <div class="footer" v-show="passwordSwitch">
-      <el-button @click="resetInfo" size="small">清空</el-button>
-      <el-button type="primary" @click="saveInfo" size="small">保存</el-button>
+    <div v-show="passwordSwitch" class="footer">
+      <el-button size="small" @click="resetInfo">清空</el-button>
+      <el-button type="primary" size="small" @click="saveInfo">保存</el-button>
     </div>
   </div>
 </template>
@@ -165,9 +174,3 @@ const init = () => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SecuritySet'
-};
-</script>

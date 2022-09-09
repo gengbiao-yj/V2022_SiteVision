@@ -69,6 +69,11 @@ const saveInfo = async () => {
   }
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'CompanyMaintain'
+};
+</script>
 
 <template>
   <div class="info-box">
@@ -100,7 +105,7 @@ const saveInfo = async () => {
       >
         <el-form-item label="企业名称：" prop="userName">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!editSwitch">{{
+            <span v-if="!editSwitch" class="pd-l-10">{{
               companyInfo.cusName
             }}</span>
             <el-input v-else v-model="companyInfo.cusName" clearable />
@@ -124,9 +129,9 @@ const saveInfo = async () => {
         </el-form-item>
       </el-form>
     </div>
-    <div class="footer" v-show="editSwitch">
-      <el-button @click="resetInfo" size="small">重置</el-button>
-      <el-button type="primary" @click="saveInfo" size="small">保存</el-button>
+    <div v-show="editSwitch" class="footer">
+      <el-button size="small" @click="resetInfo">重置</el-button>
+      <el-button type="primary" size="small" @click="saveInfo">保存</el-button>
     </div>
   </div>
 </template>
@@ -190,9 +195,3 @@ const saveInfo = async () => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'CompanyMaintain'
-};
-</script>

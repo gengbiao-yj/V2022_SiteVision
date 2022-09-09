@@ -58,6 +58,11 @@ getWatchBrowserWidth((val: number) => {
   }
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'SvTablePagination'
+};
+</script>
 
 <template>
   <el-pagination
@@ -73,9 +78,3 @@ getWatchBrowserWidth((val: number) => {
 </template>
 
 <style scoped lang="scss"></style>
-
-<script lang="ts">
-export default {
-  name: 'SvTablePagination'
-};
-</script>

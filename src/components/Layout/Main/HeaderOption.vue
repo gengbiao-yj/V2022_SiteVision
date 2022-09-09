@@ -50,6 +50,12 @@ const quitSystem = () => {
     });
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'HeaderOptions'
+};
+</script>
+
 <template>
   <div class="header-option-root">
     <!-- 通知 -->
@@ -231,9 +237,3 @@ const quitSystem = () => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'HeaderOptions'
-};
-</script>

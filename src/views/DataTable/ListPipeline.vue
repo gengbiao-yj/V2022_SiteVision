@@ -176,13 +176,19 @@ onBeforeMount(() => {
   searchTableData();
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'ListPipeline'
+};
+</script>
+
 <template>
   <div
-    class="list-root"
+    ref="tableRoot"
     v-loading="loading"
+    class="list-root"
     element-loading-background="rgba(100,100,100,0.4)"
     element-loading-text="加载中..."
-    ref="tableRoot"
   >
     <sv-table-filter title="机会项目">
       <template #form>
@@ -222,7 +228,7 @@ onBeforeMount(() => {
         </el-form>
       </template>
       <template #btn>
-        <el-button type="primary" @click="searchTable" size="small">
+        <el-button type="primary" size="small" @click="searchTable">
           <template #icon>
             <Search />
           </template>
@@ -298,9 +304,9 @@ onBeforeMount(() => {
           >
             <template #default="scope">
               <svg
+                v-if="item.id === 11"
                 class="icon svg-24 cur-pointer"
                 aria-hidden="true"
-                v-if="item.id === 11"
               >
                 <use href="#icon-dizhi"></use>
               </svg>
@@ -316,7 +322,7 @@ onBeforeMount(() => {
           v-model:currentPage="currentPage"
           v-model:pageSize="pageSize"
           :total="totalPipeline"
-          :pageSizeOption="[5, 10, 15, 20]"
+          :page-size-option="[5, 10, 15, 20]"
           @change="searchTableData"
         />
       </template>
@@ -331,9 +337,3 @@ onBeforeMount(() => {
   @include flex(column, center, flex-start);
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'ListPipeline'
-};
-</script>

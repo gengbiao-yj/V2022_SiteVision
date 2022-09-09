@@ -6,13 +6,19 @@ import { defineProps } from 'vue';
 const props = defineProps({
   // 表格实例
   instance: {
-    required: true
+    required: true,
+    type: Object
   }
 });
 const instance = computed(() => props.instance);
 const setRestFullScreen = fullScreen();
 const clickFullScreen = () => {
   setRestFullScreen(instance.value);
+};
+</script>
+<script lang="ts">
+export default {
+  name: 'SvFullScreen'
 };
 </script>
 
@@ -24,8 +30,3 @@ const clickFullScreen = () => {
 </template>
 
 <style scoped></style>
-<script lang="ts">
-export default {
-  name: 'SvFullScreen'
-};
-</script>

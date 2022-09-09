@@ -8,9 +8,11 @@ module.exports = {
   },
   extends: [
     //继承 vue 的标准特性
-    'plugin:vue/essential',
-    'eslint:recommended',
+    '@vue/prettier',
     '@vue/typescript/recommended',
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
+    'plugin:vue/vue3-essential',
     'plugin:prettier/recommended',
     './.eslintrc-auto-import.json' // 解决 vue api 全局引入报错问题
   ],

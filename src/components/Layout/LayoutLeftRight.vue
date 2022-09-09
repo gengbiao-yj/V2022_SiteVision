@@ -50,6 +50,11 @@ const drawClosed = () => {
   busEmit('menuCollapse', showAsideDrawer.value);
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'LayoutLeftRight'
+};
+</script>
 
 <template>
   <div>
@@ -214,9 +219,3 @@ const drawClosed = () => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'LayoutLeftRight'
-};
-</script>

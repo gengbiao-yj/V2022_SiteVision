@@ -1,5 +1,10 @@
 <!-- name: 表格布局 -->
 <script setup lang="ts"></script>
+<script lang="ts">
+export default {
+  name: 'SvTableBox'
+};
+</script>
 
 <template>
   <div class="table-box">
@@ -92,9 +97,3 @@
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SvTableBox'
-};
-</script>

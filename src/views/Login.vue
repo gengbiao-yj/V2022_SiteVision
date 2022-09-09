@@ -1,106 +1,3 @@
-<template>
-  <div class="login-root">
-    <div class="content-box">
-      <div class="left-box">
-        <div class="slogan-title">
-          拥抱大数据，充分结合人工智能
-          <p class="large">高效解决选址问题</p>
-        </div>
-      </div>
-      <div class="right-box">
-        <div class="login-form">
-          <!-- title -->
-          <h1 class="login-title">欢迎登录址见</h1>
-          <!-- tabs -->
-          <div class="tabs">
-            <div class="tabs-item-box" ref="tabsItemBox">
-              <span class="tabs-item" @click="barClick(0)">账号登录</span>
-              <span class="tabs-item" @click="barClick(1)">短信码登录</span>
-            </div>
-            <span ref="tabsActiveBar" class="tabs-active-bar"></span>
-          </div>
-          <!-- form -->
-          <div>
-            <el-form
-              label-position="top"
-              label-width="100px"
-              :model="accountForm"
-              v-show="activeIndex === 0"
-              ref="accountFormRef"
-              :rules="accountFormRules"
-            >
-              <el-form-item label="账号" prop="account">
-                <el-input
-                  v-model="accountForm.account"
-                  placeholder="请输入账号/手机号"
-                  size="large"
-                  clearable
-                />
-              </el-form-item>
-              <el-form-item label="密码" prop="passWord">
-                <el-input
-                  v-model="accountForm.passWord"
-                  placeholder="请输入密码"
-                  size="large"
-                  type="password"
-                  show-password
-                  clearable
-                />
-              </el-form-item>
-            </el-form>
-          </div>
-
-          <el-form
-            label-position="top"
-            label-width="100px"
-            :model="noteForm"
-            v-show="activeIndex === 1"
-          >
-            <el-form-item label="手机号">
-              <el-input
-                v-model.number="noteForm.phone"
-                placeholder="请输入11位手机号码"
-                size="large"
-                clearable
-                type="text"
-              />
-            </el-form-item>
-            <el-form-item label="验证码">
-              <el-input
-                v-model="noteForm.noteCode"
-                placeholder="请输入短信验证码"
-                size="large"
-                clearable
-              >
-                <template #append>
-                  <span style="color: #5699ff; cursor: pointer"
-                    >发送验证码</span
-                  >
-                </template>
-              </el-input>
-            </el-form-item>
-          </el-form>
-
-          <label class="alert-msg">
-            <span>注：仅支持已配置的账号登录，未配置请联系公司内管理员</span>
-            <span style="color: #009dff; cursor: pointer"> 忘记密码</span>
-          </label>
-          <!-- 登录按钮 -->
-          <el-button
-            size="large"
-            type="primary"
-            style="width: 100%; margin: 15px auto; color: white"
-            color="#4695ff"
-            @click="loginBtnClick"
-            >登录</el-button
-          >
-        </div>
-        <div class="advice-msg">建议使用谷歌浏览器</div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { login } from '@/apis/user';
 import MD5 from 'js-md5';
@@ -221,6 +118,114 @@ const apiUserLogin = async (
   }
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'BaseLogin'
+};
+</script>
+
+<template>
+  <div class="login-root">
+    <div class="content-box">
+      <div class="left-box">
+        <div class="slogan-title">
+          拥抱大数据，充分结合人工智能
+          <p class="large">高效解决选址问题</p>
+        </div>
+      </div>
+      <div class="right-box">
+        <div class="login-form">
+          <!-- title -->
+          <h1 class="login-title">欢迎登录址见</h1>
+          <!-- tabs -->
+          <div class="tabs">
+            <div ref="tabsItemBox" class="tabs-item-box">
+              <span class="tabs-item" @click="barClick(0)">账号登录</span>
+              <span class="tabs-item" @click="barClick(1)">短信码登录</span>
+            </div>
+            <span ref="tabsActiveBar" class="tabs-active-bar"></span>
+          </div>
+          <!-- form -->
+          <div>
+            <el-form
+              v-show="activeIndex === 0"
+              ref="accountFormRef"
+              label-position="top"
+              label-width="100px"
+              :model="accountForm"
+              :rules="accountFormRules"
+            >
+              <el-form-item label="账号" prop="account">
+                <el-input
+                  v-model="accountForm.account"
+                  placeholder="请输入账号/手机号"
+                  size="large"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item label="密码" prop="passWord">
+                <el-input
+                  v-model="accountForm.passWord"
+                  placeholder="请输入密码"
+                  size="large"
+                  type="password"
+                  show-password
+                  clearable
+                />
+              </el-form-item>
+            </el-form>
+          </div>
+
+          <el-form
+            v-show="activeIndex === 1"
+            label-position="top"
+            label-width="100px"
+            :model="noteForm"
+          >
+            <el-form-item label="手机号">
+              <el-input
+                v-model.number="noteForm.phone"
+                placeholder="请输入11位手机号码"
+                size="large"
+                clearable
+                type="text"
+              />
+            </el-form-item>
+            <el-form-item label="验证码">
+              <el-input
+                v-model="noteForm.noteCode"
+                placeholder="请输入短信验证码"
+                size="large"
+                clearable
+              >
+                <template #append>
+                  <span style="color: #5699ff; cursor: pointer"
+                    >发送验证码</span
+                  >
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-form>
+
+          <label class="alert-msg">
+            <span>注：仅支持已配置的账号登录，未配置请联系公司内管理员</span>
+            <span style="color: #009dff; cursor: pointer"> 忘记密码</span>
+          </label>
+          <!-- 登录按钮 -->
+          <el-button
+            size="large"
+            type="primary"
+            style="width: 100%; margin: 15px auto; color: white"
+            color="#4695ff"
+            @click="loginBtnClick"
+            >登录</el-button
+          >
+        </div>
+        <div class="advice-msg">建议使用谷歌浏览器</div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .login-root {
@@ -369,9 +374,3 @@ const apiUserLogin = async (
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'BaseLogin'
-};
-</script>

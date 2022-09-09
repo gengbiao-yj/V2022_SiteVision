@@ -171,6 +171,12 @@ onBeforeUnmount(() => {
   document.body.removeEventListener('click', closeTabMenu);
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'HeaderTabs'
+};
+</script>
+
 <template>
   <el-tabs
     v-model="editableTabsValue"
@@ -190,12 +196,12 @@ onBeforeUnmount(() => {
     </el-tab-pane>
   </el-tabs>
   <transition name="tab-menu" mode="out-in" appear>
-    <div class="list-menus-root" v-show="showTabMenu" ref="tabMenuInstance">
+    <div v-show="showTabMenu" ref="tabMenuInstance" class="list-menus-root">
       <div
-        class="type-item"
-        :class="{ forbid: (i == 1 && leftForbid) || (i === 2 && rightForbid) }"
         v-for="(e, i) in tabMenuList"
         :key="e.name"
+        class="type-item"
+        :class="{ forbid: (i == 1 && leftForbid) || (i === 2 && rightForbid) }"
         @click="tabMenuClick(e)"
       >
         <svg fill="currentColor" class="icon svg-14" aria-hidden="true">
@@ -253,9 +259,3 @@ onBeforeUnmount(() => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'HeaderTabs'
-};
-</script>

@@ -122,10 +122,16 @@ watch(route, newV => {
   defaultActive.value = newV.path;
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'HeaderMenu'
+};
+</script>
 
 <template>
   <div class="header-menu-root">
     <el-menu
+      :id="menuId"
       :mode="props.isAside"
       :collapse="menuCollapseState"
       router
@@ -133,15 +139,14 @@ watch(route, newV => {
       :text-color="textColor"
       :active-text-color="activeTextColor"
       :background-color="menuBgColor"
-      :id="menuId"
       :class="{
         'header-height': props.isAside === 'horizontal',
         'aside-height': props.isAside === 'vertical',
         'aside-width': props.isAside === 'vertical' && !menuCollapseState,
         'remove-border': props.isAside === 'vertical'
       }"
-      @select="menuSelect"
       :collapse-transition="true"
+      @select="menuSelect"
     >
       <el-menu-item v-if="false">
         <el-popover
@@ -149,9 +154,9 @@ watch(route, newV => {
           :width="700"
           trigger="hover"
           :hide-after="120"
+          transition="el-zoom-in-top"
           @before-enter="smartRecommendShow = true"
           @before-leave="smartRecommendShow = false"
-          transition="el-zoom-in-top"
         >
           <template #reference>
             <div
@@ -163,7 +168,7 @@ watch(route, newV => {
             >
               <Guide class="svg-16 mg-r-5" />
               <span>智能推荐</span>
-              <ArrowDown class="svg-12" v-rotate:180="smartRecommendShow" />
+              <ArrowDown v-rotate:180="smartRecommendShow" class="svg-12" />
             </div>
           </template>
           <SmartRecommend />
@@ -175,9 +180,9 @@ watch(route, newV => {
           ><Coin class="svg-18 mg-r-5" /><span>数据管理</span></template
         >
         <el-menu-item
-          :index="e.path"
           v-for="(e, i) in DataTableType"
           :key="`3-${i}`"
+          :index="e.path"
         >
           <template #title>
             <Operation class="svg-16 mg-r-10" />
@@ -242,9 +247,3 @@ watch(route, newV => {
 //  transition: width 0.15s ease-in-out;
 //}
 </style>
-
-<script lang="ts">
-export default {
-  name: 'HeaderMenu'
-};
-</script>

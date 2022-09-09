@@ -6,6 +6,11 @@ import { ref } from 'vue';
 
 const year = ref(new Date().getFullYear());
 </script>
+<script>
+export default {
+  name: 'SvCopyrightLine'
+};
+</script>
 
 <template>
   <div>
@@ -29,9 +34,3 @@ div {
   color: #333;
 }
 </style>
-
-<script>
-export default {
-  name: 'SvCopyrightLine'
-};
-</script>

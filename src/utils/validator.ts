@@ -1,7 +1,12 @@
 // import type { FormInstance } from 'element-plus'
 
 // 匹配手机号
-export const checkPhone = (rule: any, value: any, callback: any) => {
+export const checkPhone = (
+  rule: object,
+  value: string,
+  // eslint-disable-next-line no-unused-vars
+  callback: (err?: object) => void
+) => {
   if (value === '') {
     callback(new Error('请输入手机号'));
   } else {
@@ -16,7 +21,12 @@ export const checkPhone = (rule: any, value: any, callback: any) => {
 };
 
 // 匹配邮箱号
-export const checkMail = (rule: any, value: any, callback: any) => {
+export const checkMail = (
+  rule: object,
+  value: string,
+  // eslint-disable-next-line no-unused-vars
+  callback: (err?: object) => void
+) => {
   if (value === '') {
     callback(new Error('请输入邮箱'));
   } else {
@@ -31,7 +41,12 @@ export const checkMail = (rule: any, value: any, callback: any) => {
 };
 
 // 匹配新密码
-export const checkNewPassword = (rule: any, value: any, callback: any) => {
+export const checkNewPassword = (
+  rule: object,
+  value: string,
+  // eslint-disable-next-line no-unused-vars
+  callback: (err?: object) => void
+) => {
   if (value === '') {
     callback(new Error('请输入密码'));
   } else {

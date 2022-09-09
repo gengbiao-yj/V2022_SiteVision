@@ -39,6 +39,11 @@ onMounted(() => {
   }
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'SvBadge'
+};
+</script>
 
 <template>
   <div class="slm-badge">
@@ -67,9 +72,3 @@ onMounted(() => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SvBadge'
-};
-</script>

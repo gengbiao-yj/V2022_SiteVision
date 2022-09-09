@@ -20,12 +20,18 @@ const asideMenuChange = (i: number) => {
 
 const isComponent = [CompanyMaintain];
 </script>
+<script lang="ts">
+export default {
+  name: 'SystemManagement'
+};
+</script>
+
 <template>
   <div class="Sys-Mg-root">
     <div class="Sys-Mg-content">
       <div
-        class="content-aside"
         v-collapseW:[arg]="!isAsideCollapse"
+        class="content-aside"
         :class="{ 'aside-collapse': isAsideCollapse }"
       >
         <ul ref="asideMenu" class="aside-menu">
@@ -79,9 +85,9 @@ const isComponent = [CompanyMaintain];
       <div class="content-main">
         <!-- content-aside 侧边工具栏展开折叠按钮 -->
         <svg
+          v-rotateY:180="isAsideCollapse"
           class="icon svg-40"
           aria-hidden="true"
-          v-rotateY:180="isAsideCollapse"
           @click="isAsideCollapse = !isAsideCollapse"
         >
           <use href="#icon-zuohua"></use>
@@ -159,9 +165,3 @@ const isComponent = [CompanyMaintain];
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SystemManagement'
-};
-</script>

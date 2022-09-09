@@ -45,7 +45,7 @@ function dataArea(Data: DataAreaParams) {
 }
 
 // 图片上传
-function uploadImage(Data: any) {
+function uploadImage(Data: object) {
   return http.request<ResponseResult<UploadImg>>({
     url: '/common/uploadImage',
     method: 'post',

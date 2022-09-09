@@ -148,6 +148,12 @@ onBeforeUnmount(() => {
   document.body.removeEventListener('click', closeColumnPopover);
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'SvTableColumnOption'
+};
+</script>
+
 <template>
   <!-- 列设置 -->
   <el-popover
@@ -164,6 +170,7 @@ onBeforeUnmount(() => {
       </div>
     </template>
     <el-tree
+      ref="treeInstance"
       :data="tableColumn"
       :props="defaultProps"
       :default-expanded-keys="[0]"
@@ -174,7 +181,6 @@ onBeforeUnmount(() => {
       class="table-column-tree"
       node-key="id"
       show-checkbox
-      ref="treeInstance"
       @check="popoverColumnCheck"
       @node-drag-leave="handleDragLeave"
       @node-drop="nodeDropSuccess"
@@ -193,10 +199,10 @@ onBeforeUnmount(() => {
               placement="bottom-start"
             >
               <svg
+                v-show="node.data.id !== 0"
                 class="icon svg-12 mg-r-15"
                 :class="{ 'color-red': node.data.fixed == 'left' }"
                 aria-hidden="true"
-                v-show="node.data.id !== 0"
                 @click.stop="fixedTableColumn(node, 'left')"
               >
                 <use href="#icon-xueyuan-shangyijie"></use>
@@ -208,10 +214,10 @@ onBeforeUnmount(() => {
               placement="bottom-start"
             >
               <svg
+                v-show="node.data.id !== 0"
                 class="icon svg-12 mg-r-5"
                 :class="{ 'color-red': node.data.fixed == 'right' }"
                 aria-hidden="true"
-                v-show="node.data.id !== 0"
                 @click.stop="fixedTableColumn(node, 'right')"
               >
                 <use href="#icon-xueyuan-xiayijie"></use>
@@ -236,9 +242,3 @@ onBeforeUnmount(() => {
   @include flex(row, center, center);
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SvTableColumnOption'
-};
-</script>

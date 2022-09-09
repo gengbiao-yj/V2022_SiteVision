@@ -7,6 +7,11 @@ const activeName = ref('0');
 
 const isComponent = [PersonInfo, SecuritySet];
 </script>
+<script lang="ts">
+export default {
+  name: 'AccountSetting'
+};
+</script>
 
 <template>
   <div class="account-set-root">
@@ -36,8 +41,3 @@ const isComponent = [PersonInfo, SecuritySet];
 .tabs-root {
 }
 </style>
-<script lang="ts">
-export default {
-  name: 'AccountSetting'
-};
-</script>

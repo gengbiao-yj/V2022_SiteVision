@@ -18,6 +18,11 @@ const POIsSelectChanged = (value: Array<string>) => {
   console.log(selectedPOI);
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'SmartRecommend'
+};
+</script>
 
 <template>
   <div class="smart-recommand-root pd-l-10">
@@ -35,7 +40,7 @@ const POIsSelectChanged = (value: Array<string>) => {
     </el-row>
     <!-- POI -->
     <div class="pd-t-15">
-      <el-row style="width: 100%" v-for="(e, i) in POIs" :key="i">
+      <el-row v-for="(e, i) in POIs" :key="i" style="width: 100%">
         <el-col :span="2" class="middle-xy">{{ e.title }}</el-col>
         <el-col :span="22">
           <el-checkbox-group
@@ -43,10 +48,10 @@ const POIsSelectChanged = (value: Array<string>) => {
             @change="POIsSelectChanged"
           >
             <el-checkbox
-              style="width: 74px; margin-right: 15px"
-              :label="k.value"
               v-for="(k, j) in e.items"
               :key="j"
+              style="width: 74px; margin-right: 15px"
+              :label="k.value"
             >
               <span style="font-size: 12px">{{ k.label }}</span>
             </el-checkbox>
@@ -62,9 +67,3 @@ const POIsSelectChanged = (value: Array<string>) => {
   background: rgba(255, 255, 255, 0.8);
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SmartRecommend'
-};
-</script>

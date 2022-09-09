@@ -66,17 +66,22 @@ busOn('menuCollapse', (param: boolean) => {
   menuCollapse.value = param;
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'BreadcrumbTip'
+};
+</script>
 
 <template>
   <Fold
+    v-rotate:180="menuCollapse"
     class="svg-18 mg-r-10 cur-pointer"
     :class="props.primaryHeader ? 'color-white' : 'primary-color'"
-    v-rotate:180="menuCollapse"
     @click="reverseState"
   />
   <el-breadcrumb
-    separator-class="el-icon-arrow-right"
     v-show="browserWidth > 500"
+    separator-class="el-icon-arrow-right"
     :class="props.primaryHeader ? 'breadcrumb-primary' : ''"
   >
     <transition-group name="breadcrumb">
@@ -92,9 +97,3 @@ busOn('menuCollapse', (param: boolean) => {
   color: white;
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'BreadcrumbTip'
-};
-</script>

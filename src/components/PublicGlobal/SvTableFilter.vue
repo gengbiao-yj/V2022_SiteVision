@@ -15,9 +15,14 @@ const props = defineProps({
 const filterBoxClose = ref(true); // 折叠展开标志
 const arg = [110, 20]; // 闭合高度、展开补偿高度（px）
 </script>
+<script lang="ts">
+export default {
+  name: 'SvTableFilter'
+};
+</script>
 
 <template>
-  <div class="filter-box" ref="filterBox" v-collapseH:[arg]="!filterBoxClose">
+  <div ref="filterBox" v-collapseH:[arg]="!filterBoxClose" class="filter-box">
     <div class="filter-title">
       <span class="ft-s-16 ft-w-6 title-color">{{ props.title }}</span>
     </div>
@@ -38,8 +43,8 @@ const arg = [110, 20]; // 闭合高度、展开补偿高度（px）
           <span v-else>折叠</span>
         </transition>
         <svg
-          v-rotateX:180="!filterBoxClose"
           ref="iconCollapse"
+          v-rotateX:180="!filterBoxClose"
           class="icon svg-24"
           aria-hidden="true"
         >
@@ -126,9 +131,3 @@ const arg = [110, 20]; // 闭合高度、展开补偿高度（px）
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SvTableFilter'
-};
-</script>

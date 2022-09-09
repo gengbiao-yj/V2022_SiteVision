@@ -69,6 +69,11 @@ const isMenuPrimary = (aside: boolean, header: boolean) => {
   setSystemParams(systemSettings.value);
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'SystemSetting'
+};
+</script>
 
 <template>
   <!-- 设置 -->
@@ -250,9 +255,3 @@ const isMenuPrimary = (aside: boolean, header: boolean) => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'SystemSetting'
-};
-</script>

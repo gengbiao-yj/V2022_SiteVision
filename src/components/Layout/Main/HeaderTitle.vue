@@ -33,6 +33,11 @@ getWatchBrowserWidth((val: number) => {
   }
 });
 </script>
+<script lang="ts">
+export default {
+  name: 'HeaderTitle'
+};
+</script>
 
 <template>
   <img src="@/assets/img/logo2.png" />
@@ -49,9 +54,3 @@ span {
   font-size: 15px;
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'HeaderTitle'
-};
-</script>

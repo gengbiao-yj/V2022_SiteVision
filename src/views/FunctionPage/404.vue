@@ -1,6 +1,12 @@
 <script setup>
 const router = useRouter();
 </script>
+<script>
+export default {
+  name: 'BaseNone'
+};
+</script>
+
 <template>
   <div class="root-404">
     <div>
@@ -12,12 +18,6 @@ const router = useRouter();
     <sv-copyright-line class="copyright-line" />
   </div>
 </template>
-
-<script>
-export default {
-  name: 'BaseNone'
-};
-</script>
 
 <style lang="scss" scoped>
 .root-404 {

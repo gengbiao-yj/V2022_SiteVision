@@ -21,6 +21,11 @@ basicStore.$subscribe(
   }
 );
 </script>
+<script lang="ts">
+export default {
+  name: 'LayoutUpDown'
+};
+</script>
 
 <template>
   <div>
@@ -132,9 +137,3 @@ basicStore.$subscribe(
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'LayoutUpDown'
-};
-</script>

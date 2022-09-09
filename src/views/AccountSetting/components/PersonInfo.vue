@@ -57,6 +57,11 @@ const saveInfo = async () => {
   }
 };
 </script>
+<script lang="ts">
+export default {
+  name: 'PersonInfo'
+};
+</script>
 
 <template>
   <div class="info-box">
@@ -100,7 +105,7 @@ const saveInfo = async () => {
       >
         <el-form-item label="用户名：" prop="userName">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!personSwitch">{{
+            <span v-if="!personSwitch" class="pd-l-10">{{
               personInfo.userName
             }}</span>
             <el-input v-else v-model="personInfo.userName" clearable />
@@ -108,7 +113,7 @@ const saveInfo = async () => {
         </el-form-item>
         <el-form-item label="姓名：" prop="loginName">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!personSwitch">{{
+            <span v-if="!personSwitch" class="pd-l-10">{{
               personInfo.loginName
             }}</span>
             <el-input v-else v-model="personInfo.loginName" clearable />
@@ -116,7 +121,7 @@ const saveInfo = async () => {
         </el-form-item>
         <el-form-item label="手机号：" prop="phone">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!personSwitch">{{
+            <span v-if="!personSwitch" class="pd-l-10">{{
               personInfo.phone
             }}</span>
             <el-input v-else v-model="personInfo.phone" clearable />
@@ -124,7 +129,7 @@ const saveInfo = async () => {
         </el-form-item>
         <el-form-item label="邮箱：" prop="mail">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!personSwitch">{{
+            <span v-if="!personSwitch" class="pd-l-10">{{
               personInfo.mail
             }}</span>
             <el-input v-else v-model="personInfo.mail" clearable />
@@ -132,7 +137,7 @@ const saveInfo = async () => {
         </el-form-item>
         <el-form-item label="直接上级：">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!personSwitch">{{
+            <span v-if="!personSwitch" class="pd-l-10">{{
               personInfo.leader
             }}</span>
             <el-input v-else v-model="personInfo.leader" clearable />
@@ -140,7 +145,7 @@ const saveInfo = async () => {
         </el-form-item>
         <el-form-item label="部门：">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!personSwitch">{{
+            <span v-if="!personSwitch" class="pd-l-10">{{
               personInfo.dept
             }}</span>
             <el-input v-else v-model="personInfo.dept" clearable />
@@ -148,7 +153,7 @@ const saveInfo = async () => {
         </el-form-item>
         <el-form-item label="职务：">
           <transition name="inOut" mode="out-in" appear>
-            <span class="pd-l-10" v-if="!personSwitch">{{
+            <span v-if="!personSwitch" class="pd-l-10">{{
               personInfo.position
             }}</span>
             <el-input v-else v-model="personInfo.position" clearable />
@@ -156,9 +161,9 @@ const saveInfo = async () => {
         </el-form-item>
       </el-form>
     </div>
-    <div class="footer" v-show="personSwitch">
-      <el-button @click="resetInfo" size="small">重置</el-button>
-      <el-button type="primary" @click="saveInfo" size="small">保存</el-button>
+    <div v-show="personSwitch" class="footer">
+      <el-button size="small" @click="resetInfo">重置</el-button>
+      <el-button type="primary" size="small" @click="saveInfo">保存</el-button>
     </div>
   </div>
 </template>
@@ -220,9 +225,3 @@ const saveInfo = async () => {
   }
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'PersonInfo'
-};
-</script>
