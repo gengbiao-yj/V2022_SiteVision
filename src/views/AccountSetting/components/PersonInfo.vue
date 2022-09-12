@@ -87,13 +87,10 @@ export default {
         :edit="personSwitch"
         :src="personInfo.avatar"
         :size="70"
-        shape="circle"
+        shape="square"
         class="mg-b-10 mg-l-20"
         @success="e => (personInfo.avatar = e)"
       >
-        <template #fail>
-          <img src="../../../../public/resource/imgs/schoolboy.png" />
-        </template>
       </sv-replace-img>
       <el-form
         ref="rulesRef"

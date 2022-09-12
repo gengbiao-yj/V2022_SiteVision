@@ -97,3 +97,7 @@
   @include _svg-size(80px);
 }
 
+.svg-fill {
+  @include _svg-size(100%);
+}
+
