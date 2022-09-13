@@ -4,8 +4,11 @@
 ------------------------------------------------ */
 import { defineProps, defineEmits } from 'vue';
 import basicPinia from '@/pinia/storagePinia';
+import { useI18n } from 'vue-i18n';
 const basicStore = basicPinia();
 const { getSystemParams, setSystemParams } = basicStore;
+// 创建i18n对象
+const i18n = useI18n();
 
 const props = defineProps({
   modelValue: {
@@ -33,6 +36,14 @@ const updateState = () => {
 const systemSettings = computed<SystemSetType>(() => {
   return getSystemParams();
 });
+
+// 设置系统语言
+const selectLanguage = (e: '#zh-CN' | '#en') => {
+  systemSettings.value.language = e.slice(1) as 'zh-CN' | 'en';
+  i18n.locale.value = systemSettings.value.language;
+  setSystemParams(systemSettings.value);
+};
+
 // 设置新主题
 const newPrimaryColor = () => {
   systemSettings.value.historyPrimaryCol.unshift(
@@ -79,14 +90,30 @@ export default {
   <!-- 设置 -->
   <el-drawer
     v-model="showDraw"
-    title="系统设置"
+    :title="$t(`system.title`)"
     direction="rtl"
     custom-class="setting-draw"
     :size="270"
     @close="updateState"
   >
     <div class="setting-draw-content">
-      <el-divider> 主题颜色 </el-divider>
+      <el-divider> {{ $t(`system.language`) }} </el-divider>
+      <div class="primary-box">
+        <div v-for="(e, i) in systemSettings.languageIcons" :key="i">
+          <svg
+            class="icon svg-24 cur-pointer"
+            aria-hidden="true"
+            @click="selectLanguage(e)"
+          >
+            <use :href="e"></use>
+          </svg>
+          <span
+            v-if="e === `#${systemSettings.language}`"
+            class="circle-tip"
+          ></span>
+        </div>
+      </div>
+      <el-divider> {{ $t(`system.primaryColor`) }} </el-divider>
       <el-color-picker
         v-model="systemSettings.primaryColor"
         @change="newPrimaryColor"
@@ -104,14 +131,14 @@ export default {
           ></span>
         </div>
       </div>
-      <el-divider> 导航栏布局 </el-divider>
+      <el-divider> {{ $t(`system.layOut`) }} </el-divider>
       <div class="layout-type-box">
         <!-- 左右 -->
         <div class="layout-type">
           <div @click="selectLayoutType('LeftRight')">
             <div class="layout-aside"></div>
           </div>
-          <span>左右</span>
+          <span>{{ $t(`system.leftRight`) }}</span>
           <span
             v-if="systemSettings.layoutType === 'LeftRight'"
             class="circle-tip"
@@ -122,21 +149,21 @@ export default {
           <div @click="selectLayoutType('UpDown')">
             <div class="layout-header"></div>
           </div>
-          <span>上下</span>
+          <span>{{ $t(`system.upDown`) }}</span>
           <span
             v-if="systemSettings.layoutType === 'UpDown'"
             class="circle-tip"
           ></span>
         </div>
       </div>
-      <el-divider> 导航栏风格 </el-divider>
+      <el-divider> {{ $t(`system.layOutPrimary`) }} </el-divider>
       <div class="layout-type-box">
         <!-- 侧边栏主题色 -->
         <div class="layout-type">
           <div @click="isMenuPrimary(true, false)">
             <div class="layout-aside primary-bg-color"></div>
           </div>
-          <span>主题侧栏</span>
+          <span>{{ $t(`system.sideBar`) }}</span>
           <span v-if="systemSettings.primaryAside" class="circle-tip"></span>
         </div>
         <!-- 顶栏主题色 -->
@@ -144,7 +171,7 @@ export default {
           <div @click="isMenuPrimary(false, true)">
             <div class="layout-header primary-bg-color"></div>
           </div>
-          <span>主题顶栏</span>
+          <span>{{ $t(`system.topBar`) }}</span>
           <span v-if="systemSettings.primaryHeader" class="circle-tip"></span>
         </div>
         <!-- 侧栏+顶栏白色 -->
@@ -153,7 +180,7 @@ export default {
             <div class="layout-header"></div>
             <div class="layout-aside"></div>
           </div>
-          <span>主题取消</span>
+          <span>{{ $t(`system.cancel`) }}</span>
           <span
             v-if="!systemSettings.primaryHeader && !systemSettings.primaryAside"
             class="circle-tip"
@@ -171,6 +198,10 @@ export default {
     height: 100%;
     @include flex(column, flex-start, center);
   }
+}
+
+.el-divider:deep(.el-divider__text) {
+  white-space: nowrap;
 }
 
 .circle-tip {

@@ -10,7 +10,12 @@ export default {
     primaryColor: '主题颜色',
     layOut: '导航栏布局',
     layOutPrimary: '导航栏风格',
-    language: '语言设置'
+    language: '系统语言',
+    leftRight: '左右',
+    upDown: '上下',
+    sideBar: '主题侧栏',
+    topBar: '主题顶栏',
+    cancel: '主题取消'
   },
   // 菜单栏 | 数据管理，对应语言
   tableType: {
@@ -66,9 +71,9 @@ export default {
   // 页签菜单对应语言
   tabMenu: {
     refreshPage: '刷新页面',
-    closeLeftPage: '关闭左侧页面',
-    closeRightPage: '关闭右侧页面',
-    closeAllPage: '关闭所有页面'
+    closeLeftPage: '关闭左侧',
+    closeRightPage: '关闭右侧',
+    closeAllPage: '关闭所有'
   },
   // 表格列名称对应语言
   tableColumn: {

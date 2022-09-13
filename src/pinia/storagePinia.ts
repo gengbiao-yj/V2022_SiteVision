@@ -22,11 +22,38 @@ export default defineStore('basicPinia', () => {
   /*  系统设置存取
   ------------------------------------------------ */
   const systemParams = ref<SystemSetType>({
-    primaryColor: '#5aa3ec',
-    historyPrimaryCol: ['#5aa3ec'],
+    primaryColor: '#3861c8',
+    historyPrimaryCol: [
+      '#3861c8',
+      '#EC5A69',
+      '#EC5A90',
+      '#EC5ABE',
+      '#EC5AE5',
+      '#CF5AEC',
+      '#AD5AEC',
+      '#815AEC',
+      '#5C5AEC',
+      '#5A83EC',
+      '#5AAAEC',
+      '#5AD4EC',
+      '#5AECD9',
+      '#5AECAA',
+      '#5AEC7A',
+      '#66EC5A',
+      '#94EC5A',
+      '#C0EC5A',
+      '#EAEC5A',
+      '#ECCC5A',
+      '#ECAA5A',
+      '#EC815A',
+      '#EC5A5A',
+      '#5aa3ec'
+    ],
     layoutType: 'UpDown',
     primaryAside: false,
-    primaryHeader: false
+    primaryHeader: false,
+    language: 'zh-CN',
+    languageIcons: ['#zh-CN', '#en']
   });
   function getSystemParams() {
     const storageValue = storage.getLocal('systemSetting').value;
@@ -53,7 +80,7 @@ export default defineStore('basicPinia', () => {
   ------------------------------------------------ */
   const tabs = ref<Array<TabsItem>>([
     {
-      title: '地图主页',
+      title: 'metaTitle.mainMap',
       name: '/Main/MainMap',
       path: '/Main/MainMap'
     }

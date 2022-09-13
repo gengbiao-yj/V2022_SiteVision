@@ -7,10 +7,15 @@ export default {
     personInfo: 'Personal info',
     helpVideo: 'Help video',
     quitSystem: 'Exit system',
-    primaryColor: 'Theme color',
-    layOut: 'Navigation bar layout',
-    layOutPrimary: 'Navigation bar color',
-    language: 'Language settings'
+    primaryColor: 'Primary color',
+    layOut: 'Navigation layout',
+    layOutPrimary: 'Navigation color',
+    language: 'Language',
+    leftRight: 'Left&Right',
+    upDown: 'Up&Down',
+    sideBar: 'sideBar',
+    topBar: 'topBar',
+    cancel: 'cancel'
   },
   // 菜单栏 | 数据管理，对应语言
   tableType: {
@@ -65,10 +70,10 @@ export default {
   },
   // 页签菜单对应语言
   tabMenu: {
-    refreshPage: 'Refresh page',
-    closeLeftPage: 'Close left pages',
-    closeRightPage: 'Close right pages',
-    closeAllPage: 'Close all pages'
+    refreshPage: 'Refresh',
+    closeLeftPage: 'CloseLeft',
+    closeRightPage: 'CloseRight',
+    closeAllPage: 'CloseAll'
   },
   // 表格列名称对应语言
   tableColumn: {

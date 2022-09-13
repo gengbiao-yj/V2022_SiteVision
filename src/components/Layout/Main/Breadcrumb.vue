@@ -86,7 +86,7 @@ export default {
   >
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="item of breadcrumbs" :key="item.path">
-        <span class="breadcrumb-title">{{ item.meta?.title }}</span>
+        <span class="breadcrumb-title">{{ $t(item.meta?.title) }}</span>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>

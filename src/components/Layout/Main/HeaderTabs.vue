@@ -80,10 +80,26 @@ const activeTabRouter = (activePaneName: string) => {
 
 // tab menu 操作项
 const tabMenuList = ref([
-  { label: '刷新页面', value: 'refresh', icon: '#icon-refresh-light' },
-  { label: '关闭左侧', value: 'closeLeft', icon: '#icon-arrow-left-light' },
-  { label: '关闭右侧', value: 'closeRight', icon: '#icon-arrow-right-light' },
-  { label: '关闭所有', value: 'closeAll', icon: '#icon-delete-light' }
+  {
+    label: 'tabMenu.refreshPage',
+    value: 'refresh',
+    icon: '#icon-refresh-light'
+  },
+  {
+    label: 'tabMenu.closeLeftPage',
+    value: 'closeLeft',
+    icon: '#icon-arrow-left-light'
+  },
+  {
+    label: 'tabMenu.closeRightPage',
+    value: 'closeRight',
+    icon: '#icon-arrow-right-light'
+  },
+  {
+    label: 'tabMenu.closeAllPage',
+    value: 'closeAll',
+    icon: '#icon-delete-light'
+  }
 ]);
 const showTabMenu = ref(false); // tab menu 展现状态
 const tabMenuInstance = ref() as _HTMLDivElement; // tab menu 实例
@@ -189,7 +205,7 @@ export default {
     <el-tab-pane
       v-for="item in editableTabs"
       :key="item.path"
-      :label="item.title"
+      :label="$t(item.title)"
       :name="item.name"
       :closable="item.name !== '/Main/MainMap'"
     >
@@ -207,7 +223,7 @@ export default {
         <svg fill="currentColor" class="icon svg-14" aria-hidden="true">
           <use :href="e.icon" fill=""></use>
         </svg>
-        {{ e.label }}
+        <span>{{ $t(e.label) }}</span>
       </div>
     </div>
   </transition>
@@ -218,12 +234,12 @@ export default {
   position: absolute;
   padding: 0px 0px;
   border-radius: 6px;
-  width: 120px;
+  width: 130px;
   background: white;
   //box-shadow: 0px 0px 10px #c9c9c9;
   z-index: 11;
   .type-item {
-    padding: 0px 5px;
+    padding: 0px 0px 0px 10px;
     width: 100%;
     height: 36px;
     font-size: 14px;
@@ -233,6 +249,9 @@ export default {
     color: var(--primary-color);
     transition: all 0.1s ease-in-out;
     @include flex(row, center, center);
+    > span {
+      width: calc(100% - 15px);
+    }
     svg {
       color: var(--primary-color);
       margin-right: 8px;

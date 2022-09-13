@@ -20,7 +20,7 @@ const routes = [
         name: 'DataListIndex',
         component: () => import('@/views/DataTable/index.vue'),
         meta: {
-          title: '数据管理',
+          title: 'metaTitle.dataList',
           requireAuth: true
         },
         children: [
@@ -29,7 +29,7 @@ const routes = [
             name: 'ListPipeline',
             component: () => import('@/views/DataTable/ListPipeline.vue'),
             meta: {
-              title: '机会项目列表',
+              title: 'metaTitle.pipeline',
               requireAuth: true
             }
           },
@@ -38,7 +38,7 @@ const routes = [
             name: 'ListStore',
             component: () => import('@/views/DataTable/ListStore.vue'),
             meta: {
-              title: '已开门店列表',
+              title: 'metaTitle.store',
               requireAuth: true
             }
           },
@@ -47,7 +47,7 @@ const routes = [
             name: 'ListCompetitor',
             component: () => import('@/views/DataTable/ListCompetitor.vue'),
             meta: {
-              title: '关注竞品列表',
+              title: 'metaTitle.competitor',
               requireAuth: true
             }
           },
@@ -56,7 +56,7 @@ const routes = [
             name: 'ListBusinessCircle',
             component: () => import('@/views/DataTable/ListBusinessCircle.vue'),
             meta: {
-              title: '已有商圈列表',
+              title: 'metaTitle.businessCircle',
               requireAuth: true
             }
           }
@@ -69,7 +69,7 @@ const routes = [
         name: 'SystemManagement',
         component: () => import('@/views/SystemManagement/Index.vue'),
         meta: {
-          title: '系统维护',
+          title: 'metaTitle.systemManagement',
           requireAuth: true
         }
       },
@@ -78,7 +78,7 @@ const routes = [
         name: 'AccountSetting',
         component: () => import('@/views/AccountSetting/index.vue'),
         meta: {
-          title: '个人信息',
+          title: 'metaTitle.accountSetting',
           requireAuth: true
         }
       },
@@ -89,7 +89,7 @@ const routes = [
         name: 'MainMap',
         component: () => import('@/views/Map/Map.vue'),
         meta: {
-          title: '地图主页',
+          title: 'metaTitle.mainMap',
           requireAuth: true
         }
       },

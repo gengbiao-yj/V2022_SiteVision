@@ -68,7 +68,6 @@ export default {
     <el-upload
       :multiple="false"
       :limit="1"
-      :disabled="!props.edit"
       :show-file-list="false"
       :http-request="uploadImg"
       accept="image/*"
@@ -77,6 +76,7 @@ export default {
         fit="fill"
         :src="`${BASE_URL}/${props.src}`"
         :style="{ width: props.size + 'px', height: props.size + 'px' }"
+        @click.stop="previewImg"
       >
         <template #error>
           <svg

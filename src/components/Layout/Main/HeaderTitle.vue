@@ -41,7 +41,7 @@ export default {
 
 <template>
   <img src="@/assets/img/logo2.png" />
-  <span v-show="!isAsideMenuCollapse">智慧选址平台</span>
+  <span v-show="!isAsideMenuCollapse"> {{ $t(`system.systemName`) }} </span>
 </template>
 
 <style scoped lang="scss">
