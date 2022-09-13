@@ -65,7 +65,7 @@ const routes = [
       /*  系统维护
       ------------------------------------------------ */
       {
-        path: '/Main/SystemManagement',
+        path: 'SystemManagement',
         name: 'SystemManagement',
         component: () => import('@/views/SystemManagement/Index.vue'),
         meta: {
@@ -74,7 +74,7 @@ const routes = [
         }
       },
       {
-        path: '/Main/AccountSetting',
+        path: 'AccountSetting',
         name: 'AccountSetting',
         component: () => import('@/views/AccountSetting/index.vue'),
         meta: {
