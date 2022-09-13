@@ -79,11 +79,21 @@ export default {
         :style="{ width: props.size + 'px', height: props.size + 'px' }"
       >
         <template #error>
-          <svg v-show="props.src" class="icon svg-fill" aria-hidden="true">
-            <use href="#icon-imgFail"></use>
+          <svg
+            v-show="props.src"
+            style="color: #8a8a8a"
+            class="icon svg-fill"
+            aria-hidden="true"
+          >
+            <use href="#icon-image-fail"></use>
           </svg>
-          <svg v-show="!props.src" class="icon svg-fill" aria-hidden="true">
-            <use href="#icon-shangchuan"></use>
+          <svg
+            v-show="!props.src"
+            style="color: #8a8a8a"
+            class="icon svg-fill"
+            aria-hidden="true"
+          >
+            <use href="#icon-upload"></use>
           </svg>
         </template>
       </el-image>

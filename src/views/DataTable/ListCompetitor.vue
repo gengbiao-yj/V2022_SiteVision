@@ -268,7 +268,7 @@ export default {
                 class="icon svg-24 cur-pointer"
                 aria-hidden="true"
               >
-                <use href="#icon-dizhi"></use>
+                <use href="#icon-local"></use>
               </svg>
               <span>
                 {{ scope.row[item.prop] }}

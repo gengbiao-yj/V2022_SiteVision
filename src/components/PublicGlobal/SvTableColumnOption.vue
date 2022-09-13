@@ -205,7 +205,7 @@ export default {
                 aria-hidden="true"
                 @click.stop="fixedTableColumn(node, 'left')"
               >
-                <use href="#icon-xueyuan-shangyijie"></use>
+                <use href="#icon-previous-page"></use>
               </svg>
             </el-tooltip>
             <el-tooltip
@@ -220,7 +220,7 @@ export default {
                 aria-hidden="true"
                 @click.stop="fixedTableColumn(node, 'right')"
               >
-                <use href="#icon-xueyuan-xiayijie"></use>
+                <use href="#icon-next-page"></use>
               </svg>
             </el-tooltip>
             <span

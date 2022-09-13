@@ -48,7 +48,7 @@ export default {
           class="icon svg-24"
           aria-hidden="true"
         >
-          <use href="#icon-zhankai"></use>
+          <use href="#icon-arrow-down"></use>
         </svg>
       </span>
     </div>

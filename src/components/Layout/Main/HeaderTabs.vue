@@ -80,10 +80,10 @@ const activeTabRouter = (activePaneName: string) => {
 
 // tab menu 操作项
 const tabMenuList = ref([
-  { label: '刷新页面', value: 'refresh', icon: '#icon-refresh' },
-  { label: '关闭左侧', value: 'closeLeft', icon: '#icon-arrowLeft' },
-  { label: '关闭右侧', value: 'closeRight', icon: '#icon-arrowRight' },
-  { label: '关闭所有', value: 'closeAll', icon: '#icon-remove' }
+  { label: '刷新页面', value: 'refresh', icon: '#icon-refresh-light' },
+  { label: '关闭左侧', value: 'closeLeft', icon: '#icon-arrow-left-light' },
+  { label: '关闭右侧', value: 'closeRight', icon: '#icon-arrow-right-light' },
+  { label: '关闭所有', value: 'closeAll', icon: '#icon-delete-light' }
 ]);
 const showTabMenu = ref(false); // tab menu 展现状态
 const tabMenuInstance = ref() as _HTMLDivElement; // tab menu 实例
