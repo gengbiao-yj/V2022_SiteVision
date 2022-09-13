@@ -234,7 +234,7 @@ export default {
   position: absolute;
   padding: 0px 0px;
   border-radius: 6px;
-  width: 130px;
+  width: 126px;
   background: white;
   //box-shadow: 0px 0px 10px #c9c9c9;
   z-index: 11;
@@ -242,7 +242,7 @@ export default {
     padding: 0px 0px 0px 10px;
     width: 100%;
     height: 36px;
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: 2px;
     cursor: pointer;
     position: relative;
@@ -251,6 +251,7 @@ export default {
     @include flex(row, center, center);
     > span {
       width: calc(100% - 15px);
+      font-family: Helvetica;
     }
     svg {
       color: var(--primary-color);

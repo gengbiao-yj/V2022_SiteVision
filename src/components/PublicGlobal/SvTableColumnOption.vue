@@ -164,7 +164,11 @@ export default {
   >
     <template #reference>
       <div>
-        <el-tooltip effect="dark" content="设置列" placement="top-start">
+        <el-tooltip
+          effect="dark"
+          :content="$t(`tooltip.tableSetting`)"
+          placement="top-start"
+        >
           <Tools class="svg-18" @click.stop="columnPopover = !columnPopover" />
         </el-tooltip>
       </div>

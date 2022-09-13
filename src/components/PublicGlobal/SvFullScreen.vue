@@ -10,6 +10,7 @@ const props = defineProps({
     type: Object
   }
 });
+
 const instance = computed(() => props.instance);
 const setRestFullScreen = fullScreen();
 const clickFullScreen = () => {
@@ -24,7 +25,11 @@ export default {
 
 <template>
   <!-- 全屏 -->
-  <el-tooltip effect="dark" content="全屏" placement="top-start">
+  <el-tooltip
+    effect="dark"
+    :content="$t(`tooltip.fullScreen`)"
+    placement="top-start"
+  >
     <FullScreen class="svg-18" @click="clickFullScreen" />
   </el-tooltip>
 </template>

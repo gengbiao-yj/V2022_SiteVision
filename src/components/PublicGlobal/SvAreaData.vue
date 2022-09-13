@@ -86,7 +86,7 @@ export default {
 
 <template>
   <!-- 省份 -->
-  <el-form-item label="省份">
+  <el-form-item :label="$t(`filter.province`)">
     <el-select
       v-model="province"
       placeholder=""
@@ -103,7 +103,7 @@ export default {
     </el-select>
   </el-form-item>
   <!-- 城市 -->
-  <el-form-item label="城市">
+  <el-form-item :label="$t(`filter.city`)">
     <el-select
       v-model="city"
       placeholder=""
@@ -120,7 +120,7 @@ export default {
     </el-select>
   </el-form-item>
   <!-- 区县 -->
-  <el-form-item label="区县">
+  <el-form-item :label="$t(`filter.county`)">
     <el-select
       v-model="county"
       placeholder=""

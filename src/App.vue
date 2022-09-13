@@ -33,10 +33,19 @@ document.documentElement.style.setProperty(
 
 /*  element plus 中英文切换
 ------------------------------------------------ */
-// const languages = ref([zhCn, en, pt, fr, ja, ko]);
-const languages = ref([zhCn, en]);
-const locale = ref(
-  languages.value[Math.floor(Math.random() * languages.value.length)]
+const languages = ref({
+  zhCn,
+  en
+});
+const locale = ref();
+basicStore.$subscribe(
+  (mutation, state) => {
+    const currentLanguage = state.systemParams.language;
+    locale.value = languages.value[currentLanguage];
+  },
+  {
+    immediate: true
+  }
 );
 </script>
 

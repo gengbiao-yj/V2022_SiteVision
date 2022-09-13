@@ -39,8 +39,8 @@ export default {
     <div class="filter-fill">
       <span class="open-icon" @click.prevent="filterBoxClose = !filterBoxClose">
         <transition name="breadcrumb">
-          <span v-if="filterBoxClose">展开</span>
-          <span v-else>折叠</span>
+          <span v-if="filterBoxClose">{{ $t(`filter.unfold`) }}</span>
+          <span v-else>{{ $t(`filter.fold`) }}</span>
         </transition>
         <svg
           ref="iconCollapse"

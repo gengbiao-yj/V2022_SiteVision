@@ -38,8 +38,8 @@ const systemSettings = computed<SystemSetType>(() => {
 });
 
 // 设置系统语言
-const selectLanguage = (e: '#zh-CN' | '#en') => {
-  systemSettings.value.language = e.slice(1) as 'zh-CN' | 'en';
+const selectLanguage = (e: '#zhCn' | '#en') => {
+  systemSettings.value.language = e.slice(1) as 'zhCn' | 'en';
   i18n.locale.value = systemSettings.value.language;
   setSystemParams(systemSettings.value);
 };

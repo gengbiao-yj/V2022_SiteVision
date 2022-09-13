@@ -177,7 +177,9 @@ export default {
 
       <el-sub-menu index="3">
         <template #title
-          ><Coin class="svg-18 mg-r-5" /><span>数据管理</span></template
+          ><Coin class="svg-18 mg-r-5" /><span>{{
+            $t(`tableType.dataList`)
+          }}</span></template
         >
         <el-menu-item
           v-for="(e, i) in DataTableType"
@@ -186,19 +188,23 @@ export default {
         >
           <template #title>
             <Operation class="svg-16 mg-r-10" />
-            <span>{{ e.label }}</span>
+            <span>{{ $t(e.label) }}</span>
           </template>
         </el-menu-item>
       </el-sub-menu>
 
       <el-menu-item index="/Main/SystemManagement">
         <SetUp class="svg-18 mg-r-5" />
-        <template #title><span>系统维护</span></template>
+        <template #title
+          ><span>{{ $t(`SMS.label`) }}</span></template
+        >
       </el-menu-item>
 
       <el-menu-item index="/Main/ManagementCockpit">
         <DataLine class="svg-18 mg-r-5" />
-        <template #title><span>企业驾驶舱</span></template>
+        <template #title
+          ><span>{{ $t(`masterStation.label`) }}</span></template
+        >
       </el-menu-item>
     </el-menu>
   </div>

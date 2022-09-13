@@ -148,9 +148,9 @@ export default {
     v-loading="loading"
     class="list-root"
     element-loading-background="rgba(100,100,100,0.4)"
-    element-loading-text="加载中..."
+    :element-loading-text="$t(`others.load`)"
   >
-    <sv-table-filter title="关注品牌门店">
+    <sv-table-filter :title="$t(`metaTitle.competitor`)">
       <template #form>
         <el-form
           :inline="true"
@@ -166,7 +166,7 @@ export default {
             size="small"
           />
           <!-- 关注品牌店编号 -->
-          <el-form-item label="竞品店号">
+          <el-form-item :label="$t(`filter.competitiveStoreNumber`)">
             <el-input
               v-model="filterForm.competitorCode"
               placeholder=""
@@ -192,13 +192,13 @@ export default {
           <template #icon>
             <Search />
           </template>
-          查询
+          {{ $t(`btnSwitch.btnSearch`) }}
         </el-button>
         <el-button type="danger" size="small" @click="resetFilters">
           <template #icon>
             <Refresh />
           </template>
-          重置
+          {{ $t(`btnSwitch.btnReset`) }}
         </el-button>
       </template>
     </sv-table-filter>
@@ -208,22 +208,30 @@ export default {
           <template #icon>
             <Plus class="primary-color" />
           </template>
-          <span class="primary-color">新建</span>
+          <span class="primary-color">{{ $t(`btnSwitch.btnNew`) }}</span>
         </el-button>
         <el-button size="small">
           <template #icon>
             <Download class="primary-color" />
           </template>
-          <span class="primary-color">导出</span>
+          <span class="primary-color">{{ $t(`btnSwitch.btnDownLoad`) }}</span>
         </el-button>
       </template>
       <template #toolsBox>
         <!-- 刷新 -->
-        <el-tooltip effect="dark" content="刷新" placement="top-start">
+        <el-tooltip
+          effect="dark"
+          :content="$t(`tooltip.refresh`)"
+          placement="top-start"
+        >
           <Refresh class="svg-18" @click="searchTable" />
         </el-tooltip>
         <!-- 斑马纹-->
-        <el-tooltip effect="dark" content="斑马纹" placement="top-start">
+        <el-tooltip
+          effect="dark"
+          :content="$t(`tooltip.stripe`)"
+          placement="top-start"
+        >
           <div style="display: flex; align-items: center">
             <svg
               class="icon svg-18 cur-pointer"

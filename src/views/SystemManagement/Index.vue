@@ -37,47 +37,63 @@ export default {
         <ul ref="asideMenu" class="aside-menu">
           <li @click="asideMenuChange(0)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 0 }">企业维护</span>
+            <span :class="{ 'primary-color': manageType === 0 }">{{
+              $t(`SMS.enterpriseInfo`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(1)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 1 }">品牌维护</span>
+            <span :class="{ 'primary-color': manageType === 1 }">{{
+              $t(`SMS.brandMaintenance`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(2)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 2 }">用户维护</span>
+            <span :class="{ 'primary-color': manageType === 2 }">{{
+              $t(`SMS.userMaintenance`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(3)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 3 }"
-              >数据项维护</span
-            >
+            <span :class="{ 'primary-color': manageType === 3 }">{{
+              $t(`SMS.dataMaintenance`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(4)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 4 }">字段管理</span>
+            <span :class="{ 'primary-color': manageType === 4 }">{{
+              $t(`SMS.fieldMaintenance`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(5)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 5 }"
-              >自定义图层维护</span
-            >
+            <span :class="{ 'primary-color': manageType === 5 }">{{
+              $t(`SMS.layerMaintenance`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(6)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 6 }">城市维护</span>
+            <span :class="{ 'primary-color': manageType === 6 }">{{
+              $t(`SMS.cityMaintenance`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(7)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 7 }">竞品维护</span>
+            <span :class="{ 'primary-color': manageType === 7 }">{{
+              $t(`SMS.cometitorMaintenance`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(8)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 8 }">报告统计</span>
+            <span :class="{ 'primary-color': manageType === 8 }">{{
+              $t(`SMS.reportStatistics`)
+            }}</span>
           </li>
           <li @click="asideMenuChange(9)">
             <SetUp class="svg-16" />
-            <span :class="{ 'primary-color': manageType === 9 }">日志统计</span>
+            <span :class="{ 'primary-color': manageType === 9 }">{{
+              $t(`SMS.logStatistics`)
+            }}</span>
           </li>
           <li ref="tag"></li>
         </ul>

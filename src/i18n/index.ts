@@ -6,7 +6,7 @@ import { storage } from '@/utils';
 const systemSettings = storage.getLocal('systemSetting').value;
 
 const messages = {
-  'zh-CN': zh_CN,
+  zhCn: zh_CN,
   en
 };
 
@@ -14,7 +14,7 @@ const messages = {
 const i18n = createI18n({
   legacy: false,
   globalInjection: true,
-  locale: systemSettings.language || 'zh-CN',
+  locale: systemSettings.language || 'zhCn',
   messages
 });
 

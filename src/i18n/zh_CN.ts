@@ -25,6 +25,24 @@ export default {
     competitor: '关注品牌',
     businessCircle: '已有商圈'
   },
+  // 菜单栏 | 系统维护，对应语言
+  SMS: {
+    label: '系统维护',
+    enterpriseInfo: '企业维护',
+    brandMaintenance: '品牌信息',
+    userMaintenance: '用户维护',
+    dataMaintenance: '数据项维护',
+    fieldMaintenance: '字段管理',
+    layerMaintenance: '图层维护',
+    cityMaintenance: '城市维护',
+    cometitorMaintenance: '竞品维护',
+    reportStatistics: '报告统计',
+    logStatistics: '日志统计'
+  },
+  // 菜单栏 | 企业驾驶舱，对应语言
+  masterStation: {
+    label: '企业驾驶舱'
+  },
   // 路由元信息 title 字段对应语言
   metaTitle: {
     dataList: '数据管理',
@@ -57,14 +75,14 @@ export default {
     fixRight: '固定到右侧'
   },
   // 列表筛选项对应语言
-  tableFilter: {
+  filter: {
     province: '省份',
     city: '城市',
     county: '区县',
     projectNumber: '项目编号',
     storeNumber: '门店编号',
     competitiveStoreNumber: '竞品店号',
-    Keyword: '关键字',
+    keyword: '关键字',
     unfold: '展开',
     fold: '折叠'
   },
@@ -97,5 +115,9 @@ export default {
     score: '评分',
     creator: '创建人',
     createDate: '创建日期'
+  },
+  // 其他
+  others: {
+    load: '加载中...'
   }
 };

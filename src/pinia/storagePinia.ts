@@ -52,8 +52,8 @@ export default defineStore('basicPinia', () => {
     layoutType: 'UpDown',
     primaryAside: false,
     primaryHeader: false,
-    language: 'zh-CN',
-    languageIcons: ['#zh-CN', '#en']
+    language: 'zhCn',
+    languageIcons: ['#zhCn', '#en']
   });
   function getSystemParams() {
     const storageValue = storage.getLocal('systemSetting').value;

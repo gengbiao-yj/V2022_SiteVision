@@ -117,15 +117,15 @@ export default {
         <div class="user-option-list">
           <div @click.stop="router.push('/Main/AccountSetting')">
             <User class="svg-16" />
-            <span>个人信息</span>
+            <span>{{ $t(`system.personInfo`) }}</span>
           </div>
           <div>
             <VideoCamera class="svg-16" />
-            <span>帮助视频</span>
+            <span>{{ $t(`system.helpVideo`) }}</span>
           </div>
           <div @click="quitSystem">
             <SwitchButton class="svg-16" />
-            <span>退出登录</span>
+            <span>{{ $t(`system.quitSystem`) }}</span>
           </div>
         </div>
       </div>

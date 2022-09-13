@@ -4,9 +4,9 @@ export default {
   system: {
     systemName: 'SiteVision',
     title: 'System settings',
-    personInfo: 'Personal info',
-    helpVideo: 'Help video',
-    quitSystem: 'Exit system',
+    personInfo: 'PI',
+    helpVideo: 'Help',
+    quitSystem: 'Exit',
     primaryColor: 'Primary color',
     layOut: 'Navigation layout',
     layOutPrimary: 'Navigation color',
@@ -24,6 +24,24 @@ export default {
     store: 'Stores',
     competitor: 'Competitor',
     businessCircle: 'Business circle'
+  },
+  // 菜单栏 | 系统维护，对应语言
+  SMS: {
+    label: 'SMS',
+    enterpriseInfo: 'Enterprise',
+    brandMaintenance: 'Brand',
+    userMaintenance: 'User',
+    dataMaintenance: 'Data item',
+    fieldMaintenance: 'Field',
+    layerMaintenance: 'Layer',
+    cityMaintenance: 'City',
+    cometitorMaintenance: 'Cometitor',
+    reportStatistics: 'Report Statistics',
+    logStatistics: 'Log Statistics'
+  },
+  // 菜单栏 | 企业驾驶舱，对应语言
+  masterStation: {
+    label: 'Master station'
   },
   // 路由元信息 title 字段对应语言
   metaTitle: {
@@ -57,13 +75,13 @@ export default {
     fixRight: 'Fixed on the right'
   },
   // 列表筛选项对应语言
-  tableFilter: {
+  filter: {
     province: 'Province',
     city: 'City',
     county: 'County',
-    projectNumber: 'Project no.',
-    storeNumber: 'Store no.',
-    competitiveStoreNumber: 'Competing store no.',
+    projectNumber: 'NO.',
+    storeNumber: 'NO.',
+    competitiveStoreNumber: 'NO.',
     keyword: 'Keyword',
     unfold: 'Unfold',
     fold: 'Fold'
@@ -96,5 +114,9 @@ export default {
     score: 'Score',
     creator: 'Creator',
     createDate: 'Create date'
+  },
+  // 其他
+  others: {
+    load: 'loading...'
   }
 };
