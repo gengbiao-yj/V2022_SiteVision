@@ -217,6 +217,8 @@ module.exports = {
   },
   // 配置全局变量、全局TS类型等，以解除'未声明'报错
   globals: {
+    defineEmits: true,
+    defineProps: true,
     fengmap: true,
     eventBusName: true,
     _HTMLDivElement: true,

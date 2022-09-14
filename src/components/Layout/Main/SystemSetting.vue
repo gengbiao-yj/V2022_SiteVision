@@ -2,7 +2,6 @@
 <script setup lang="ts">
 /*  init
 ------------------------------------------------ */
-import { defineProps, defineEmits } from 'vue';
 import basicPinia from '@/pinia/storagePinia';
 import { useI18n } from 'vue-i18n';
 const basicStore = basicPinia();

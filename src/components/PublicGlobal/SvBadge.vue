@@ -1,7 +1,5 @@
 <!-- 徽标组件 -->
 <script lang="ts" setup>
-import { defineProps } from 'vue';
-
 const props = defineProps({
   // 徽标内容
   content: {

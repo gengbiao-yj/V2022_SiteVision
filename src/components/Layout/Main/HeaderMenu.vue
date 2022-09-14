@@ -1,7 +1,6 @@
 <!-- 操作菜单 -->
 <script setup lang="ts">
 import { busOn } from '@/utils/hooks';
-import { defineProps } from 'vue';
 
 /*  props
 ------------------------------------------------ */

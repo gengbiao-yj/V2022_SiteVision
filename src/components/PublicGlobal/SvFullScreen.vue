@@ -1,7 +1,6 @@
 <!-- name: 设置全屏 -->
 <script lang="ts" setup>
 import { fullScreen } from '@/utils/hooks';
-import { defineProps } from 'vue';
 
 const props = defineProps({
   // 表格实例

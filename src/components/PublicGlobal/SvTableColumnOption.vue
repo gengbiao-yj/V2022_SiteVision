@@ -2,7 +2,6 @@
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node';
 import type { DropType } from 'element-plus/es/components/tree/src/tree.type';
-import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   // 表格列配置

@@ -2,7 +2,6 @@
 <script lang="ts" setup>
 import type { RouteLocationMatched } from 'vue-router';
 import { busEmit, busOn } from '@/utils/hooks';
-import { defineProps } from 'vue';
 
 const props = defineProps({
   primaryHeader: {

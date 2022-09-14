@@ -1,7 +1,5 @@
 <!-- name: 表格查询栏 -->
 <script lang="ts" setup>
-import { defineProps } from 'vue';
-
 const props = defineProps({
   // 标题
   title: {

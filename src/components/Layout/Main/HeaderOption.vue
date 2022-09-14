@@ -4,7 +4,6 @@ import basicPinia from '@/pinia/storagePinia';
 import { fullScreen } from '@/utils/hooks';
 import SystemSetting from './SystemSetting.vue';
 import { ElMessageBox } from 'element-plus';
-import { defineProps } from 'vue';
 
 const props = defineProps({
   // 上下布局，顶栏是否采用主题背景色

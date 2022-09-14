@@ -1,6 +1,5 @@
 <!-- 操作菜单 - 选项列表 -->
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 import type { PropType } from 'vue';
 
 const props = defineProps({

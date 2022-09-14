@@ -1,6 +1,5 @@
 <!-- name: 表格翻页 -->
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
 import { getWatchBrowserWidth } from '@/utils/hooks';
 const props = defineProps({
   // 当前页码

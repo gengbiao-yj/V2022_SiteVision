@@ -1,7 +1,6 @@
 <!-- name: form 组件内部用省市区联动框 -->
 <script lang="ts" setup>
 import { getDataArea } from '@/apis/common';
-import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   // 省份

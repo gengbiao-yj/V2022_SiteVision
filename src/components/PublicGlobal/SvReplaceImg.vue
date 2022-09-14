@@ -1,7 +1,6 @@
 <!-- name: 单张图标展示与上传替换 -->
 <script setup lang="ts">
 import { ElImageViewer } from 'element-plus';
-import { defineProps, defineEmits } from 'vue';
 import basicPinia from '@/pinia/storagePinia';
 import { uploadImage } from '@/apis/user';
 import { ElMessage } from 'element-plus';
