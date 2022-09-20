@@ -94,7 +94,7 @@ export default {
       </sv-replace-img>
       <el-form
         ref="rulesRef"
-        label-position="right"
+        label-position="left"
         label-width="90px"
         :model="personInfo"
         :rules="rules"

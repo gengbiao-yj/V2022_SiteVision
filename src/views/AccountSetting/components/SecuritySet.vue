@@ -113,8 +113,8 @@ export default {
     <div v-show="passwordSwitch" class="content">
       <el-form
         ref="rulesRef"
-        label-position="right"
-        label-width="80px"
+        label-position="left"
+        label-width="100px"
         :model="passwordInfo"
         :rules="rules"
         status-icon

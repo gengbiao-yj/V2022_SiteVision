@@ -53,6 +53,51 @@ function uploadImage(Data: object) {
   });
 }
 
+// 品牌信息编辑
+function updateCusbrand(Data: BrandInfo) {
+  return http.request<
+    ResponseResult<{
+      code: string;
+      data: string;
+      message: string;
+    }>
+  >({
+    url: '/common/updateCusbrand',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
+// 品牌删除
+function deleteCusbrand(Data: { brandId: number }) {
+  return http.request<
+    ResponseResult<{
+      code: string;
+      data: string;
+      message: string;
+    }>
+  >({
+    url: '/common/deleteCusbrand',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
+// 新增品牌信息
+function insertCusbrand(Data: BrandInfo) {
+  return http.request<
+    ResponseResult<{
+      code: string;
+      data: string;
+      message: string;
+    }>
+  >({
+    url: '/common/insertCusbrand',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
 /*  列表数据
 ------------------------------------------------ */
 // 机会点列表
@@ -127,5 +172,8 @@ export {
   saveUser,
   changPwd,
   getCompanyInfo,
-  saveCompanyInfo
+  saveCompanyInfo,
+  updateCusbrand,
+  insertCusbrand,
+  deleteCusbrand
 };

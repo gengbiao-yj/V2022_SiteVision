@@ -1,12 +1,17 @@
 <!-- name: 企业维护 -->
 <script setup lang="ts">
-import { saveCompanyInfo, getCompanyInfo } from '@/apis/user';
+import { saveCompanyInfo } from '@/apis/user';
 import { ElMessage } from 'element-plus';
-import basicPinia from '@/pinia/storagePinia';
 import type { FormInstance } from 'element-plus';
 
+interface PropsType {
+  companyInfo: CompanyInfo;
+}
+const props = defineProps<PropsType>();
+
+const emits = defineEmits(['onSuccess']);
+
 const editSwitch = ref(false); // 编辑动作
-const userInfo = basicPinia().userInfo;
 // 重置企业信息
 const resetInfo = () => {
   companyInfo.value.cusName = initCompanyInfo.value.cusName;
@@ -21,31 +26,27 @@ const rules = reactive({
 });
 
 // 获取企业信息
-const initCompanyInfo = ref();
-const companyInfo = ref({
-  backImg: '', // 背景图
-  cusName: '', // 企业名称
-  logo: '' // 企业logo
+const initCompanyInfo = ref<CompanyInfo>({
+  backImg: '',
+  cusName: '',
+  logo: ''
 });
-const init = async () => {
-  try {
-    const { data, code } = await getCompanyInfo({
-      cusNo: userInfo.cusNo
-    });
-    if (code === 200) {
-      const { backImg, cusName, logo } = data.companyInfo;
-      initCompanyInfo.value = {
-        backImg,
-        cusName,
-        logo
-      };
-      companyInfo.value = data.companyInfo;
-    }
-  } catch (e) {
-    console.log(e);
+const companyInfo = ref<CompanyInfo>({
+  backImg: '',
+  cusName: '',
+  logo: ''
+});
+
+watch(
+  () => props.companyInfo,
+  newV => {
+    initCompanyInfo.value = { ...newV };
+    companyInfo.value = { ...newV };
+  },
+  {
+    immediate: true
   }
-};
-init();
+);
 
 // 保存企业信息
 const saveInfo = async () => {
@@ -57,6 +58,7 @@ const saveInfo = async () => {
         if (code === 200) {
           ElMessage.success('保存成功');
           editSwitch.value = false;
+          emits('onSuccess');
         } else {
           ElMessage.error('保存失败');
         }
@@ -79,7 +81,7 @@ export default {
   <div class="info-box">
     <div class="title mg-b-15">
       <div class="left">
-        <UserFilled class="svg-14 mg-r-5" />
+        <!--        <UserFilled class="svg-14 mg-r-5" />-->
         <span class="ft-s-13 ft-w-6">企业维护</span>
       </div>
       <div class="right">
@@ -138,7 +140,7 @@ export default {
 
 <style scoped lang="scss">
 .info-box {
-  padding: 5px 8px;
+  padding: 15px 20px;
   .title {
     @include box-size(100%, 35px);
     @include flex(row, space-between, center);
@@ -179,7 +181,7 @@ export default {
 
 @media screen and (min-width: 100px) {
   .info-box {
-    width: 80%;
+    width: 100%;
   }
 }
 

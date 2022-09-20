@@ -70,6 +70,7 @@ export default {
       :show-file-list="false"
       :http-request="uploadImg"
       accept="image/*"
+      :disabled="!props.edit"
     >
       <el-image
         fit="fill"

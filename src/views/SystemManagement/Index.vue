@@ -1,6 +1,9 @@
 <!-- 系统维护 -->
 <script lang="ts" setup>
 import CompanyMaintain from '@/views/SystemManagement/components/CompanyMaintain.vue';
+import BrandMaintenance from '@/views/SystemManagement/components/BrandMaintenance.vue';
+import { getCompanyInfo } from '@/apis/user';
+import basicPinia from '@/pinia/storagePinia';
 
 // 侧边菜单栏展开、折叠
 const isAsideCollapse = ref(false);
@@ -18,7 +21,29 @@ const asideMenuChange = (i: number) => {
   }
 };
 
-const isComponent = [CompanyMaintain];
+// 子组件集合
+const isComponent = [CompanyMaintain, BrandMaintenance];
+
+/*  获取企业、品牌信息
+------------------------------------------------ */
+const userInfo = basicPinia().userInfo;
+const companyInfo = ref<CompanyInfo>(); // 企业信息
+const brandList = ref<Array<BrandInfo>>(); // 品牌信息
+
+const init = async () => {
+  try {
+    const { data, code } = await getCompanyInfo({
+      cusNo: userInfo.cusNo
+    });
+    if (code === 200) {
+      companyInfo.value = data.companyInfo;
+      brandList.value = data.brandList;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+init();
 </script>
 <script lang="ts">
 export default {
@@ -110,7 +135,13 @@ export default {
         </svg>
         <!-- 系统设置项 -->
         <transition name="inOut" mode="out-in" appear>
-          <component :is="isComponent[manageType]" />
+          <component
+            :is="isComponent[manageType]"
+            :companyInfo="companyInfo"
+            :brandList="brandList"
+            :cusNo="userInfo.cusNo"
+            @onSuccess="init"
+          />
         </transition>
       </div>
     </div>
