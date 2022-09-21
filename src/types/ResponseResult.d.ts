@@ -85,6 +85,21 @@ interface Company {
   companyInfo: CompanyInfo;
 }
 
+// 图层样式信息
+interface MapStyle {
+  cusNo: string; // 企业代码
+  fillColor: string; // 填充色
+  fillOpacity: string; // 填充色透明度
+  icon: string;
+  layCode: string;
+  layName: string; // 图层名称
+  layerID: number;
+  outlineColor: string; // 边框颜色
+  outlineOpacity: string; // 边框颜色透明度
+  outlineType: string; // 边框类型：实线、虚线
+  outlineWidth: string | number; // 边框宽度
+}
+
 /*  第三方 - 高德地图
 ------------------------------------------------ */
 // IP 定位

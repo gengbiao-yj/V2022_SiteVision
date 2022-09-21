@@ -244,6 +244,7 @@ module.exports = {
     MenuItem: true,
     POIItem: true,
     SystemSetType: true,
-    TabsItem: true
+    TabsItem: true,
+    MapStyle:true
   }
 };

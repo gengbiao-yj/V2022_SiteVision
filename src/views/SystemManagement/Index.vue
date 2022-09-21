@@ -2,6 +2,7 @@
 <script lang="ts" setup>
 import CompanyMaintain from '@/views/SystemManagement/components/CompanyMaintain.vue';
 import BrandMaintenance from '@/views/SystemManagement/components/BrandMaintenance.vue';
+import LayerMaintenance from '@/views/SystemManagement/components/LayerMaintenance.vue';
 import { getCompanyInfo } from '@/apis/user';
 import basicPinia from '@/pinia/storagePinia';
 
@@ -22,7 +23,14 @@ const asideMenuChange = (i: number) => {
 };
 
 // 子组件集合
-const isComponent = [CompanyMaintain, BrandMaintenance];
+const isComponent = [
+  CompanyMaintain,
+  BrandMaintenance,
+  null,
+  null,
+  null,
+  LayerMaintenance
+];
 
 /*  获取企业、品牌信息
 ------------------------------------------------ */

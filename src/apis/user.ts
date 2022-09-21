@@ -161,6 +161,30 @@ function saveCompanyInfo(Data: CompanyInfo) {
   });
 }
 
+// 获取图层样式
+function getMapStyle(Data: { cusNo: string }) {
+  return http.request<ResponseResult<Array<MapStyle>>>({
+    url: '/system/mapStyle',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
+// 保存图层样式
+function saveMapStyle(Data: MapStyle) {
+  return http.request<
+    ResponseResult<{
+      code: string;
+      data: string;
+      message: string;
+    }>
+  >({
+    url: '/system/saveMapStyle',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
 export {
   login,
   dataArea,
@@ -175,5 +199,7 @@ export {
   saveCompanyInfo,
   updateCusbrand,
   insertCusbrand,
-  deleteCusbrand
+  deleteCusbrand,
+  getMapStyle,
+  saveMapStyle
 };
