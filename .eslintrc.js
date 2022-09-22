@@ -245,6 +245,8 @@ module.exports = {
     POIItem: true,
     SystemSetType: true,
     TabsItem: true,
-    MapStyle:true
+    MapStyle: true,
+    CityInfo: true,
+    CusCityList: true
   }
 };

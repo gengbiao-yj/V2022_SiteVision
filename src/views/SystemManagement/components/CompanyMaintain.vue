@@ -141,6 +141,7 @@ export default {
 <style scoped lang="scss">
 .info-box {
   padding: 15px 20px;
+  width: 100%;
   .title {
     @include box-size(100%, 35px);
     @include flex(row, space-between, center);
@@ -179,21 +180,21 @@ export default {
   }
 }
 
-@media screen and (min-width: 100px) {
-  .info-box {
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 1000px) {
-  .info-box {
-    width: 60%;
-  }
-}
-
-@media screen and (min-width: 1500px) {
-  .info-box {
-    width: 40%;
-  }
-}
+//@media screen and (min-width: 100px) {
+//  .info-box {
+//    width: 100%;
+//  }
+//}
+//
+//@media screen and (min-width: 1000px) {
+//  .info-box {
+//    width: 60%;
+//  }
+//}
+//
+//@media screen and (min-width: 1500px) {
+//  .info-box {
+//    width: 40%;
+//  }
+//}
 </style>

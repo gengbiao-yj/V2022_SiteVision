@@ -185,6 +185,29 @@ function saveMapStyle(Data: MapStyle) {
   });
 }
 
+// 城市维护列表
+function cusAllCityList(Data: { cusNo: string }) {
+  return http.request<ResponseResult<CusCityList>>({
+    url: '/system/cusAllCityList',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
+// 保存城市维护列表
+function saveCusCity(Data: { cityCode: string; cusNo: string }) {
+  return http.request<
+    ResponseResult<{
+      type: string;
+      content: string;
+    }>
+  >({
+    url: '/system/saveCusCity',
+    method: 'post',
+    data: qs.stringify(Data)
+  });
+}
+
 export {
   login,
   dataArea,
@@ -201,5 +224,7 @@ export {
   insertCusbrand,
   deleteCusbrand,
   getMapStyle,
-  saveMapStyle
+  saveMapStyle,
+  cusAllCityList,
+  saveCusCity
 };

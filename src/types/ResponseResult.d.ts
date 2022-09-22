@@ -100,6 +100,25 @@ interface MapStyle {
   outlineWidth: string | number; // 边框宽度
 }
 
+// 城市信息
+interface CityInfo {
+  cnName: string;
+  code: string;
+  createDate: string;
+  enName: string;
+  id: number;
+  joinCode: string;
+  remark: string;
+  selected: number;
+  typeID: number;
+}
+
+// 城市维护
+interface CusCityList {
+  allCityList: Array<CityInfo>;
+  selectCityList: Array<CityInfo>;
+}
+
 /*  第三方 - 高德地图
 ------------------------------------------------ */
 // IP 定位

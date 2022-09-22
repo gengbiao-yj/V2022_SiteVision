@@ -3,6 +3,7 @@
 import CompanyMaintain from '@/views/SystemManagement/components/CompanyMaintain.vue';
 import BrandMaintenance from '@/views/SystemManagement/components/BrandMaintenance.vue';
 import LayerMaintenance from '@/views/SystemManagement/components/LayerMaintenance.vue';
+import CityMaintenance from '@/views/SystemManagement/components/CityMaintenance.vue';
 import { getCompanyInfo } from '@/apis/user';
 import basicPinia from '@/pinia/storagePinia';
 
@@ -29,7 +30,8 @@ const isComponent = [
   null,
   null,
   null,
-  LayerMaintenance
+  LayerMaintenance,
+  CityMaintenance
 ];
 
 /*  获取企业、品牌信息
@@ -145,10 +147,10 @@ export default {
         <transition name="inOut" mode="out-in" appear>
           <component
             :is="isComponent[manageType]"
-            :companyInfo="companyInfo"
-            :brandList="brandList"
-            :cusNo="userInfo.cusNo"
-            @onSuccess="init"
+            :company-info="companyInfo"
+            :brand-list="brandList"
+            :cus-no="userInfo.cusNo"
+            @on-success="init"
           />
         </transition>
       </div>
