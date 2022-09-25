@@ -128,5 +128,8 @@ interface AmapV3IP {
   rectangle: string; // 城市所在矩形区域，左下右上对标对坐标集
   status: '0' | '1'; // 返回状态值
   adcode: string; // 城市 adcode 编码
-  centerLngLat: object; // rectangle 算出的中心点
+  centerLngLat: {
+    lng: number;
+    lat: number;
+  }; // rectangle 算出的中心点
 }

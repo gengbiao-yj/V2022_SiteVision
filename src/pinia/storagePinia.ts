@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { storage, colorTransition } from '@/utils';
 
 export default defineStore('basicPinia', () => {
@@ -111,6 +111,18 @@ export default defineStore('basicPinia', () => {
     return BASE_URL.value;
   }
 
+  /*  当前用户定位数据存储存储
+  ------------------------------------------------ */
+  const loactionData = ref() as Ref<AmapV3IP>;
+  function setLoactionData(data: AmapV3IP) {
+    loactionData.value = data;
+    storage.setSession('currentPosition', data);
+  }
+  function getLoactionData() {
+    loactionData.value = storage.getSession('currentPosition').value;
+    return loactionData.value;
+  }
+
   return {
     getUserInfo,
     setUserInfo,
@@ -124,6 +136,8 @@ export default defineStore('basicPinia', () => {
     getTabs,
     BASE_URL,
     setBaseUrl,
-    getBaseUrl
+    getBaseUrl,
+    setLoactionData,
+    getLoactionData
   };
 });

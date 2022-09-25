@@ -1,13 +1,22 @@
 <!-- name:地图主页 -->
-<script setup lang="ts"></script>
-<script>
+<script setup lang="ts">
+import { UseInitMap } from './Hooks';
+
+const { mapConatiner } = UseInitMap();
+</script>
+<script lang="ts">
 export default {
   name: 'MainMap'
 };
 </script>
 
 <template>
-  <h1>MainMap</h1>
+  <div class="map-root" ref="mapConatiner"></div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.map-root {
+  width: 100%;
+  height: 100%;
+}
+</style>

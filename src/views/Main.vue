@@ -1,7 +1,5 @@
 <!-- 主页 -->
 <script setup lang="ts">
-import { amapIP } from '@/apis/amap';
-import { storage } from '@/utils';
 import LayoutUpDown from '@comps/Layout/LayoutUpDown.vue';
 import LayoutLeftRight from '@comps/Layout/LayoutLeftRight.vue';
 import basicPinia from '@/pinia/storagePinia';
@@ -18,19 +16,6 @@ watch(
 const isComponent = {
   LeftRight: LayoutLeftRight,
   UpDown: LayoutUpDown
-};
-
-// IP 定位
-onMounted(() => {
-  IPPosition();
-});
-const IPPosition = async () => {
-  try {
-    const data = await amapIP();
-    storage.setLocal('currentPosition', data, 120);
-  } catch (error) {
-    console.log(error);
-  }
 };
 </script>
 <script lang="ts">
