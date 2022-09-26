@@ -2,12 +2,11 @@
 <script setup lang="ts">
 import { checkNewPassword } from '@/utils';
 import { changPwd } from '@/apis/user';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import MD5 from 'js-md5';
 import { ElMessage } from 'element-plus';
 import type { FormInstance } from 'element-plus';
 
-const basicStore = basicPinia();
 const passwordSwitch = ref(false); // 编辑动作
 const passwordInfo = reactive({
   oldPassword: '',

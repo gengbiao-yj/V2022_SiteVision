@@ -1,12 +1,10 @@
 <!-- 数据表格- 关注竞品 -->
 <script lang="ts" setup>
 import { listViewCompetitors } from '@/apis/user';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { ElMessage } from 'element-plus';
 
-const { getUserInfo } = basicPinia();
-const userInfo = getUserInfo();
-
+const userInfo = basicStore.getUserInfo();
 /*  数据列表
 ------------------------------------------------ */
 const filterForm = reactive({

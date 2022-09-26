@@ -1,6 +1,6 @@
 <!-- 操作按钮 -->
 <script setup lang="ts">
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { fullScreen } from '@/utils/hooks';
 import SystemSetting from './SystemSetting.vue';
 import { ElMessageBox } from 'element-plus';
@@ -21,7 +21,6 @@ const isPrimary = computed(() => props.primaryHeader || props.primaryBread); // 
 
 const router = useRouter();
 // 获取用户信息
-const basicStore = basicPinia();
 const { getUserInfo } = basicStore;
 const userInfo = getUserInfo();
 const userName = ref(userInfo.userName);

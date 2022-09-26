@@ -1,13 +1,11 @@
 <!-- 数据表格- 已有商圈 -->
 <script lang="ts" setup>
 import { listViewTas } from '@/apis/user';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { ElMessage } from 'element-plus';
 import SvTableBox from '@comps/PublicGlobal/SvTableBox.vue';
 
-const { getUserInfo } = basicPinia();
-const userInfo = getUserInfo();
-
+const userInfo = basicStore.getUserInfo();
 /*  数据列表
 ------------------------------------------------ */
 const filterForm = reactive({

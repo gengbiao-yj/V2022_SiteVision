@@ -5,7 +5,7 @@ import BrandMaintenance from '@/views/SystemManagement/components/BrandMaintenan
 import LayerMaintenance from '@/views/SystemManagement/components/LayerMaintenance.vue';
 import CityMaintenance from '@/views/SystemManagement/components/CityMaintenance.vue';
 import { getCompanyInfo } from '@/apis/user';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 
 // 侧边菜单栏展开、折叠
 const isAsideCollapse = ref(false);
@@ -36,7 +36,7 @@ const isComponent = [
 
 /*  获取企业、品牌信息
 ------------------------------------------------ */
-const userInfo = basicPinia().userInfo;
+const userInfo = basicStore.userInfo;
 const companyInfo = ref<CompanyInfo>(); // 企业信息
 const brandList = ref<Array<BrandInfo>>(); // 品牌信息
 

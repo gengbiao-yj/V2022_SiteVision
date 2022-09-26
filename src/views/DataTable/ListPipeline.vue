@@ -1,12 +1,10 @@
 <!-- 数据表格- 机会项目 -->
 <script lang="ts" setup>
 import { listViewSites } from '@/apis/user';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { ElMessage } from 'element-plus';
 
-const { getUserInfo } = basicPinia();
-const userInfo = getUserInfo();
-
+const userInfo = basicStore.getUserInfo();
 /*  数据列表
 ------------------------------------------------ */
 const filterForm = reactive({

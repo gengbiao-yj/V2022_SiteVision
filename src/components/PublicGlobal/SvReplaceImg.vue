@@ -1,7 +1,7 @@
 <!-- name: 单张图标展示与上传替换 -->
 <script setup lang="ts">
 import { ElImageViewer } from 'element-plus';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { uploadImage } from '@/apis/user';
 import { ElMessage } from 'element-plus';
 import type { UploadRequestOptions } from 'element-plus';
@@ -21,7 +21,6 @@ const props = defineProps({
   }
 });
 const emits = defineEmits(['success']);
-const basicStore = basicPinia();
 const BASE_URL = basicStore.getBaseUrl();
 // const slotFail = ref(Boolean(useSlots().fail)); // 判断是否使用了图片回退插槽
 // 图片上传

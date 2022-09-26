@@ -9,12 +9,10 @@ import { BASE_URL, urlKey } from '@/plugin/Axios/config';
 import { ElConfigProvider } from 'element-plus';
 import zhCn from 'element-plus/lib/locale/lang/zh-cn';
 import en from 'element-plus/lib/locale/lang/en';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { colorTransition } from '@/utils';
 
-const basicStore = basicPinia();
 const { getSystemParams } = basicStore;
-
 const baseURL = BASE_URL.get(process.env.NODE_ENV as urlKey) as string;
 basicStore.setBaseUrl(baseURL);
 

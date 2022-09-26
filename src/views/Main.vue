@@ -2,10 +2,9 @@
 <script setup lang="ts">
 import LayoutUpDown from '@comps/Layout/LayoutUpDown.vue';
 import LayoutLeftRight from '@comps/Layout/LayoutLeftRight.vue';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 
 // 获取布局方式
-const basicStore = basicPinia();
 const systemSettings = ref(basicStore.systemParams);
 watch(
   () => basicStore.systemParams,

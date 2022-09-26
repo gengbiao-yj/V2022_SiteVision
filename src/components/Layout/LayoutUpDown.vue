@@ -4,9 +4,8 @@ import HeaderTitle from '@comps/Layout/Main/HeaderTitle.vue';
 import HeaderMenu from '@comps/Layout/Main/HeaderMenu.vue';
 import HeaderOption from '@comps/Layout/Main/HeaderOption.vue';
 import HeaderTabs from '@comps/Layout/Main/HeaderTabs.vue';
+import { basicStore } from '@/pinia';
 
-import basicPinia from '@/pinia/storagePinia';
-const basicStore = basicPinia();
 const primaryHeader = ref(false); // 顶部菜单栏是否使用主题色
 const primaryColor = ref('#fff'); // 系统主题色
 basicStore.$subscribe(

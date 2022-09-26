@@ -5,9 +5,8 @@ import HeaderMenu from '@comps/Layout/Main/HeaderMenu.vue';
 import HeaderOption from '@comps/Layout/Main/HeaderOption.vue';
 import HeaderTabs from '@comps/Layout/Main/HeaderTabs.vue';
 import Breadcrumb from '@comps/Layout/Main/Breadcrumb.vue';
+import { basicStore } from '@/pinia';
 
-import basicPinia from '@/pinia/storagePinia';
-const basicStore = basicPinia();
 const primaryAside = ref(false); // 侧边菜单栏是否使用主题色
 const primaryBreadcrum = ref(false); // 顶部面包屑是否使用主题色
 const primaryColor = ref('#fff'); // 系统主题色

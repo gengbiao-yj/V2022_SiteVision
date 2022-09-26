@@ -2,9 +2,9 @@
 <script setup lang="ts">
 /*  init
 ------------------------------------------------ */
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { useI18n } from 'vue-i18n';
-const basicStore = basicPinia();
+
 const { getSystemParams, setSystemParams } = basicStore;
 // 创建i18n对象
 const i18n = useI18n();

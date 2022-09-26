@@ -1,12 +1,10 @@
 <!-- name: 个人信息 -->
 <script setup lang="ts">
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { saveUser } from '@/apis/user';
 import { checkMail, checkPhone } from '@/utils';
 import { ElMessage } from 'element-plus';
 import type { FormInstance } from 'element-plus';
-
-const basicStore = basicPinia();
 
 const personSwitch = ref(false); // 编辑动作
 const personInfo = reactive<UserLogin>(basicStore.getUserInfo()); // 个人信息

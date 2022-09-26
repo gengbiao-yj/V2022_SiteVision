@@ -1,10 +1,8 @@
 import { ref, Ref, onMounted } from 'vue';
 import mapboxgl from 'mapbox-gl';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import { AMAP } from '@/plugin/Axios/config';
 import { amapIP } from '@/apis/amap';
-
-const basicStore = basicPinia();
 
 // IP 定位
 const IPPosition = async () => {
@@ -13,7 +11,6 @@ const IPPosition = async () => {
     const rectangle = data.rectangle.split(';');
     const diagonal1 = rectangle[0].split(',');
     const diagonal2 = rectangle[1].split(',');
-    console.log(rectangle);
     data.centerLngLat = {
       lng: (parseFloat(diagonal1[0]) + parseFloat(diagonal2[0])) / 2,
       lat: (parseFloat(diagonal1[1]) + parseFloat(diagonal2[1])) / 2

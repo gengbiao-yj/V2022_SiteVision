@@ -1,10 +1,9 @@
 <!-- Tabs- 导航标签页 -->
 <script lang="ts" setup>
 import type { TabsPaneContext } from 'element-plus';
-import basicPinia from '@/pinia/storagePinia';
-const basicStore = basicPinia();
-const { setTabs, getTabs } = basicStore;
+import { basicStore } from '@/pinia';
 
+const { setTabs, getTabs } = basicStore;
 // 初始数据
 const editableTabsValue = ref('/Main/MainMap');
 const editableTabs = ref<Array<TabsItem>>(getTabs());

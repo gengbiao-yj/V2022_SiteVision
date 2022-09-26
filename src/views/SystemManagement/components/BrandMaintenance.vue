@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import type { FormInstance } from 'element-plus/es';
 import { updateCusbrand, insertCusbrand, deleteCusbrand } from '@/apis/user';
 import { ElMessage } from 'element-plus';
 
-const basicStore = basicPinia();
 const BASE_URL = basicStore.getBaseUrl();
-
 interface PropsType {
   brandList: Array<BrandInfo>;
   cusNo: string;

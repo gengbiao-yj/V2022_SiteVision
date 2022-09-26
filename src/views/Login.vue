@@ -2,13 +2,11 @@
 import { login } from '@/apis/user';
 import MD5 from 'js-md5';
 import { ElMessage } from 'element-plus';
-import basicPinia from '@/pinia/storagePinia';
+import { basicStore } from '@/pinia';
 import type { FormInstance, FormRules } from 'element-plus';
 
 const router = useRouter();
 // const route = useRoute();
-
-const basicStore = basicPinia();
 const { setUserInfo, getUserInfo } = basicStore;
 
 /*  计算 tabs 指示条位置
