@@ -1,5 +1,5 @@
 import { ref, Ref, onMounted } from 'vue';
-import mapboxgl, { Map } from 'mapbox-gl';
+import mapboxgl, { Map, MapWheelEvent } from 'mapbox-gl';
 import { basicStore } from '@/pinia';
 import { AMAP } from '@/plugin/Axios/config';
 import { amapIP } from '@/apis/amap';
@@ -82,13 +82,40 @@ const createZoom = (map: Map) => {
 
 /*  绑定地图缩放事件
 ------------------------------------------------ */
-const mapOnZoomed = (map: Map) => {
-  map.on('zoomend', () => {
-    const zoom = map.getZoom().toFixed(2); // 获取缩放级别
-    document.getElementsByClassName('mapboxgl-ctrl-zoom')[0].innerHTML =
-      '缩放级别:' + zoom;
+let startZoom = initZoom;
+const mapOnZoom = (map: Map) => {
+  let ti: any;
+  map.on('wheel', (event: MapWheelEvent) => {
+    if (ti) clearTimeout(ti);
+    ti = setTimeout(() => {
+      // BUG:地图缩放等级为小数时，高德自带标注模糊，这里强行设置zoom为整数
+      const wheelDelta: number = event.originalEvent.deltaY;
+      const latlng = map.getCenter();
+      if (wheelDelta > 0) {
+        // 缩小处理
+        let min = startZoom - 1;
+        if (min <= 3) min = 3;
+        startZoom = min;
+        map.flyTo({
+          center: latlng,
+          zoom: min,
+          speed: 0.6
+        });
+      } else if (wheelDelta < 0) {
+        // 放大处理
+        let max = startZoom + 1;
+        if (max >= 18) max = 18;
+        startZoom = max;
+        map.flyTo({
+          center: latlng,
+          zoom: max,
+          speed: 0.6
+        });
+      }
+      document.getElementsByClassName('mapboxgl-ctrl-zoom')[0].innerHTML =
+        '缩放级别:' + startZoom;
+    }, 80);
   });
-  map.resize();
 };
 
 /*  初始化地图
@@ -109,8 +136,6 @@ export function UseInitMap() {
       style: {
         version: 8,
         name: 'Mapbox Streets',
-        sprite: 'mapbox://sprites/mapbox/streets-v8',
-        glyphs: 'mapbox://fonts/mapbox/{fontstack}/{range}.pbf',
         sources: {
           'osm-tiles': {
             type: 'raster',
@@ -129,8 +154,9 @@ export function UseInitMap() {
       },
       center: [lng, lat], // starting position [lng, lat]
       zoom: initZoom, // starting zoom
+      scrollZoom: false,
       minZoom: 3,
-      maxZoom: 17.3,
+      maxZoom: 18,
       maxBounds: new mapboxgl.LngLatBounds(
         [59.55988452620085, 12.957610757272292],
         [142.95624044533258, 53.95034432047234]
@@ -144,7 +170,7 @@ export function UseInitMap() {
     createScale(_map.value);
     createZoom(_map.value);
     createNav(_map.value);
-    mapOnZoomed(_map.value);
+    mapOnZoom(_map.value);
   });
 
   return {
