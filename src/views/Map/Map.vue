@@ -2,6 +2,9 @@
 <script setup lang="ts">
 import { UseInitMap } from './Hooks';
 import { busOn } from '@/utils/hooks';
+import toolLoactionOrigin from '@/views/Map/components/ToolLoactionOrigin.vue';
+import toolChangeStyle from '@/views/Map/components/ToolChangeStyle.vue';
+import toolMeasure from '@/views/Map/components/ToolMeasure.vue';
 
 const { map, mapContainer } = UseInitMap();
 /*  菜单折叠展开，变更地图尺寸
@@ -21,13 +24,22 @@ export default {
 </script>
 
 <template>
-  <div class="map-root" ref="mapContainer"></div>
+  <div class="map-root">
+    <div class="map" ref="mapContainer"></div>
+    <tool-loaction-origin />
+    <tool-change-style />
+    <tool-measure />
+  </div>
 </template>
 
 <style scoped lang="scss">
 .map-root {
   width: 100%;
   height: 100%;
+  position: relative;
+  > .map {
+    @include box-size(100%, 100%);
+  }
 
   &:deep(.mapboxgl-ctrl-logo) {
     display: none !important;

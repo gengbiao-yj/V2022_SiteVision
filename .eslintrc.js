@@ -213,7 +213,15 @@ module.exports = {
     'no-spaced-func': 2, // 要求或禁止在函数标识符和其调用之间有空格
     // 'no-useless-constructor': 2, // 禁止不必要的构造函数
     'no-debugger': process.env.NODE_ENV === 'prod' ? 2 : 0, // 禁用 debugger
-    'no-async-promise-executor': 'off' // Promise 回调函数禁止使用 async
+    'no-async-promise-executor': 'off', // Promise 回调函数禁止使用 async
+    "@typescript-eslint/ban-types": ["error",
+      {
+        "types": {
+          "Function": false,
+        },
+        "extendDefaults": true
+      }
+    ]
   },
   // 配置全局变量、全局TS类型等，以解除'未声明'报错
   globals: {

@@ -49,3 +49,35 @@
     $per
   );
 }
+
+// 伪元素气泡弹窗三角形
+@mixin pseudo-element-striangle($flex, $abs, $color) {
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    border: 5px solid $color;
+    @if ($flex == 'left') {
+      left: -5px;
+      bottom: $abs;
+      border-right-color: rgba(255, 255, 255, 0);
+      border-top-color: rgba(255, 255, 255, 0);
+    } @else if($flex == 'right') {
+      right: -5px;
+      bottom: $abs;
+      border-left-color: rgba(255, 255, 255, 0);
+      border-bottom-color: rgba(255, 255, 255, 0);
+    } @else if($flex == 'top') {
+      top: -5px;
+      left: $abs;
+      border-right-color: rgba(255, 255, 255, 0);
+      border-bottom-color: rgba(255, 255, 255, 0);
+    } @else if($flex == 'bottom') {
+      bottom: -5px;
+      left: $abs;
+      border-left-color: rgba(255, 255, 255, 0);
+      border-top-color: rgba(255, 255, 255, 0);
+    }
+    transform: rotate(45deg);
+  }
+}

@@ -1,0 +1,8 @@
+.tool-item-btn {
+  @include box-size(30px, 30px);
+  @include flex(row,center,center);
+  border-radius: 4px;
+  position: absolute;
+  background-color: var(--primary-color);
+  color: white;
+}

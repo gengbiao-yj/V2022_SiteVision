@@ -22,25 +22,16 @@ export const AMAP = {
   AMAP_WEBKEY: '232be979602bea9df4ef2f8d7b4c30f5',
   AMAP_ACCESSTOKEN:
     'pk.eyJ1IjoiZnV5aXlvbmciLCJhIjoiY2s5M3U5cHl0MDJnZjNkbzBrNGI2emNycSJ9.iXNKWmed2otDqeIVchxiJw',
-  //高德矢量+路网
+  //高德矢量+路网+标注
   AMAP_VECTORNROAD:
-    'https://webrd03.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&scl=1&style=8&x={x}&y={y}&z={z}',
-  //高德只有卫星
-  AMAP_SATELLITE:
-    'https://webst03.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=6&x={x}&y={y}&z={z}',
-  //高德只有路网
+    'https://webrd03.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&scl=1&style=7&x={x}&y={y}&z={z}',
+  //高德标注+路网
   AMAP_ROAD:
-    'https://webst03.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
-  //灰色版
-  AMAP_GRAY:
-    'https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetGray/MapServer/tile/{z}/{y}/{x}',
-  //高德路网+标注
-  AMAP_ROADNMARK:
     'https://webst01.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scale=1&style=8',
-  //高德只有路网
-  AMAP_ROAD2:
-    'https://wprd01.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=8&ltype=11',
   //高德只有标注
   AMAP_MARK:
-    'https://wprd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=8&x={x}&y={y}&z={z}&scl=1&ltype=4'
+    'https://wprd03.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=8&x={x}&y={y}&z={z}&scl=1&ltype=4',
+  //高德卫星影像
+  AMAP_SATELLITE:
+    'https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}'
 };

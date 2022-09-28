@@ -1,17 +1,21 @@
 import { ref, Ref, onMounted } from 'vue';
-import mapboxgl, { Map, MapWheelEvent } from 'mapbox-gl';
+import mapboxgl, { Map, MapWheelEvent, MapMouseEvent, LngLat } from 'mapbox-gl';
 import { basicStore } from '@/pinia';
 import { AMAP } from '@/plugin/Axios/config';
 import { amapIP } from '@/apis/amap';
+import { throttle } from '@/utils';
 
 /*  变量
 ------------------------------------------------ */
 const mapContainer = ref() as Ref<HTMLDivElement>; // 地图容器
-const map = ref() as Ref<Map>; // 地图实例
-const initZoom = 9.0; // 初始缩放等级
+export const map = ref() as Ref<Map>; // 地图实例
+export const initZoom = 9.0; // 初始缩放等级
 
-/*  高德 IP 定位
------------------------------------------------- */
+/**
+ * 高德 IP 定位获取浏览器环境所在地址定位
+ * @author GengBiao
+ * @constructor
+ */
 const IPPosition = async () => {
   try {
     const data = await amapIP();
@@ -28,8 +32,37 @@ const IPPosition = async () => {
   }
 };
 
-/*  控制类 - 缩放级别
------------------------------------------------- */
+/**
+ * 增加地图控件：比例尺
+ * @author GengBiao
+ * @param map
+ */
+const createScale = (map: Map) => {
+  const scale = new mapboxgl.ScaleControl({
+    maxWidth: 100,
+    unit: 'metric'
+  });
+  map.addControl(scale);
+};
+
+/**
+ * 增加地图控件：缩放按钮控件
+ * @author GengBiao
+ * @param map
+ */
+const createNav = (map: Map) => {
+  const nav = new mapboxgl.NavigationControl({
+    showCompass: false
+  });
+  map.addControl(nav, 'bottom-right');
+};
+
+/**
+ * 增加地图控件：缩放级别显示
+ * @author GengBiao
+ * @param map
+ */
+
 class ZoomControl {
   _map: Map | undefined;
   _container: HTMLDivElement;
@@ -52,27 +85,6 @@ class ZoomControl {
   }
 }
 
-/*  显示比例尺
------------------------------------------------- */
-const createScale = (map: Map) => {
-  const scale = new mapboxgl.ScaleControl({
-    maxWidth: 100,
-    unit: 'metric'
-  });
-  map.addControl(scale);
-};
-
-/*  显示缩放控制
------------------------------------------------- */
-const createNav = (map: Map) => {
-  const nav = new mapboxgl.NavigationControl({
-    showCompass: false
-  });
-  map.addControl(nav, 'bottom-right');
-};
-
-/*  显示缩放级别
------------------------------------------------- */
 const createZoom = (map: Map) => {
   map.addControl(
     new ZoomControl(map, document.createElement('div')),
@@ -80,41 +92,59 @@ const createZoom = (map: Map) => {
   );
 };
 
-/*  绑定地图缩放事件
------------------------------------------------- */
+/**
+ * 绑定地图滚轮事件
+ * @author GengBiao
+ * @param map
+ */
 let startZoom = initZoom;
-const mapOnZoom = (map: Map) => {
-  let ti: any;
-  map.on('wheel', (event: MapWheelEvent) => {
-    if (ti) clearTimeout(ti);
-    ti = setTimeout(() => {
-      // BUG:地图缩放等级为小数时，高德自带标注模糊，这里强行设置zoom为整数
+const mapOnWheel = (map: Map) => {
+  map.on(
+    'wheel',
+    throttle((event: MapWheelEvent) => {
+      /**
+       * BUG:地图缩放等级为小数时，高德自带标注模糊
+       * 解决:这里强行设置zoom为整数,利用 flyTo() 模拟地图缩放
+       */
       const wheelDelta: number = event.originalEvent.deltaY;
       const latlng = map.getCenter();
-      if (wheelDelta > 0) {
-        // 缩小处理
-        let min = startZoom - 1;
-        if (min <= 3) min = 3;
-        startZoom = min;
+      let zoom = 9;
+      function mapFly(center: LngLat) {
         map.flyTo({
-          center: latlng,
-          zoom: min,
-          speed: 0.6
-        });
-      } else if (wheelDelta < 0) {
-        // 放大处理
-        let max = startZoom + 1;
-        if (max >= 18) max = 18;
-        startZoom = max;
-        map.flyTo({
-          center: latlng,
-          zoom: max,
+          center,
+          zoom,
           speed: 0.6
         });
       }
+      if (wheelDelta > 0) {
+        // 缩小处理
+        zoom = startZoom - 1;
+        if (zoom <= 3) zoom = 3;
+        startZoom = zoom;
+        mapFly(latlng);
+      } else if (wheelDelta < 0) {
+        // 放大处理
+        zoom = startZoom + 1;
+        if (zoom >= 18) zoom = 18;
+        startZoom = zoom;
+        mapFly(mouseCurrentLatlng);
+      }
+
       document.getElementsByClassName('mapboxgl-ctrl-zoom')[0].innerHTML =
         '缩放级别:' + startZoom;
-    }, 80);
+    }, 50)
+  );
+};
+
+/**
+ * 绑定地图鼠标移动事件
+ * @author GengBiao
+ * @param map
+ */
+let mouseCurrentLatlng: LngLat;
+const mapOnMouseMove = (map: Map) => {
+  map.on('mousemove', (event: MapMouseEvent) => {
+    mouseCurrentLatlng = event.lngLat;
   });
 };
 
@@ -170,7 +200,8 @@ export function UseInitMap() {
     createScale(_map.value);
     createZoom(_map.value);
     createNav(_map.value);
-    mapOnZoom(_map.value);
+    mapOnWheel(_map.value);
+    mapOnMouseMove(_map.value);
   });
 
   return {
