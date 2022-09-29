@@ -9,7 +9,8 @@
     "build:dev": "vue-cli-service build --mode dev",
     "build:uat": "vue-cli-service build --mode uat",
     "build:prod": "vue-cli-service build --mode prod",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "preinstall": "npx only-allow yarn"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.3.0",
