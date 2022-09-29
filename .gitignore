@@ -24,3 +24,4 @@ pnpm-debug.log*
 /git commit standard.png
 /node_modules/
 /dist_uat
+/dist_product
