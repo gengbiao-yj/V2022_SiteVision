@@ -25,3 +25,4 @@ pnpm-debug.log*
 /node_modules/
 /dist_uat
 /dist_product
+/CICD_Jenkins_Remark.txt

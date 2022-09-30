@@ -45,6 +45,11 @@ basicStore.$subscribe(
     immediate: true
   }
 );
+
+// 阻止浏览器右键默然弹出框
+document.oncontextmenu = () => {
+  return false;
+};
 </script>
 
 <style lang="scss">

@@ -5,10 +5,20 @@ import { AMAP } from '@/plugin/Axios/config';
 import { amapIP } from '@/apis/amap';
 import { throttle } from '@/utils';
 
+/**
+ * 继承 MapBox 的 Map 类，并增加封装方法
+ */
+class IMap extends Map {
+  // 设置鼠标样式
+  public setCursor(type: CSSStyleDeclaration['cursor']) {
+    this.getCanvas().style.cursor = type;
+  }
+}
+
 /*  变量
 ------------------------------------------------ */
 const mapContainer = ref() as Ref<HTMLDivElement>; // 地图容器
-export const map = ref() as Ref<Map>; // 地图实例
+export const map = ref() as Ref<IMap>; // 地图实例
 export const initZoom = 9.0; // 初始缩放等级
 
 /**
@@ -62,7 +72,6 @@ const createNav = (map: Map) => {
  * @author GengBiao
  * @param map
  */
-
 class ZoomControl {
   _map: Map | undefined;
   _container: HTMLDivElement;
@@ -84,7 +93,6 @@ class ZoomControl {
     this._map = undefined;
   }
 }
-
 const createZoom = (map: Map) => {
   map.addControl(
     new ZoomControl(map, document.createElement('div')),
@@ -118,14 +126,14 @@ const mapOnWheel = (map: Map) => {
       }
       if (wheelDelta > 0) {
         // 缩小处理
-        zoom = startZoom - 1;
+        zoom = Math.floor(startZoom - 1);
         if (zoom <= 3) zoom = 3;
         startZoom = zoom;
         mapFly(latlng);
       } else if (wheelDelta < 0) {
         // 放大处理
         zoom = startZoom + 1;
-        if (zoom >= 18) zoom = 18;
+        if (zoom >= 18) zoom = 17.4;
         startZoom = zoom;
         mapFly(mouseCurrentLatlng);
       }
@@ -161,7 +169,7 @@ export function UseInitMap() {
       centerLngLat: { lng, lat }
     } = AmapV3IP;
     mapboxgl.accessToken = AMAP.AMAP_ACCESSTOKEN;
-    _map.value = new mapboxgl.Map({
+    _map.value = new IMap({
       container: _mapContainer.value, // container ID
       style: {
         version: 8,
