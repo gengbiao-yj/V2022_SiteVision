@@ -4,7 +4,8 @@ const baseUrl = {
   uatProxy: '/uatProxy', // 本地开发(代理跨域 ：锐力对接址见测试环境)
   prodProxy: '/prodProxy', // 本地开发(代理跨域 ：锐力对接址见正式环境)
   uat: 'http://222.71.8.115:58089/api', // 锐力对接址见测试环境
-  product: 'http://pt.rls.com.cn:28089/api', // 锐力对接址见正式环境
+  // product: 'http://pt.rls.com.cn:28089/api', // 锐力对接址见正式环境
+  product: 'http://139.196.150.164:80/api', // 锐力对接址见正式环境,由我的测试服务器转发
   dev: 'http://49.4.67.0:9112', // 49演示环境API
   postMessage: '*' // Postmessage 父页面通用地址
 };
