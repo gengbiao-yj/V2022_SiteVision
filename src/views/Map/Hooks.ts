@@ -1,9 +1,24 @@
 import { ref, Ref, onMounted } from 'vue';
-import mapboxgl, { Map, MapWheelEvent, MapMouseEvent, LngLat } from 'mapbox-gl';
+import mapboxgl, {
+  Map,
+  MapWheelEvent,
+  MapMouseEvent,
+  LngLat,
+  AnySourceData,
+  LinePaint,
+  CirclePaint,
+  GeoJSONSource
+} from 'mapbox-gl';
 import { basicStore } from '@/pinia';
 import { AMAP } from '@/plugin/Axios/config';
 import { amapIP } from '@/apis/amap';
 import { throttle } from '@/utils';
+import {
+  Feature,
+  FeatureCollection,
+  GeoJsonProperties,
+  Geometry
+} from 'geojson';
 
 /**
  * 继承 MapBox 的 Map 类，并增加封装方法
@@ -121,7 +136,7 @@ const mapOnWheel = (map: Map) => {
         map.flyTo({
           center,
           zoom,
-          speed: 0.6
+          speed: 0.8
         });
       }
       if (wheelDelta > 0) {
@@ -156,8 +171,10 @@ const mapOnMouseMove = (map: Map) => {
   });
 };
 
-/*  初始化地图
------------------------------------------------- */
+/**
+ * 初始化地图
+ * @constructor
+ */
 export function UseInitMap() {
   const _mapContainer = mapContainer; // 地图容器
   const _map = map; // 地图实例
@@ -216,4 +233,99 @@ export function UseInitMap() {
     mapContainer: _mapContainer,
     map: _map
   };
+}
+
+/**
+ * 图层封装公共方法
+ */
+class CreateLayer {
+  protected key: string;
+  public features = [] as Feature<Geometry, GeoJsonProperties>[];
+
+  constructor(key: string) {
+    this.key = key;
+  }
+  // 移除图层
+  public removeLayer() {
+    if (map.value.getLayer(`${this.key}source`)) {
+      map.value.removeSource(`${this.key}source`);
+    }
+    if (map.value.getLayer(`${this.key}layer`)) {
+      map.value.removeLayer(`${this.key}layer`);
+    }
+  }
+
+  // 改变图层数据
+  public changeFeatures() {
+    const json: FeatureCollection<Geometry, GeoJsonProperties> = {
+      type: 'FeatureCollection',
+      features: this.features
+    };
+    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
+    source.setData(json);
+  }
+}
+
+/**
+ * 线段图层
+ */
+export class CreateLineLayer extends CreateLayer {
+  constructor(key: string, paint: LinePaint) {
+    super(key);
+    this.addLayer(paint);
+  }
+
+  // 创建图层
+  public addLayer(paint: LinePaint) {
+    if (!map.value.getLayer(`${this.key}layer`)) {
+      if (!map.value.getSource(`${this.key}source`)) {
+        map.value.addSource(`${this.key}source`, {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: this.features
+          }
+        } as AnySourceData);
+
+        map.value.addLayer({
+          id: `${this.key}layer`,
+          type: 'line',
+          source: `${this.key}source`,
+          paint
+        });
+      }
+    }
+  }
+}
+
+/**
+ * 点圆图层
+ */
+export class CreateCycleLayer extends CreateLayer {
+  constructor(key: string, paint: CirclePaint) {
+    super(key);
+    this.addLayer(paint);
+  }
+
+  // 创建图层
+  public addLayer(paint: CirclePaint) {
+    if (!map.value.getLayer(`${this.key}layer`)) {
+      if (!map.value.getSource(`${this.key}source`)) {
+        map.value.addSource(`${this.key}source`, {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: this.features
+          }
+        } as AnySourceData);
+
+        map.value.addLayer({
+          id: `${this.key}layer`,
+          type: 'circle',
+          source: `${this.key}source`,
+          paint
+        });
+      }
+    }
+  }
 }

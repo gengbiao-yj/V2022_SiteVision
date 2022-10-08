@@ -44,5 +44,23 @@ export default {
   &:deep(.mapboxgl-ctrl-logo) {
     display: none !important;
   }
+
+  &:deep(.measure-line-result) {
+    background-color: white;
+    border-radius: 2px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 3px;
+    font-size: 12px;
+    box-shadow: 0 0 0 1px #ccc;
+    &.close {
+      cursor: pointer;
+      width: 14px;
+      height: 14px;
+      line-height: 16px;
+      text-align: center;
+      padding: 0;
+    }
+  }
 }
 </style>
