@@ -17,7 +17,8 @@ import {
   Feature,
   FeatureCollection,
   GeoJsonProperties,
-  Geometry
+  Point,
+  LineString
 } from 'geojson';
 
 /**
@@ -240,8 +241,6 @@ export function UseInitMap() {
  */
 class CreateLayer {
   protected key: string;
-  public features = [] as Feature<Geometry, GeoJsonProperties>[];
-
   constructor(key: string) {
     this.key = key;
   }
@@ -254,22 +253,13 @@ class CreateLayer {
       map.value.removeLayer(`${this.key}layer`);
     }
   }
-
-  // 改变图层数据
-  public changeFeatures() {
-    const json: FeatureCollection<Geometry, GeoJsonProperties> = {
-      type: 'FeatureCollection',
-      features: this.features
-    };
-    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
-    source.setData(json);
-  }
 }
 
 /**
  * 线段图层
  */
 export class CreateLineLayer extends CreateLayer {
+  public features = [] as Feature<LineString, GeoJsonProperties>[];
   constructor(key: string, paint: LinePaint) {
     super(key);
     this.addLayer(paint);
@@ -296,12 +286,23 @@ export class CreateLineLayer extends CreateLayer {
       }
     }
   }
+
+  // 改变图层数据
+  public changeFeatures() {
+    const json: FeatureCollection<LineString, GeoJsonProperties> = {
+      type: 'FeatureCollection',
+      features: this.features
+    };
+    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
+    source.setData(json);
+  }
 }
 
 /**
  * 点圆图层
  */
 export class CreateCycleLayer extends CreateLayer {
+  public features = [] as Feature<Point, GeoJsonProperties>[];
   constructor(key: string, paint: CirclePaint) {
     super(key);
     this.addLayer(paint);
@@ -327,5 +328,15 @@ export class CreateCycleLayer extends CreateLayer {
         });
       }
     }
+  }
+
+  // 改变图层数据
+  public changeFeatures() {
+    const json: FeatureCollection<Point, GeoJsonProperties> = {
+      type: 'FeatureCollection',
+      features: this.features
+    };
+    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
+    source.setData(json);
   }
 }

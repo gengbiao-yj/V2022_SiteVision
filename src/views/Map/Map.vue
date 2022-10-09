@@ -53,14 +53,16 @@ export default {
     padding: 0 3px;
     font-size: 12px;
     box-shadow: 0 0 0 1px #ccc;
-    &.close {
-      cursor: pointer;
-      width: 14px;
-      height: 14px;
-      line-height: 16px;
-      text-align: center;
-      padding: 0;
-    }
+  }
+  &:deep(.measure-line-close) {
+    @include box-size(16px, 18px);
+    @include flex(row, center, center);
+    background-color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    box-shadow: 0 0 0 1px #ccc;
+    color: red;
+    cursor: pointer;
   }
 }
 </style>
