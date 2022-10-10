@@ -121,7 +121,7 @@ const createZoom = (map: Map) => {
  * @author GengBiao
  * @param map
  */
-let startZoom = initZoom;
+export const startZoom = ref(initZoom);
 const mapOnWheel = (map: Map) => {
   map.on(
     'wheel',
@@ -132,32 +132,35 @@ const mapOnWheel = (map: Map) => {
        */
       const wheelDelta: number = event.originalEvent.deltaY;
       const latlng = map.getCenter();
-      let zoom = 9;
       function mapFly(center: LngLat) {
         map.flyTo({
           center,
-          zoom,
+          zoom: startZoom.value,
           speed: 0.8
         });
       }
       if (wheelDelta > 0) {
         // 缩小处理
-        zoom = Math.floor(startZoom - 1);
-        if (zoom <= 3) zoom = 3;
-        startZoom = zoom;
+        startZoom.value = Math.floor(startZoom.value - 1);
+        if (startZoom.value <= 3) startZoom.value = 3;
         mapFly(latlng);
       } else if (wheelDelta < 0) {
         // 放大处理
-        zoom = startZoom + 1;
-        if (zoom >= 18) zoom = 17.4;
-        startZoom = zoom;
+        startZoom.value = startZoom.value + 1;
+        if (startZoom.value >= 18) startZoom.value = 17.4;
         mapFly(mouseCurrentLatlng);
       }
 
       document.getElementsByClassName('mapboxgl-ctrl-zoom')[0].innerHTML =
-        '缩放级别:' + startZoom;
+        '缩放级别:' + startZoom.value;
     }, 50)
   );
+};
+
+export const resetStartZoom = () => {
+  startZoom.value = initZoom;
+  document.getElementsByClassName('mapboxgl-ctrl-zoom')[0].innerHTML =
+    '缩放级别:' + startZoom.value;
 };
 
 /**

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { map, initZoom } from '@/views/Map/Hooks';
+import { map, initZoom, resetStartZoom } from '@/views/Map/Hooks';
 import { basicStore } from '@/pinia';
 
 const locationOrigin = () => {
@@ -10,8 +10,10 @@ const locationOrigin = () => {
   map.value.flyTo({
     center: [lng, lat],
     zoom: initZoom,
-    speed: 0.8
+    speed: 1
   });
+
+  resetStartZoom();
 };
 </script>
 <script lang="ts">
