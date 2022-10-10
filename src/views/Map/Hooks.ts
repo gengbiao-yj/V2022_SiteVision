@@ -193,18 +193,33 @@ export function UseInitMap() {
         version: 8,
         name: 'Mapbox Streets',
         sources: {
-          'osm-tiles': {
+          VECTORNROAD: {
             type: 'raster',
             tiles: [AMAP.AMAP_VECTORNROAD],
+            tileSize: 256
+          },
+          SATELLITE: {
+            type: 'raster',
+            tiles: [AMAP.AMAP_SATELLITE],
             tileSize: 256
           }
         },
         layers: [
           {
-            id: 'main',
+            id: 'AMAP_VECTORNROAD',
             type: 'raster',
-            source: 'osm-tiles',
-            'source-layer': 'osmtiles'
+            source: 'VECTORNROAD',
+            layout: {
+              visibility: 'visible'
+            }
+          },
+          {
+            id: 'AMAP_SATELLITE',
+            type: 'raster',
+            source: 'SATELLITE',
+            layout: {
+              visibility: 'none'
+            }
           }
         ]
       },

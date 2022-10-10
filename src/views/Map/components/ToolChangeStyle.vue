@@ -18,24 +18,9 @@ const showStyleBox = () => {
 type AmapType = 'AMAP_VECTORNROAD' | 'AMAP_SATELLITE';
 const changeStyle = (type: AmapType) => {
   // 地图切换
-  map.value.setStyle({
-    version: 8,
-    name: 'Mapbox Streets',
-    sources: {
-      'osm-tiles': {
-        type: 'raster',
-        tiles: [AMAP[type]],
-        tileSize: 256
-      }
-    },
-    layers: [
-      {
-        id: 'main',
-        type: 'raster',
-        source: 'osm-tiles',
-        'source-layer': 'osmtiles'
-      }
-    ]
+  ['AMAP_VECTORNROAD', 'AMAP_SATELLITE'].forEach(e => {
+    const showState = e === type ? 'visible' : 'none';
+    map.value.setLayoutProperty(e, 'visibility', showState);
   });
   // 判断是否需要添加路网(针对卫星图)
   if (type === 'AMAP_SATELLITE') {
