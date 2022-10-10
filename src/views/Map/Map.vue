@@ -16,6 +16,20 @@ busOn('menuCollapse', (param: boolean) => {
     clearTimeout(ti);
   }, 300);
 });
+
+/*  侧边工具栏展示隐藏手风琴效果
+------------------------------------------------ */
+const loactionOrigin = ref();
+const changeStyle = ref();
+const measure = ref();
+const toolAccordion = (index: number) => {
+  const tools = [loactionOrigin, changeStyle, measure];
+  tools.forEach((e, i) => {
+    if (i !== index) {
+      e.value.visible = false;
+    }
+  });
+};
 </script>
 <script lang="ts">
 export default {
@@ -26,9 +40,9 @@ export default {
 <template>
   <div class="map-root">
     <div class="map" ref="mapContainer"></div>
-    <tool-loaction-origin />
-    <tool-change-style />
-    <tool-measure />
+    <tool-loaction-origin ref="loactionOrigin" @toolAccordion="toolAccordion" />
+    <tool-change-style ref="changeStyle" @toolAccordion="toolAccordion" />
+    <tool-measure ref="measure" @toolAccordion="toolAccordion" />
   </div>
 </template>
 

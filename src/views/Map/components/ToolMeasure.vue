@@ -2,11 +2,14 @@
 import { map, CreateLineLayer, CreateCycleLayer } from '@/views/Map/Hooks';
 import { MapMouseEvent, MarkerOptions, LngLatLike, Marker } from 'mapbox-gl';
 import { Position } from 'geojson';
-
 import * as turf from '@turf/turf';
 import { nanoid } from 'nanoid';
 
+const emits = defineEmits(['toolAccordion']);
 const visibleStyleBox = ref(false); // 切换弹窗状态
+defineExpose({
+  visible: visibleStyleBox
+});
 // 关闭弹窗
 const closeStyleBox = () => {
   map.value.setCursor('default');
@@ -15,6 +18,11 @@ const closeStyleBox = () => {
 // 展示弹窗
 const showStyleBox = () => {
   visibleStyleBox.value = !visibleStyleBox.value;
+  /**
+   * 侧边工具展示与隐藏为手风琴效果，通知父组件关闭其他工具框
+   *    测量工具【_,*】
+   */
+  emits('toolAccordion', 2);
 };
 
 const measure = ref<'1' | '2' | '3'>('3'); // 测量工具类别：1- 测距离 2- 测面积 3- 初始状态

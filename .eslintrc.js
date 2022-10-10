@@ -227,6 +227,7 @@ module.exports = {
   globals: {
     defineEmits: true,
     defineProps: true,
+    defineExpose: true,
     fengmap: true,
     eventBusName: true,
     _HTMLDivElement: true,
