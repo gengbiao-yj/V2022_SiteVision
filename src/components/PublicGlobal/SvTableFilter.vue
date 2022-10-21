@@ -61,7 +61,10 @@ export default {
   border-radius: 6px;
   padding: 8px 10px 0px;
   overflow: hidden;
-  position: relative;
+  //position: relative;
+  position: absolute;
+  top: 0px;
+  z-index: 5;
   .filter-title {
     padding-bottom: 6px;
     margin-bottom: 8px;

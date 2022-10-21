@@ -317,5 +317,6 @@ export default {
 .list-root {
   @include box-size(100%, 100%);
   @include flex(column, center, flex-start);
+  position: relative;
 }
 </style>

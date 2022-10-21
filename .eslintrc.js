@@ -7,14 +7,13 @@ module.exports = {
     node: true
   },
   extends: [
-    //继承 vue 的标准特性
     '@vue/prettier',
     '@vue/typescript/recommended',
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     'plugin:vue/vue3-essential',
     'plugin:prettier/recommended',
-    './.eslintrc-auto-import.json' // 解决 vue api 全局引入报错问题
+    './.eslintrc-auto-import.json'
   ],
   parserOptions: {
     ecmaVersion: 2020

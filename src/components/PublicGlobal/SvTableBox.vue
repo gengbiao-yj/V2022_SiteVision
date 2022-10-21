@@ -29,7 +29,8 @@ export default {
 .table-box {
   @include box-size(100%, 100%);
   flex: 1;
-  margin-top: 10px;
+  //margin-top: 10px;
+  margin-top: 120px;
   background: white;
   border-radius: 6px;
   overflow: hidden;
