@@ -73,10 +73,22 @@ export default {
     @include flex(row, center, center);
     background-color: white;
     border-radius: 4px;
-    font-size: 16px;
     box-shadow: 0 0 0 1px #ccc;
-    color: red;
     cursor: pointer;
+    font-size: 16px;
+    color: red;
+  }
+  &:deep(.measure-area-close) {
+    @include box-size(auto, 18px);
+    @include flex(row, center, center);
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px #ccc;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 2px;
+    color: red;
   }
 }
 </style>

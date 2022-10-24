@@ -7,7 +7,8 @@ import mapboxgl, {
   AnySourceData,
   LinePaint,
   CirclePaint,
-  GeoJSONSource
+  GeoJSONSource,
+  FillPaint
 } from 'mapbox-gl';
 import { basicStore } from '@/pinia';
 import { AMAP } from '@/plugin/Axios/config';
@@ -17,8 +18,8 @@ import {
   Feature,
   FeatureCollection,
   GeoJsonProperties,
-  Point,
-  LineString
+  Geometry,
+  Position
 } from 'geojson';
 
 /**
@@ -259,17 +260,49 @@ export function UseInitMap() {
  */
 class CreateLayer {
   protected key: string;
+  public features = [] as Feature<Geometry, GeoJsonProperties>[];
   constructor(key: string) {
     this.key = key;
   }
   // 移除图层
   public removeLayer() {
-    if (map.value.getLayer(`${this.key}source`)) {
-      map.value.removeSource(`${this.key}source`);
-    }
     if (map.value.getLayer(`${this.key}layer`)) {
       map.value.removeLayer(`${this.key}layer`);
     }
+    if (map.value.getSource(`${this.key}source`)) {
+      map.value.removeSource(`${this.key}source`);
+    }
+  }
+
+  // 改变图层数据
+  public changeFeatures() {
+    const json: FeatureCollection<Geometry, GeoJsonProperties> = {
+      type: 'FeatureCollection',
+      features: this.features
+    };
+    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
+    source.setData(json);
+  }
+
+  // 改变单个feature数据
+  public changeIndexFeature(
+    index: number,
+    coordinates: Position | Position[] | Position[][] | Position[][][]
+  ) {
+    const MAFill = this.features[index].geometry as Geometry;
+    if ('coordinates' in MAFill) {
+      MAFill.coordinates = coordinates;
+    }
+    this.changeFeatures();
+  }
+
+  // 清除单个feature数据
+  public clearIndexFeature(index: number) {
+    const MAFill = this.features[index].geometry as Geometry;
+    if ('coordinates' in MAFill) {
+      MAFill.coordinates.length = 0;
+    }
+    this.changeFeatures();
   }
 }
 
@@ -277,7 +310,6 @@ class CreateLayer {
  * 线段图层
  */
 export class CreateLineLayer extends CreateLayer {
-  public features = [] as Feature<LineString, GeoJsonProperties>[];
   constructor(key: string, paint: LinePaint) {
     super(key);
     this.addLayer(paint);
@@ -304,23 +336,12 @@ export class CreateLineLayer extends CreateLayer {
       }
     }
   }
-
-  // 改变图层数据
-  public changeFeatures() {
-    const json: FeatureCollection<LineString, GeoJsonProperties> = {
-      type: 'FeatureCollection',
-      features: this.features
-    };
-    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
-    source.setData(json);
-  }
 }
 
 /**
  * 点圆图层
  */
 export class CreateCycleLayer extends CreateLayer {
-  public features = [] as Feature<Point, GeoJsonProperties>[];
   constructor(key: string, paint: CirclePaint) {
     super(key);
     this.addLayer(paint);
@@ -347,14 +368,36 @@ export class CreateCycleLayer extends CreateLayer {
       }
     }
   }
+}
 
-  // 改变图层数据
-  public changeFeatures() {
-    const json: FeatureCollection<Point, GeoJsonProperties> = {
-      type: 'FeatureCollection',
-      features: this.features
-    };
-    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
-    source.setData(json);
+/**
+ * 填充图层
+ */
+export class CreateFillLayer extends CreateLayer {
+  constructor(key: string, paint: FillPaint) {
+    super(key);
+    this.addLayer(paint);
+  }
+
+  // 创建图层
+  public addLayer(paint: FillPaint) {
+    if (!map.value.getLayer(`${this.key}layer`)) {
+      if (!map.value.getSource(`${this.key}source`)) {
+        map.value.addSource(`${this.key}source`, {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: this.features
+          }
+        } as AnySourceData);
+
+        map.value.addLayer({
+          id: `${this.key}layer`,
+          type: 'fill',
+          source: `${this.key}source`,
+          paint
+        });
+      }
+    }
   }
 }

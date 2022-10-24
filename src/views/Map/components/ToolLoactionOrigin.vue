@@ -1,3 +1,4 @@
+<!-- 组件：回到当前所在城市定位 -->
 <script setup lang="ts">
 import { map, initZoom, resetStartZoom } from '@/views/Map/Hooks';
 import { basicStore } from '@/pinia';

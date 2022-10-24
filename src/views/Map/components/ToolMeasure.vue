@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { map, CreateLineLayer, CreateCycleLayer } from '@/views/Map/Hooks';
+import {
+  map,
+  CreateLineLayer,
+  CreateCycleLayer,
+  CreateFillLayer
+} from '@/views/Map/Hooks';
 import { MapMouseEvent, MarkerOptions, LngLatLike, Marker } from 'mapbox-gl';
 import { Position } from 'geojson';
 import * as turf from '@turf/turf';
@@ -46,6 +51,9 @@ const MLLineLayers = [] as Array<CreateLineLayer | null>; // 历史测量线的�
 const MLTooltips = [] as Array<Array<Marker>>; // 历史测量线的tip集合 【【】】
 let MLCurrentPoints = [] as Array<LngLatLike>; // 当前测量线段的点位集合【】
 let MLCurrentTooltips = [] as Array<Marker>; // 当前测量线段的tip集合【】
+let MLPoint: CreateCycleLayer;
+let MLFixLine: CreateLineLayer;
+let MLMoveLine: CreateLineLayer;
 let MLTooltip: Marker; // 拖拽线指示标签
 const MLTooltipEl = document.createElement('div');
 MLTooltipEl.setAttribute('class', 'measure-line-result');
@@ -74,7 +82,7 @@ const measureLine = () => {
     // 取消事件关联
     map.value.off('click', measureLineLeftClick);
     map.value.off('mousemove', measureMoveLine);
-    // 回复鼠标样式
+    // 恢复鼠标样式
     map.value.setCursor('default');
     // 移除拖拽线相关
     MLTooltip.remove();
@@ -91,13 +99,9 @@ const measureLine = () => {
 /**
  * 初始化数据、图层
  */
-let MLPoint: CreateCycleLayer;
-let MLFixLine: CreateLineLayer;
-let MLMoveLine: CreateLineLayer;
 const initMeasureLine = () => {
   // 图层
   const id = nanoid();
-  console.log(id);
   MLPoint = new CreateCycleLayer(`MLPoint${id}`, {
     'circle-color': '#ffffff',
     'circle-radius': 4.5,
@@ -180,6 +184,7 @@ const addPoint = (coords: Position) => {
   });
   MLPoint.changeFeatures();
 
+  // 增加固定线段图层数据
   if (MLCurrentPoints.length > 0) {
     const prev = MLCurrentPoints[MLCurrentPoints.length - 1] as Position;
     MLFixLine.features.push({
@@ -213,7 +218,7 @@ const measureMoveLine = (e: MapMouseEvent) => {
     MLMoveLine.changeFeatures();
     MLTooltipEl.innerHTML = getLength(point);
   } else {
-    MLTooltipEl.innerText = '点击开始测量';
+    MLTooltipEl.innerText = '点击左键开始测量，右键结束测量';
   }
   MLTooltip.setLngLat(point);
 };
@@ -236,9 +241,7 @@ const addDeleteTip = () => {
 
   // 绑定删除事件
   const index = MLTooltips.length - 1;
-
-  el.addEventListener('click', (event: Event) => {
-    console.log(index);
+  const delFunc = (event: Event) => {
     event.stopPropagation();
     const tooltips = MLTooltips[index];
     tooltips.forEach(e => {
@@ -253,18 +256,170 @@ const addDeleteTip = () => {
     const lineLayer = MLLineLayers[index] as CreateLineLayer;
     lineLayer.removeLayer();
     MLLineLayers.splice(index, 1, null);
+    el?.removeEventListener('click', delFunc);
     el = null;
-  });
+  };
+  el.addEventListener('click', delFunc);
   MLCurrentTooltips.push(marker);
 };
 
 /*  测量面积
 ------------------------------------------------ */
-/**
- * 功能入口
- */
+let MApoints = [] as Position[]; // 本次测量采集点集合
+let ppPosition = [] as Position[][];
+let MAPointLayer: CreateCycleLayer; // 面积测量点位图层
+let MALineLayer: CreateLineLayer; // 面积测量线段图层
+let MAFillLayer: CreateFillLayer; // 面积测量填充图层
+
+// 左键采集本次测量所需点位
+const measureAreaLeftClick = (e: MapMouseEvent) => {
+  measure.value = '3'; // 消除选中状态
+  MApoints.push([e.lngLat.lng, e.lngLat.lat]);
+  ppPosition = [[...MApoints, MApoints[0]]];
+  if (MApoints.length === 1) {
+    MAPointLayer.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'MultiPoint',
+        coordinates: MApoints
+      },
+      properties: {}
+    });
+    MALineLayer.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: ppPosition
+      },
+      properties: {}
+    });
+    MAFillLayer.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: ppPosition
+      },
+      properties: {}
+    });
+    MAPointLayer.changeFeatures();
+    MALineLayer.changeFeatures();
+    MAFillLayer.changeFeatures();
+  } else {
+    const index = MAPointLayer.features.length - 1;
+    MAPointLayer.changeIndexFeature(index, MApoints);
+    MALineLayer.changeIndexFeature(index, ppPosition);
+    MAFillLayer.changeIndexFeature(index, ppPosition);
+  }
+};
+
+// 右键结束测量
+const measureAreaRightClick = () => {
+  // 消除动态更新的点
+  const index = MAFillLayer.features.length - 1;
+  MAFillLayer.changeIndexFeature(index, ppPosition);
+  MLTooltip.remove();
+  getMARes();
+
+  MApoints = [] as Position[]; // 本次测量采集点集合
+  ppPosition = [] as Position[][]; // 本次测量采集点集合
+  map.value.off('click', measureAreaLeftClick);
+  map.value.off('mousemove', measureMoveArea);
+  map.value.setCursor('default');
+};
+
+// 测量面积
+const getArea = (coords?: LngLatLike) => {
+  let pts = coords ? MApoints.concat([coords] as Position[]) : [...MApoints];
+  pts = pts.concat([MApoints[0]]);
+  const polygon = turf.polygon([pts]);
+  const area: number = turf.area(polygon);
+  if (Math.floor(area) < 1000) {
+    return Math.round(area) + 'm²';
+  } else {
+    return (area / 1000000).toFixed(2) + 'km²';
+  }
+};
+
+// 鼠标拖动动态变更测量面积
+const measureMoveArea = (e: MapMouseEvent) => {
+  const point: LngLatLike = [e.lngLat.lng, e.lngLat.lat];
+  if (MApoints.length < 1) {
+    MLTooltipEl.innerText = '点击左键开始测量，右键结束测量';
+  } else if (MApoints.length < 3) {
+    MLTooltipEl.innerText = '请继续点击选取坐标点';
+  } else {
+    const fillMovePoints = [[...MApoints, point, MApoints[0]]];
+    const index = MAFillLayer.features.length - 1;
+    MAFillLayer.changeIndexFeature(index, fillMovePoints);
+    MLTooltipEl.innerText = getArea(point);
+  }
+  MLTooltip.setLngLat(point);
+};
+
+// 结束测量，增加面积结果以及删除tip
+const MAResTips: Array<Marker | null> = [];
+const getMARes = () => {
+  // 增加 tip
+  let endPoint = MApoints[MApoints.length - 1] as LngLatLike;
+  let el: HTMLDivElement | null = document.createElement('div');
+  el.setAttribute('class', 'measure-area-close');
+  el.innerText = getArea() + ' ×';
+  const option: MarkerOptions = {
+    element: el,
+    anchor: 'top',
+    offset: [0, 10]
+  };
+  const marker = new Marker(option).setLngLat(endPoint).addTo(map.value);
+  MAResTips.push(marker);
+
+  // 删除事件
+  const index = MAResTips.length - 1;
+  const delFnc = (event: Event) => {
+    event.stopPropagation();
+    // 删除结果 tip
+    const delMarker = MAResTips[index];
+    delMarker?.remove();
+    MAResTips.splice(index, 1, null);
+    // 删除对应图层数据
+    MAPointLayer.clearIndexFeature(index);
+    MALineLayer.clearIndexFeature(index);
+    MAFillLayer.clearIndexFeature(index);
+    el?.removeEventListener('click', delFnc);
+    el = null;
+  };
+  el.addEventListener('click', delFnc);
+};
+
+// 执行入口
 const measureArea = () => {
-  console.log('测量面积');
+  // 新建图层
+  if (!MAPointLayer && !MALineLayer && !MAFillLayer) {
+    MAPointLayer = new CreateCycleLayer('maPointLayer', {
+      'circle-color': '#ffffff',
+      'circle-radius': 4.5,
+      'circle-stroke-width': 2,
+      'circle-stroke-color': '#ff0000'
+    });
+    MALineLayer = new CreateLineLayer('maLineLayer', {
+      'line-color': '#ff0000',
+      'line-width': 2,
+      'line-opacity': 0.65
+    });
+    MAFillLayer = new CreateFillLayer('maFillLayer', {
+      'fill-color': '#ff0000',
+      'fill-opacity': 0.15
+    });
+  }
+  MLTooltip = new Marker({
+    element: MLTooltipEl,
+    anchor: 'left',
+    offset: [8, 0]
+  })
+    .setLngLat([0, 0])
+    .addTo(map.value);
+  map.value.on('mousemove', measureMoveArea);
+  map.value.on('click', measureAreaLeftClick);
+  map.value.once('contextmenu', measureAreaRightClick);
 };
 </script>
 <script lang="ts">
