@@ -86,8 +86,14 @@ const measureLine = () => {
     MLTooltip.remove();
     // 增加删除tips
     addDeleteTip();
+    if (MLPreCurrentPoints.length > MLCurrentPoints.length) {
+      const index = MLFixLine.features.length - 1;
+      const newFixLinePoints = computeFixedLinePoints(MLCurrentPoints);
+      MLFixLine.changeIndexFeature(index, newFixLinePoints);
+    }
     // 清空缓存数据
     MLCurrentPoints = [];
+    MLPreCurrentPoints = [];
     MLCurrentTooltips = [];
   });
 };
@@ -157,7 +163,7 @@ const getLength = (coords: LngLatLike) => {
 };
 
 /**
- * 计算线段图层数据【【【p1】【p2】】,【【p2】【p3】】】
+ * 计算线段图层数据【【【p1】【p2】】,【【p2】【p3】】...】
  */
 const computeFixedLinePoints = (points: Position[]) => {
   const newFixLinePoints = [] as Position[][];

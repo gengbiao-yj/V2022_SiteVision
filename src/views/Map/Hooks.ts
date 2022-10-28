@@ -306,6 +306,17 @@ class CreateLayer {
     }
     this.changeFeatures();
   }
+
+  // 创建source源
+  protected createFeatureCollectionSource() {
+    map.value.addSource(`${this.key}`, {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: this.features
+      }
+    } as AnySourceData);
+  }
 }
 
 /**
@@ -321,14 +332,7 @@ export class CreateLineLayer extends CreateLayer {
   public addLayer(paint: LinePaint) {
     if (!map.value.getLayer(`${this.key}`)) {
       if (!map.value.getSource(`${this.key}`)) {
-        map.value.addSource(`${this.key}`, {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: this.features
-          }
-        } as AnySourceData);
-
+        this.createFeatureCollectionSource();
         map.value.addLayer({
           id: `${this.key}`,
           type: 'line',
@@ -353,14 +357,7 @@ export class CreateCycleLayer extends CreateLayer {
   public addLayer(paint: CirclePaint) {
     if (!map.value.getLayer(`${this.key}`)) {
       if (!map.value.getSource(`${this.key}`)) {
-        map.value.addSource(`${this.key}`, {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: this.features
-          }
-        } as AnySourceData);
-
+        this.createFeatureCollectionSource();
         map.value.addLayer({
           id: `${this.key}`,
           type: 'circle',
@@ -385,14 +382,7 @@ export class CreateFillLayer extends CreateLayer {
   public addLayer(paint: FillPaint) {
     if (!map.value.getLayer(`${this.key}`)) {
       if (!map.value.getSource(`${this.key}`)) {
-        map.value.addSource(`${this.key}`, {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: this.features
-          }
-        } as AnySourceData);
-
+        this.createFeatureCollectionSource();
         map.value.addLayer({
           id: `${this.key}`,
           type: 'fill',
