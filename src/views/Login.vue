@@ -253,8 +253,9 @@ export default {
       background: {
         image: url('../../public/resource/imgs/loginCard.png');
         repeat: no-repeat;
-        size: 100% auto;
-        position: 50%;
+        size: 90% auto;
+        position: 50% 60%;
+        color: #579bff;
       }
 
       .slogan-title {
