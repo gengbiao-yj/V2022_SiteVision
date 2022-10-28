@@ -255,6 +255,8 @@ export function UseInitMap() {
   };
 }
 
+/*  封装图层
+------------------------------------------------ */
 /**
  * 图层封装公共方法
  */
@@ -266,11 +268,11 @@ class CreateLayer {
   }
   // 移除图层
   public removeLayer() {
-    if (map.value.getLayer(`${this.key}layer`)) {
-      map.value.removeLayer(`${this.key}layer`);
+    if (map.value.getLayer(`${this.key}`)) {
+      map.value.removeLayer(`${this.key}`);
     }
-    if (map.value.getSource(`${this.key}source`)) {
-      map.value.removeSource(`${this.key}source`);
+    if (map.value.getSource(`${this.key}`)) {
+      map.value.removeSource(`${this.key}`);
     }
   }
 
@@ -280,7 +282,7 @@ class CreateLayer {
       type: 'FeatureCollection',
       features: this.features
     };
-    const source = map.value.getSource(`${this.key}source`) as GeoJSONSource;
+    const source = map.value.getSource(`${this.key}`) as GeoJSONSource;
     source.setData(json);
   }
 
@@ -317,9 +319,9 @@ export class CreateLineLayer extends CreateLayer {
 
   // 创建图层
   public addLayer(paint: LinePaint) {
-    if (!map.value.getLayer(`${this.key}layer`)) {
-      if (!map.value.getSource(`${this.key}source`)) {
-        map.value.addSource(`${this.key}source`, {
+    if (!map.value.getLayer(`${this.key}`)) {
+      if (!map.value.getSource(`${this.key}`)) {
+        map.value.addSource(`${this.key}`, {
           type: 'geojson',
           data: {
             type: 'FeatureCollection',
@@ -328,9 +330,9 @@ export class CreateLineLayer extends CreateLayer {
         } as AnySourceData);
 
         map.value.addLayer({
-          id: `${this.key}layer`,
+          id: `${this.key}`,
           type: 'line',
-          source: `${this.key}source`,
+          source: `${this.key}`,
           paint
         });
       }
@@ -349,9 +351,9 @@ export class CreateCycleLayer extends CreateLayer {
 
   // 创建图层
   public addLayer(paint: CirclePaint) {
-    if (!map.value.getLayer(`${this.key}layer`)) {
-      if (!map.value.getSource(`${this.key}source`)) {
-        map.value.addSource(`${this.key}source`, {
+    if (!map.value.getLayer(`${this.key}`)) {
+      if (!map.value.getSource(`${this.key}`)) {
+        map.value.addSource(`${this.key}`, {
           type: 'geojson',
           data: {
             type: 'FeatureCollection',
@@ -360,9 +362,9 @@ export class CreateCycleLayer extends CreateLayer {
         } as AnySourceData);
 
         map.value.addLayer({
-          id: `${this.key}layer`,
+          id: `${this.key}`,
           type: 'circle',
-          source: `${this.key}source`,
+          source: `${this.key}`,
           paint
         });
       }
@@ -381,9 +383,9 @@ export class CreateFillLayer extends CreateLayer {
 
   // 创建图层
   public addLayer(paint: FillPaint) {
-    if (!map.value.getLayer(`${this.key}layer`)) {
-      if (!map.value.getSource(`${this.key}source`)) {
-        map.value.addSource(`${this.key}source`, {
+    if (!map.value.getLayer(`${this.key}`)) {
+      if (!map.value.getSource(`${this.key}`)) {
+        map.value.addSource(`${this.key}`, {
           type: 'geojson',
           data: {
             type: 'FeatureCollection',
@@ -392,9 +394,9 @@ export class CreateFillLayer extends CreateLayer {
         } as AnySourceData);
 
         map.value.addLayer({
-          id: `${this.key}layer`,
+          id: `${this.key}`,
           type: 'fill',
-          source: `${this.key}source`,
+          source: `${this.key}`,
           paint
         });
       }
