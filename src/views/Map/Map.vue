@@ -5,6 +5,7 @@ import { busOn } from '@/utils/hooks';
 import toolLoactionOrigin from '@/views/Map/components/ToolLoactionOrigin.vue';
 import toolChangeStyle from '@/views/Map/components/ToolChangeStyle.vue';
 import toolMeasure from '@/views/Map/components/ToolMeasure.vue';
+import toolMapImg from '@/views/Map/components/ToolMapImg.vue';
 
 const { map, mapContainer } = UseInitMap();
 /*  菜单折叠展开，变更地图尺寸
@@ -22,8 +23,9 @@ busOn('menuCollapse', (param: boolean) => {
 const loactionOrigin = ref();
 const changeStyle = ref();
 const measure = ref();
+const mapImg = ref();
 const toolAccordion = (index: number) => {
-  const tools = [loactionOrigin, changeStyle, measure];
+  const tools = [loactionOrigin, changeStyle, measure, mapImg];
   tools.forEach((e, i) => {
     if (i !== index) {
       e.value.visible = false;
@@ -43,6 +45,11 @@ export default {
     <tool-loaction-origin ref="loactionOrigin" @toolAccordion="toolAccordion" />
     <tool-change-style ref="changeStyle" @toolAccordion="toolAccordion" />
     <tool-measure ref="measure" @toolAccordion="toolAccordion" />
+    <tool-map-img
+      :map="mapContainer"
+      ref="mapImg"
+      @toolAccordion="toolAccordion"
+    />
   </div>
 </template>
 

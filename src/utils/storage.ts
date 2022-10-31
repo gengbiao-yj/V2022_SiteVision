@@ -70,7 +70,11 @@ export class StorageUtils {
   // 获取数据
   public getSession(key: StorageKeyType) {
     const value = sessionStorage.getItem(this.jointStorageKey(key));
-    return cryptoData.Decrypt<SessionStorageValue>(value, true);
+    if (value) {
+      return cryptoData.Decrypt<SessionStorageValue>(value, true);
+    } else {
+      return { value: null };
+    }
   }
 
   public getLocal(key: StorageKeyType): GetLocalStorage {
@@ -107,52 +111,5 @@ export class StorageUtils {
 
   public removeSession(key: StorageKeyType) {
     sessionStorage.removeItem(key);
-  }
-}
-
-/* 颜色转换
------------------------------------------------- */
-export function colorTransition(color: string, type: 'rgb' | '#x6' | '#x3') {
-  function toRGB(): rgbType {
-    color = color.trim();
-    if (color.indexOf('#') !== -1 && color.length === 7) {
-      return {
-        r: parseInt(color.slice(1, 3), 16),
-        g: parseInt(color.slice(3, 5), 16),
-        b: parseInt(color.slice(5), 16)
-      };
-    } else if (color.indexOf('#') !== -1 && color.length === 4) {
-      return {
-        r: parseInt(color.charAt(1) + color.charAt(1), 16),
-        g: parseInt(color.charAt(2) + color.charAt(2), 16),
-        b: parseInt(color.charAt(3) + color.charAt(3), 16)
-      };
-    } else {
-      return { r: 0, g: 0, b: 0 };
-    }
-  }
-  if (type === 'rgb') return toRGB();
-}
-
-/*  判断数据类型
------------------------------------------------- */
-export class JudgeDataType {
-  private types = [
-    'Null',
-    'Undefined',
-    'Object',
-    'Array',
-    'String',
-    'Number',
-    'Boolean',
-    'Function',
-    'RegExp'
-  ] as const;
-  private getType(o: any) {
-    const str = Object.prototype.toString.call(o);
-    return str.match(/\[object (.*?)\]/)![1].toLocaleLowerCase();
-  }
-  public judgeType(o: any, type: typeof this.types[number]) {
-    return type.toLowerCase() === this.getType(o);
   }
 }

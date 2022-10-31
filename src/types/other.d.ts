@@ -19,7 +19,8 @@ const storageKey = [
   'currentPosition', // 当前位置信息
   'systemSetting', // 系统设置参数
   'routerTabs', // 导航标签页
-  'baseUrl' // BASE_URL
+  'baseUrl', // BASE_URL
+  'screenshotLst' // 截图暂存列表
 ] as const;
 type StorageKeyType = typeof storageKey[number];
 
@@ -39,6 +40,13 @@ interface GetLocalStorage<T = any> {
   value: T;
   msg: string;
   status: 0 | 1;
+}
+
+// 地图截图存储格式
+interface SavingScreenshot {
+  url: string;
+  id: string;
+  name: string;
 }
 
 /*  util 方法中使用的类型

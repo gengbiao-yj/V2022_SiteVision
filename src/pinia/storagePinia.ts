@@ -123,6 +123,20 @@ export default defineStore('basicPinia', () => {
     return loactionData.value;
   }
 
+  /*  地图截图暂存照片数据存储
+  ------------------------------------------------ */
+  const screenshot = ref<SavingScreenshot[]>([]);
+  function setScreenshotLst(data: SavingScreenshot[]) {
+    screenshot.value = data;
+    storage.setSession('screenshotLst', data);
+  }
+
+  function getScreenshotLst() {
+    const historyLst = storage.getSession('screenshotLst');
+    if (historyLst.value) screenshot.value = historyLst.value;
+    return screenshot;
+  }
+
   return {
     getUserInfo,
     setUserInfo,
@@ -138,6 +152,8 @@ export default defineStore('basicPinia', () => {
     setBaseUrl,
     getBaseUrl,
     setLoactionData,
-    getLoactionData
+    getLoactionData,
+    setScreenshotLst,
+    getScreenshotLst
   };
 });

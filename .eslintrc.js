@@ -255,6 +255,7 @@ module.exports = {
     TabsItem: true,
     MapStyle: true,
     CityInfo: true,
-    CusCityList: true
+    CusCityList: true,
+    SavingScreenshot: true,
   }
 };

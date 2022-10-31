@@ -97,6 +97,14 @@
   @include _svg-size(80px);
 }
 
+.svg-90 {
+  @include _svg-size(90px);
+}
+
+.svg-100 {
+  @include _svg-size(100px);
+}
+
 .svg-fill {
   @include _svg-size(100%);
 }
