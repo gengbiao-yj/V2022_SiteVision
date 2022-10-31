@@ -43,7 +43,6 @@ const screenshot = () => {
     allowTaint: true // 允许跨域图片
   }).then(canvas => {
     screenshotData.value = canvas.toDataURL('image/jpeg', 1);
-    console.log(screenshotData.value);
     screenshotName.value = 'IMG/' + getNewDate();
   });
 };
@@ -124,7 +123,7 @@ export default {
   <el-tooltip effect="dark" content="截图" placement="right-start">
     <div class="tool-item-btn cur-pointer" @click.stop="openContentBox">
       <svg class="icon svg-20" aria-hidden="true">
-        <use href="#down-picture"></use>
+        <use href="#screenshot"></use>
       </svg>
     </div>
   </el-tooltip>
