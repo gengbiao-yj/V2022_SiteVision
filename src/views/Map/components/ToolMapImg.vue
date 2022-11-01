@@ -17,19 +17,6 @@ const props = defineProps({
   }
 });
 
-// 定义事件
-const emits = defineEmits(['toolAccordion']);
-// 抛出组件数据
-const visibleStyleBox = ref(false); // 切换弹窗状态
-defineExpose({
-  visible: visibleStyleBox
-});
-
-// 打开内容框
-const openContentBox = () => {
-  emits('toolAccordion', 3);
-  visibleStyleBox.value = true;
-};
 const activeName = ref<'picture' | 'list'>('picture');
 
 // 开始截图，默认截取可视区域地图
@@ -101,17 +88,6 @@ const deleteHistoryImg = (id: string) => {
       console.log(err);
     });
 };
-
-// 关闭弹窗处理
-const closeStyleBox = () => {
-  visibleStyleBox.value = false;
-};
-onMounted(() => {
-  document.body.addEventListener('click', closeStyleBox);
-});
-onBeforeUnmount(() => {
-  document.body.removeEventListener('click', closeStyleBox);
-});
 </script>
 <script lang="ts">
 export default {
@@ -120,145 +96,124 @@ export default {
 </script>
 
 <template>
-  <el-tooltip effect="dark" content="截图" placement="right-start">
-    <div class="tool-item-btn cur-pointer" @click.stop="openContentBox">
-      <svg class="icon svg-20" aria-hidden="true">
-        <use href="#screenshot"></use>
-      </svg>
-    </div>
-  </el-tooltip>
-  <transition name="fromLeft">
-    <div v-show="visibleStyleBox" class="map-style-box">
-      <header>
-        <h4>截图工具</h4>
-        <Close class="svg-18 cur-pointer" @click.stop="closeStyleBox" />
-      </header>
-      <main @click.stop>
-        <el-tabs v-model="activeName">
-          <el-tab-pane label="截图" name="picture">
-            <div v-show="screenshotData">
-              <el-input
-                v-show="editImgName"
-                v-model="screenshotName"
-                size="small"
-                class="mg-b-10"
-              >
-                <template #append>
-                  <div class="cur-pointer" @click.stop="editImgName = false">
-                    保存
-                  </div>
-                </template>
-              </el-input>
-              <div v-show="!editImgName" class="screenshot-name">
-                <span>{{ screenshotName }}</span>
-                <svg
-                  class="icon svg-16 cur-pointer"
-                  aria-hidden="true"
-                  color="#768fcd"
-                  @click.stop="editImgName = true"
-                >
-                  <use href="#pencil"></use>
-                </svg>
-              </div>
+  <el-tabs v-model="activeName">
+    <el-tab-pane label="截图" name="picture">
+      <div v-show="screenshotData">
+        <el-input
+          v-show="editImgName"
+          v-model="screenshotName"
+          size="small"
+          class="mg-b-10"
+        >
+          <template #append>
+            <div class="cur-pointer" @click.stop="editImgName = false">
+              保存
             </div>
-            <div class="screenshot-box" @click.stop="screenshot">
-              <svg
-                v-show="!screenshotData"
-                class="icon svg-100"
-                aria-hidden="true"
-              >
-                <use href="#screenshot"></use>
-              </svg>
-              <span v-show="!screenshotData" class="mg-b-10">点击截图</span>
+          </template>
+        </el-input>
+        <div v-show="!editImgName" class="screenshot-name">
+          <span>{{ screenshotName }}</span>
+          <svg
+            class="icon svg-16 cur-pointer"
+            aria-hidden="true"
+            color="#768fcd"
+            @click.stop="editImgName = true"
+          >
+            <use href="#pencil"></use>
+          </svg>
+        </div>
+      </div>
+      <div class="screenshot-box" @click.stop="screenshot">
+        <svg v-show="!screenshotData" class="icon svg-100" aria-hidden="true">
+          <use href="#screenshot"></use>
+        </svg>
+        <span v-show="!screenshotData" class="mg-b-10">点击截图</span>
 
-              <img v-show="screenshotData" :src="screenshotData" />
-              <div v-show="screenshotData" class="clear-shoot-image">
-                <svg
-                  class="icon svg-20"
-                  aria-hidden="true"
-                  color="red"
-                  @click.stop="screenshotData = ''"
-                >
-                  <use href="#delete"></use>
-                </svg>
-              </div>
-              <el-button-group
-                v-show="screenshotData"
-                class="shoot-image-option"
-                size="small"
-              >
-                <el-button
-                  plain
-                  type="primary"
-                  icon="ZoomIn"
-                  @click.stop="checkShootImg(screenshotData)"
-                  >查看</el-button
-                >
-                <el-button
-                  plain
-                  type="primary"
-                  icon="FolderAdd"
-                  @click.stop="saveScreenshot"
-                  >暂存</el-button
-                >
-                <el-button
-                  plain
-                  type="primary"
-                  icon="Download"
-                  @click.stop="downLoadShootImg(screenshotData, screenshotName)"
-                  >下载</el-button
-                >
-              </el-button-group>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane name="list">
-            <template #label>
-              <div class="tab-pane-save">
-                <span>暂存</span>
-                <div>{{ screenshotLst.length }}</div>
-              </div>
-            </template>
-            <div
-              v-for="img in screenshotLst"
-              :key="img.id"
-              class="history-screenshot-box"
-            >
-              <span>{{ img.name }}</span>
-              <span>
-                <!-- 查看 -->
-                <svg
-                  class="icon svg-16 cur-pointer"
-                  aria-hidden="true"
-                  color="#768fcd"
-                  @click.stop="checkShootImg(img.url)"
-                >
-                  <use href="#search"></use>
-                </svg>
-                <!-- 下载 -->
-                <svg
-                  class="icon svg-16 cur-pointer mg-l-5"
-                  aria-hidden="true"
-                  color="#768fcd"
-                  @click.stop="downLoadShootImg(img.url, img.name)"
-                >
-                  <use href="#down-picture"></use>
-                </svg>
-                <!-- 删除 -->
-                <svg
-                  class="icon svg-16 cur-pointer mg-l-5"
-                  aria-hidden="true"
-                  color="red"
-                  @click.stop="deleteHistoryImg(img.id)"
-                >
-                  <use href="#delete"></use>
-                </svg>
-              </span>
-            </div>
-          </el-tab-pane>
-        </el-tabs>
-      </main>
-    </div>
-  </transition>
+        <img v-show="screenshotData" :src="screenshotData" />
+        <div v-show="screenshotData" class="clear-shoot-image">
+          <svg
+            class="icon svg-20"
+            aria-hidden="true"
+            color="red"
+            @click.stop="screenshotData = ''"
+          >
+            <use href="#delete"></use>
+          </svg>
+        </div>
+        <el-button-group
+          v-show="screenshotData"
+          class="shoot-image-option"
+          size="small"
+        >
+          <el-button
+            plain
+            type="primary"
+            icon="ZoomIn"
+            @click.stop="checkShootImg(screenshotData)"
+            >查看</el-button
+          >
+          <el-button
+            plain
+            type="primary"
+            icon="FolderAdd"
+            @click.stop="saveScreenshot"
+            >暂存</el-button
+          >
+          <el-button
+            plain
+            type="primary"
+            icon="Download"
+            @click.stop="downLoadShootImg(screenshotData, screenshotName)"
+            >下载</el-button
+          >
+        </el-button-group>
+      </div>
+    </el-tab-pane>
+    <el-tab-pane name="list">
+      <template #label>
+        <div class="tab-pane-save">
+          <span>暂存</span>
+          <div>{{ screenshotLst.length }}</div>
+        </div>
+      </template>
+      <div
+        v-for="img in screenshotLst"
+        :key="img.id"
+        class="history-screenshot-box"
+      >
+        <span>{{ img.name }}</span>
+        <span>
+          <!-- 查看 -->
+          <svg
+            class="icon svg-16 cur-pointer"
+            aria-hidden="true"
+            color="#768fcd"
+            @click.stop="checkShootImg(img.url)"
+          >
+            <use href="#search"></use>
+          </svg>
+          <!-- 下载 -->
+          <svg
+            class="icon svg-16 cur-pointer mg-l-5"
+            aria-hidden="true"
+            color="#768fcd"
+            @click.stop="downLoadShootImg(img.url, img.name)"
+          >
+            <use href="#down-picture"></use>
+          </svg>
+          <!-- 删除 -->
+          <svg
+            class="icon svg-16 cur-pointer mg-l-5"
+            aria-hidden="true"
+            color="red"
+            @click.stop="deleteHistoryImg(img.id)"
+          >
+            <use href="#delete"></use>
+          </svg>
+        </span>
+      </div>
+    </el-tab-pane>
+  </el-tabs>
   <div @click.stop>
     <el-image-viewer
       v-if="showImgPreview"
@@ -269,34 +224,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'style';
-.tool-item-btn {
-  left: 10px;
-  bottom: 200px;
-}
-.map-style-box {
-  $bgc: #f6f5f5;
-  @include box-size(280px, auto);
-  @include pseudo-element-striangle('left', 12px, $bgc);
-  position: absolute;
-  left: 50px;
-  bottom: 200px;
-  background: $bgc;
-  border-radius: 5px;
-  padding: 0 0 8px;
-  box-shadow: 0px 0px 5px 2px #a6a6a6;
-  > header {
-    @include flex(row, space-between, center);
-    height: 30px;
-    width: 100%;
-    border-bottom: 1px #d3d3d3 solid;
-    padding: 0 8px;
-  }
-  > main {
-    padding: 0 8px;
-  }
-}
-
 .tab-pane-save {
   position: relative;
   > div {

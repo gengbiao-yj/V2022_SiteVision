@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import { UseInitMap } from './Hooks';
 import { busOn } from '@/utils/hooks';
+import toolBox from '@/views/Map/components/ToolBox.vue';
 import toolLoactionOrigin from '@/views/Map/components/ToolLoactionOrigin.vue';
 import toolChangeStyle from '@/views/Map/components/ToolChangeStyle.vue';
 import toolMeasure from '@/views/Map/components/ToolMeasure.vue';
@@ -24,8 +25,9 @@ const loactionOrigin = ref();
 const changeStyle = ref();
 const measure = ref();
 const mapImg = ref();
+const createReport = ref();
 const toolAccordion = (index: number) => {
-  const tools = [loactionOrigin, changeStyle, measure, mapImg];
+  const tools = [loactionOrigin, changeStyle, measure, mapImg, createReport];
   tools.forEach((e, i) => {
     if (i !== index) {
       e.value.visible = false;
@@ -42,13 +44,43 @@ export default {
 <template>
   <div class="map-root">
     <div class="map" ref="mapContainer"></div>
+    <!-- 点位到当前所在城市 -->
     <tool-loaction-origin ref="loactionOrigin" @toolAccordion="toolAccordion" />
+    <!-- 切换地图 -->
     <tool-change-style ref="changeStyle" @toolAccordion="toolAccordion" />
-    <tool-measure ref="measure" @toolAccordion="toolAccordion" />
-    <tool-map-img
-      :map="mapContainer"
+    <!-- 测量工具 -->
+    <toolBox
+      ref="measure"
+      tooltip="测量"
+      title="测量工具"
+      :clickAway="true"
+      svg="#ruler"
+      :bottom="155"
+      @toolAccordion="toolAccordion(2)"
+    >
+      <tool-measure />
+    </toolBox>
+    <!-- 截图工具 -->
+    <toolBox
       ref="mapImg"
-      @toolAccordion="toolAccordion"
+      tooltip="截图"
+      title="截图工具"
+      :clickAway="true"
+      svg="#screenshot"
+      :bottom="200"
+      @toolAccordion="toolAccordion(3)"
+    >
+      <tool-map-img :map="mapContainer" />
+    </toolBox>
+    <!-- 评估报告 -->
+    <toolBox
+      ref="createReport"
+      tooltip="评估"
+      title="评估报告生成工具"
+      :clickAway="true"
+      svg="#slide"
+      :top="200"
+      @toolAccordion="toolAccordion(4)"
     />
   </div>
 </template>
