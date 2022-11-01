@@ -7,6 +7,7 @@ import toolLoactionOrigin from '@/views/Map/components/ToolLoactionOrigin.vue';
 import toolChangeStyle from '@/views/Map/components/ToolChangeStyle.vue';
 import toolMeasure from '@/views/Map/components/ToolMeasure.vue';
 import toolMapImg from '@/views/Map/components/ToolMapImg.vue';
+import toolCreateReport from '@/views/Map/components/ToolCreateReport.vue';
 
 const { map, mapContainer } = UseInitMap();
 /*  菜单折叠展开，变更地图尺寸
@@ -76,12 +77,15 @@ export default {
     <toolBox
       ref="createReport"
       tooltip="评估"
-      title="评估报告生成工具"
+      title="生成评估报告"
       :clickAway="true"
       svg="#slide"
       :top="200"
+      striangle="left-top"
       @toolAccordion="toolAccordion(4)"
-    />
+    >
+      <tool-create-report />
+    </toolBox>
   </div>
 </template>
 

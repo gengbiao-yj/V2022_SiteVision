@@ -51,33 +51,72 @@
 }
 
 // 伪元素气泡弹窗三角形
-@mixin pseudo-element-striangle($flex, $abs, $color) {
+@mixin pseudo-element-striangle($abs, $color) {
   &::before {
     content: '';
     display: block;
     position: absolute;
     border: 5px solid $color;
-    @if ($flex == 'left') {
-      left: -5px;
-      bottom: $abs;
-      border-right-color: rgba(255, 255, 255, 0);
-      border-top-color: rgba(255, 255, 255, 0);
-    } @else if($flex == 'right') {
-      right: -5px;
-      bottom: $abs;
-      border-left-color: rgba(255, 255, 255, 0);
-      border-bottom-color: rgba(255, 255, 255, 0);
-    } @else if($flex == 'top') {
-      top: -5px;
-      left: $abs;
-      border-right-color: rgba(255, 255, 255, 0);
-      border-bottom-color: rgba(255, 255, 255, 0);
-    } @else if($flex == 'bottom') {
-      bottom: -5px;
-      left: $abs;
-      border-left-color: rgba(255, 255, 255, 0);
-      border-top-color: rgba(255, 255, 255, 0);
-    }
     transform: rotate(45deg);
+  }
+  /*  left
+  ------------------------------------------------ */
+  &.left-bottom::before,
+  &.left-top::before {
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+  }
+  &.left-bottom::before {
+    left: -5px;
+    bottom: $abs;
+  }
+  &.left-top::before {
+    left: -5px;
+    top: $abs;
+  }
+  /*  right
+  ------------------------------------------------ */
+  &.right-bottom::before,
+  &.right-top::before {
+    border-left-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+  }
+  &.right-bottom::before {
+    right: -5px;
+    bottom: $abs;
+  }
+  &.right-top::before {
+    right: -5px;
+    top: $abs;
+  }
+  /*  top
+  ------------------------------------------------ */
+  &.top-left::before,
+  &.top-right::before {
+    border-right-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+  }
+  &.top-left::before {
+    top: -5px;
+    left: $abs;
+  }
+  &.top-right::before {
+    top: -5px;
+    right: $abs;
+  }
+  /*  bottom
+  ------------------------------------------------ */
+  &.bottom-left::before,
+  &.bottom-right::before {
+    border-left-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+  }
+  &.bottom-left::before {
+    bottom: -5px;
+    left: $abs;
+  }
+  &.bottom-right::before {
+    bottom: -5px;
+    right: $abs;
   }
 }

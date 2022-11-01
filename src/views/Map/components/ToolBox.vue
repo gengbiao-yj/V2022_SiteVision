@@ -31,6 +31,21 @@ const props = defineProps({
     validator(value: string) {
       return ['left', 'right'].includes(value);
     }
+  },
+  striangle: {
+    default: 'left-bottom',
+    validator(value: string) {
+      return [
+        'left-bottom',
+        'left-top',
+        'right-bottom',
+        'right-top',
+        'top-left',
+        'top-right',
+        'bottom-left',
+        'bottom-right'
+      ].includes(value);
+    }
   }
 });
 // 抛出组件数据
@@ -99,9 +114,14 @@ export default {
     </div>
   </el-tooltip>
   <transition name="fromLeft">
-    <div v-show="visibleStyleBox" ref="mapStyleBox" class="map-style-box">
+    <div
+      v-show="visibleStyleBox"
+      ref="mapStyleBox"
+      class="map-style-box"
+      :class="[props.striangle]"
+    >
       <header>
-        <h4>{{ props.title }}</h4>
+        <span>{{ props.title }}</span>
         <Close class="svg-18 cur-pointer" @click.stop="closeStyleBox" />
       </header>
       <main @click.stop>
@@ -113,27 +133,26 @@ export default {
 
 <style lang="scss" scoped>
 @import 'style';
-.tool-item-btn {
-  //left: 10px;
-  //bottom: 200px;
-}
 .map-style-box {
   $bgc: #f6f5f5;
   @include box-size(280px, auto);
-  @include pseudo-element-striangle('left', 12px, $bgc);
+  @include pseudo-element-striangle(12px, $bgc);
   position: absolute;
-  //left: 50px;
-  //bottom: 200px;
   background: $bgc;
   border-radius: 5px;
   padding: 0 0 8px;
   box-shadow: 0px 0px 5px 2px #a6a6a6;
   > header {
     @include flex(row, space-between, center);
-    height: 30px;
+    height: 40px;
     width: 100%;
     border-bottom: 1px #d3d3d3 solid;
     padding: 0 8px;
+    > span {
+      font-size: 16px;
+      font-weight: 600;
+      color: #8f8989;
+    }
   }
   > main {
     padding: 0 8px;

@@ -143,7 +143,7 @@ const mapOnWheel = (map: Map) => {
       if (wheelDelta > 0) {
         // 缩小处理
         startZoom.value = Math.floor(startZoom.value - 1);
-        if (startZoom.value <= 3) startZoom.value = 3;
+        if (startZoom.value <= 9) startZoom.value = 9;
         mapFly(latlng);
       } else if (wheelDelta < 0) {
         // 放大处理
@@ -230,7 +230,7 @@ export function UseInitMap() {
       center: [lng, lat], // starting position [lng, lat]
       zoom: initZoom, // starting zoom
       scrollZoom: false,
-      minZoom: 3,
+      minZoom: 9,
       maxZoom: 18,
       maxBounds: new mapboxgl.LngLatBounds(
         [59.55988452620085, 12.957610757272292],

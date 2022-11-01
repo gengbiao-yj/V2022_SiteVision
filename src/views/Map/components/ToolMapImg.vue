@@ -22,16 +22,23 @@ const activeName = ref<'picture' | 'list'>('picture');
 // 开始截图，默认截取可视区域地图
 const screenshotData = ref<string>(''); // 当前截图的数据
 const screenshotName = ref<string>(''); // 当前截图的名称
-const editImgName = ref<boolean>(false);
+const editImgName = ref<boolean>(false); // 编辑截图名称权限
+const screenshotLoad = ref<boolean>(false); // 截图生成中加载动画权限
 const screenshot = () => {
+  screenshotLoad.value = true;
   html2canvas(props.map, {
     useCORS: true, // 【重要】开启跨域配置
     scale: window.devicePixelRatio,
     allowTaint: true // 允许跨域图片
-  }).then(canvas => {
-    screenshotData.value = canvas.toDataURL('image/jpeg', 1);
-    screenshotName.value = 'IMG/' + getNewDate();
-  });
+  })
+    .then(canvas => {
+      screenshotData.value = canvas.toDataURL('image/jpeg', 1);
+      screenshotName.value = 'IMG/' + getNewDate();
+      screenshotLoad.value = false;
+    })
+    .catch(err => {
+      screenshotLoad.value = false;
+    });
 };
 
 // 图片查看
@@ -123,7 +130,14 @@ export default {
           </svg>
         </div>
       </div>
-      <div class="screenshot-box" @click.stop="screenshot">
+      <div
+        class="screenshot-box"
+        v-loading="screenshotLoad"
+        element-loading-text="生成中。。。"
+        element-loading-svg-view-box="-10, -10, 50, 50"
+        element-loading-background="rgba(122, 122, 122, 0.3)"
+        @click.stop="screenshot"
+      >
         <svg v-show="!screenshotData" class="icon svg-100" aria-hidden="true">
           <use href="#screenshot"></use>
         </svg>
@@ -176,41 +190,43 @@ export default {
           <div>{{ screenshotLst.length }}</div>
         </div>
       </template>
-      <div
-        v-for="img in screenshotLst"
-        :key="img.id"
-        class="history-screenshot-box"
-      >
-        <span>{{ img.name }}</span>
-        <span>
-          <!-- 查看 -->
-          <svg
-            class="icon svg-16 cur-pointer"
-            aria-hidden="true"
-            color="#768fcd"
-            @click.stop="checkShootImg(img.url)"
-          >
-            <use href="#search"></use>
-          </svg>
-          <!-- 下载 -->
-          <svg
-            class="icon svg-16 cur-pointer mg-l-5"
-            aria-hidden="true"
-            color="#768fcd"
-            @click.stop="downLoadShootImg(img.url, img.name)"
-          >
-            <use href="#down-picture"></use>
-          </svg>
-          <!-- 删除 -->
-          <svg
-            class="icon svg-16 cur-pointer mg-l-5"
-            aria-hidden="true"
-            color="red"
-            @click.stop="deleteHistoryImg(img.id)"
-          >
-            <use href="#delete"></use>
-          </svg>
-        </span>
+      <div style="height: 133px; overflow-y: auto">
+        <div
+          v-for="img in screenshotLst"
+          :key="img.id"
+          class="history-screenshot-box"
+        >
+          <span>{{ img.name }}</span>
+          <span>
+            <!-- 查看 -->
+            <svg
+              class="icon svg-16 cur-pointer"
+              aria-hidden="true"
+              color="#768fcd"
+              @click.stop="checkShootImg(img.url)"
+            >
+              <use href="#search"></use>
+            </svg>
+            <!-- 下载 -->
+            <svg
+              class="icon svg-16 cur-pointer mg-l-5"
+              aria-hidden="true"
+              color="#768fcd"
+              @click.stop="downLoadShootImg(img.url, img.name)"
+            >
+              <use href="#down-picture"></use>
+            </svg>
+            <!-- 删除 -->
+            <svg
+              class="icon svg-16 cur-pointer mg-l-5"
+              aria-hidden="true"
+              color="red"
+              @click.stop="deleteHistoryImg(img.id)"
+            >
+              <use href="#delete"></use>
+            </svg>
+          </span>
+        </div>
       </div>
     </el-tab-pane>
   </el-tabs>

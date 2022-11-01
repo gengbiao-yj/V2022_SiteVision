@@ -81,7 +81,7 @@ export default {
     </div>
   </el-tooltip>
   <transition name="fromLeft">
-    <div v-show="visibleStyleBox" class="map-style-box">
+    <div v-show="visibleStyleBox" class="map-style-box left-bottom">
       <img
         class="cur-pointer"
         src="../../../assets/img/AMAP_VECTORNROAD.png"
@@ -105,7 +105,7 @@ export default {
 .map-style-box {
   $bgc: rgba(0, 0, 0, 0.38);
   @include box-size(280px, 140px);
-  @include pseudo-element-striangle('left', 12px, $bgc);
+  @include pseudo-element-striangle(12px, $bgc);
   @include flex(row, flex-start, center);
   position: absolute;
   left: 50px;
