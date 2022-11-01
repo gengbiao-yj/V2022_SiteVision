@@ -51,6 +51,11 @@ export default {
       </span>
     </div>
   </div>
+  <div
+    v-show="!filterBoxClose"
+    class="fill-shade"
+    @click.stop="filterBoxClose = !filterBoxClose"
+  ></div>
 </template>
 
 <style scoped lang="scss">
@@ -87,7 +92,7 @@ export default {
     border-bottom-right-radius: 6px;
     bottom: 0px;
     left: 0px;
-    z-index: 2;
+    z-index: 4;
     @include flex(row, center, center);
   }
 
@@ -103,6 +108,15 @@ export default {
   .title-color {
     @include primary-color();
   }
+}
+
+.fill-shade {
+  width: 100%;
+  height: 100%;
+  background: rgba(166, 167, 169, 0.4);
+  position: absolute;
+  z-index: 4;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 1px) {
