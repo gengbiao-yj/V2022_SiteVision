@@ -58,8 +58,8 @@ module.exports = {
     'space-before-function-paren': [
       'error',
       {
-        anonymous: 'never', // 匿名函数禁止括号前空格
-        named: 'never', // 命名函数禁止括号前空格
+        anonymous: 'always', // 匿名函数禁止括号前空格
+        named: 'always', // 命名函数括号前加空格空格
         asyncArrow: 'always' // 异步箭头函数必须括号前空格
       }
     ], // function关键字和函数名后面的空格
