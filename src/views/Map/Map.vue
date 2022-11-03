@@ -2,12 +2,14 @@
 <script setup lang="ts">
 import { UseInitMap } from './Hooks';
 import { busOn } from '@/utils/hooks';
+import toolNav from '@/views/Map/components/ToolNav.vue';
 import toolBox from '@/views/Map/components/ToolBox.vue';
 import toolLoactionOrigin from '@/views/Map/components/ToolLoactionOrigin.vue';
 import toolChangeStyle from '@/views/Map/components/ToolChangeStyle.vue';
 import toolMeasure from '@/views/Map/components/ToolMeasure.vue';
 import toolMapImg from '@/views/Map/components/ToolMapImg.vue';
 import toolCreateReport from '@/views/Map/components/ToolCreateReport.vue';
+import ToolNav from '@/views/Map/components/ToolNav.vue';
 
 const { map, mapContainer } = UseInitMap();
 /*  菜单折叠展开，变更地图尺寸
@@ -45,6 +47,8 @@ export default {
 <template>
   <div class="map-root">
     <div class="map" ref="mapContainer"></div>
+    <!-- 地图缩放按钮 -->
+    <tool-nav />
     <!-- 点位到当前所在城市 -->
     <tool-loaction-origin ref="loactionOrigin" @toolAccordion="toolAccordion" />
     <!-- 切换地图 -->

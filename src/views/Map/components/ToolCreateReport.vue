@@ -73,6 +73,7 @@ const calculateIsochronousData = () => {
       map.value.setCursor('default');
       const filterType = isochronousType.value;
       const minutes = isochronousTime.value;
+      // 坐标转换，将点击地图获取的 GCJ-02 坐标转为 WGS-84
       const { lat, lon } = CoordinateTransform.gcj_decrypt(
         e.lngLat.lat,
         e.lngLat.lng

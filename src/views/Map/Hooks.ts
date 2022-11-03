@@ -37,6 +37,9 @@ class IMap extends Map {
 const mapContainer = ref() as Ref<HTMLDivElement>; // 地图容器
 export const map = ref() as Ref<IMap>; // 地图实例
 export const initZoom = 9.0; // 初始缩放等级
+export const minZoom = 9.0;
+export const maxZoom = 18.0;
+export const maxZoomCorrection = 17.4;
 
 /**
  * 高德 IP 定位获取浏览器环境所在地址定位
@@ -76,13 +79,15 @@ const createScale = (map: Map) => {
  * 增加地图控件：缩放按钮控件
  * @author GengBiao
  * @param map
+ *
+ * note: 取消地图自带控件，改为自定义组件
  */
-const createNav = (map: Map) => {
+/*const createNav = (map: Map) => {
   const nav = new mapboxgl.NavigationControl({
     showCompass: false
   });
   map.addControl(nav, 'bottom-right');
-};
+};*/
 
 /**
  * 增加地图控件：缩放级别显示
@@ -143,12 +148,12 @@ const mapOnWheel = (map: Map) => {
       if (wheelDelta > 0) {
         // 缩小处理
         startZoom.value = Math.floor(startZoom.value - 1);
-        if (startZoom.value <= 9) startZoom.value = 9;
+        if (startZoom.value <= minZoom) startZoom.value = minZoom;
         mapFly(latlng);
       } else if (wheelDelta < 0) {
         // 放大处理
         startZoom.value = startZoom.value + 1;
-        if (startZoom.value >= 18) startZoom.value = 17.4;
+        if (startZoom.value >= maxZoom) startZoom.value = maxZoomCorrection;
         mapFly(mouseCurrentLatlng);
       }
 
@@ -230,8 +235,8 @@ export function UseInitMap() {
       center: [lng, lat], // starting position [lng, lat]
       zoom: initZoom, // starting zoom
       scrollZoom: false,
-      minZoom: 9,
-      maxZoom: 18,
+      minZoom: 3,
+      maxZoom,
       maxBounds: new mapboxgl.LngLatBounds(
         [59.55988452620085, 12.957610757272292],
         [142.95624044533258, 53.95034432047234]
@@ -244,7 +249,7 @@ export function UseInitMap() {
 
     createScale(_map.value);
     createZoom(_map.value);
-    createNav(_map.value);
+    // createNav(_map.value);
     mapOnWheel(_map.value);
     mapOnMouseMove(_map.value);
   });
@@ -262,12 +267,15 @@ export function UseInitMap() {
  */
 class CreateLayer {
   protected key: string;
-  public features = [] as Feature<Geometry, GeoJsonProperties>[];
-  constructor(key: string) {
+  protected paint: LinePaint | CirclePaint | FillPaint;
+  public features = [] as Feature<Geometry, GeoJsonProperties>[]; // Geo 数据池
+  constructor(key: string, paint: LinePaint | CirclePaint | FillPaint) {
     this.key = key;
+    this.paint = paint;
   }
   // 移除图层
   public removeLayer() {
+    this.clearAllFeature();
     if (map.value.getLayer(`${this.key}`)) {
       map.value.removeLayer(`${this.key}`);
     }
@@ -291,19 +299,43 @@ class CreateLayer {
     index: number,
     coordinates: Position | Position[] | Position[][] | Position[][][]
   ) {
-    const MAFill = this.features[index].geometry as Geometry;
-    if ('coordinates' in MAFill) {
-      MAFill.coordinates = coordinates;
+    const geometry = this.features[index].geometry as Geometry;
+    if ('coordinates' in geometry) {
+      geometry.coordinates = coordinates;
     }
     this.changeFeatures();
   }
 
   // 清除单个feature数据
   public clearIndexFeature(index: number) {
-    const MAFill = this.features[index].geometry as Geometry;
-    if ('coordinates' in MAFill) {
-      MAFill.coordinates.length = 0;
+    // 清除数据
+    const geometry = this.features[index].geometry as Geometry;
+    if ('coordinates' in geometry) {
+      geometry.coordinates.length = 0;
     }
+    // 清除标记
+    const properties = this.features[index].properties as GeoJsonProperties;
+    if (properties && 'marker' in properties) {
+      if ('remove' in properties.marker) {
+        properties.marker.remove();
+        properties.marker = null;
+      }
+    }
+    this.changeFeatures();
+  }
+
+  // 清除所有feature数据
+  public clearAllFeature() {
+    this.features.forEach(feature => {
+      const properties = feature.properties as GeoJsonProperties;
+      if (properties && 'marker' in properties) {
+        if ('remove' in properties.marker) {
+          properties.marker.remove();
+          properties.marker = null;
+        }
+      }
+    });
+    this.features.length = 0;
     this.changeFeatures();
   }
 
@@ -324,20 +356,21 @@ class CreateLayer {
  */
 export class CreateLineLayer extends CreateLayer {
   constructor(key: string, paint: LinePaint) {
-    super(key);
-    this.addLayer(paint);
+    super(key, paint);
+    this.createLayer();
   }
 
   // 创建图层
-  public addLayer(paint: LinePaint) {
+  public createLayer() {
     if (!map.value.getLayer(`${this.key}`)) {
       if (!map.value.getSource(`${this.key}`)) {
+        const _paint = this.paint as LinePaint;
         this.createFeatureCollectionSource();
         map.value.addLayer({
           id: `${this.key}`,
           type: 'line',
           source: `${this.key}`,
-          paint
+          paint: _paint
         });
       }
     }
@@ -349,20 +382,21 @@ export class CreateLineLayer extends CreateLayer {
  */
 export class CreateCycleLayer extends CreateLayer {
   constructor(key: string, paint: CirclePaint) {
-    super(key);
-    this.addLayer(paint);
+    super(key, paint);
+    this.createLayer();
   }
 
   // 创建图层
-  public addLayer(paint: CirclePaint) {
+  public createLayer() {
     if (!map.value.getLayer(`${this.key}`)) {
       if (!map.value.getSource(`${this.key}`)) {
+        const _paint = this.paint as CirclePaint;
         this.createFeatureCollectionSource();
         map.value.addLayer({
           id: `${this.key}`,
           type: 'circle',
           source: `${this.key}`,
-          paint
+          paint: _paint
         });
       }
     }
@@ -374,20 +408,21 @@ export class CreateCycleLayer extends CreateLayer {
  */
 export class CreateFillLayer extends CreateLayer {
   constructor(key: string, paint: FillPaint) {
-    super(key);
-    this.addLayer(paint);
+    super(key, paint);
+    this.createLayer();
   }
 
   // 创建图层
-  public addLayer(paint: FillPaint) {
+  public createLayer() {
     if (!map.value.getLayer(`${this.key}`)) {
       if (!map.value.getSource(`${this.key}`)) {
+        const _paint = this.paint as FillPaint;
         this.createFeatureCollectionSource();
         map.value.addLayer({
           id: `${this.key}`,
           type: 'fill',
           source: `${this.key}`,
-          paint
+          paint: _paint
         });
       }
     }
