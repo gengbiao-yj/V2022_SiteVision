@@ -17,10 +17,12 @@ Object.entries(baseUrl).map(([key, value]) => {
   BASE_URL.set(key as urlKey, value);
 });
 
-/*  高德地图 Api 相关配置数据
+/*  地图 Api 相关配置数据
 ------------------------------------------------ */
 export const AMAP = {
+  // 高德地图 key
   AMAP_WEBKEY: '232be979602bea9df4ef2f8d7b4c30f5',
+  // mapbox token
   AMAP_ACCESSTOKEN:
     'pk.eyJ1IjoiZnV5aXlvbmciLCJhIjoiY2s5M3U5cHl0MDJnZjNkbzBrNGI2emNycSJ9.iXNKWmed2otDqeIVchxiJw',
   //高德矢量+路网+标注

@@ -59,7 +59,7 @@ module.exports = {
       'error',
       {
         anonymous: 'always', // 匿名函数禁止括号前空格
-        named: 'always', // 命名函数括号前加空格空格
+        named: 'never', // 命名函数括号前加空格空格
         asyncArrow: 'always' // 异步箭头函数必须括号前空格
       }
     ], // function关键字和函数名后面的空格
@@ -213,12 +213,13 @@ module.exports = {
     // 'no-useless-constructor': 2, // 禁止不必要的构造函数
     'no-debugger': process.env.NODE_ENV === 'prod' ? 2 : 0, // 禁用 debugger
     'no-async-promise-executor': 'off', // Promise 回调函数禁止使用 async
-    "@typescript-eslint/ban-types": ["error",
+    '@typescript-eslint/ban-types': [
+      'error',
       {
-        "types": {
-          "Function": false,
+        types: {
+          Function: false
         },
-        "extendDefaults": true
+        extendDefaults: true
       }
     ]
   },
@@ -256,6 +257,6 @@ module.exports = {
     MapStyle: true,
     CityInfo: true,
     CusCityList: true,
-    SavingScreenshot: true,
+    SavingScreenshot: true
   }
 };
