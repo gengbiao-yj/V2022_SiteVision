@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>父系统</title>
+  <style>
+      /* 初始化 */
+      *,
+      ::after,
+      ::before {
+          box-sizing: border-box;
+          padding: 0;
+          margin: 0;
+      }
+
+      html,
+      body {
+          width: 100%;
+          height: 100%;
+      }
+
+      hr {
+          margin: 5px 0px;
+      }
+
+      /* 内嵌框 */
+      .iframe-box {
+          display: flex;
+      }
+
+      .iframe-box > iframe {
+          box-shadow: 3px 3px 5px #aaa
+      }
+
+      .iframe-box > .el-button {
+          margin-left: 15px;
+          width: auto;
+          height: 30px;
+      }
+
+      /* 功能按钮框 */
+      .btn-box {
+          position: fixed;
+          top: 10px;
+          right: 10px;
+          width: 330px;
+      }
+
+      .btn-box > div {
+          border: 2px solid #aaa;
+          margin-bottom: 20px;
+          padding: 2px 5px 5px 5px;
+          min-height: 25px;
+      }
+
+      .btn-box > div::before {
+          content: '数据对接';
+          display: flex;
+          font-size: 15px;
+          font-weight: bolder;
+          color: #000baa;
+          position: relative;
+      }
+
+      .login-box span {
+          display: inline-block;
+          width: 70px;
+      }
+
+      .login-box > div {
+          margin-top: 5px;
+      }
+
+      .login-box > button {
+          width: 50px;
+          margin: 8px auto 5px;
+          display: block;
+      }
+
+      #mapPage .login-box::before {
+          content: '登录获取token';
+      }
+
+      .message-box {
+          height: 50px;
+          border: 2px solid #aaa;
+          background-color: rgb(238, 214, 162);
+      }
+
+      #mapPage .message-box::before {
+          content: '消息框';
+      }
+
+      .ptmsg-data > span {
+          display: none;
+      }
+
+      #mapPage .ptmsg-data::before {
+          content: '数据对接';
+      }
+
+      #mapPage .ptmsg-location::before {
+          content: '快速定位';
+      }
+
+      .ptmsg-polygon > div::after {
+          clear: both;
+      }
+
+      #mapPage .ptmsg-polygon::before {
+          content: '生成商圈';
+      }
+  </style>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js">
+  </script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/qs/6.10.1/qs.min.js"></script>
+</head>
+
+<body>
+<!-- 地图 display: none; -->
+<div id="mapPage" style="height: 100%;">
+  <!-- 内嵌页 -->
+  <div id="app" class="iframe-box">
+    <!-- 无快速跳转 -->
+    <iframe
+      id="receiver"
+      src="http://localhost:8080/#/?loginName=NJH00256&pwd=96e79218965eb72c92a549dd5a330112&isHide=yes&userName=Admin&positionID=1"
+      width="1560" height="900">
+    </iframe>
+
+    <!-- 路由传参- 快速定位到机会点 -->
+    <!-- <iframe id="receiver"
+      src="http://localhost:8080/#/?loginName=admin&pwd=96e79218965eb72c92a549dd5a330112&isHide=yes&userName=Admin&positionID=1&code=XK2021100001&type=pp&latitude=31.26864720457573&longitude=121.48128503199598"
+      width="1560" height="900">
+    </iframe> -->
+
+    <!-- 路由传参 - 快速定位到门店 -->
+    <!-- <iframe id="receiver"
+      src="http://localhost:8080/#/?loginName=admin&pwd=96e79218965eb72c92a549dd5a330112&isHide=yes&userName=Admin&positionID=1&code=NJ123&type=store&latitude=31.26622494105213&longitude=121.55197858789148"
+      width="1560" height="900">
+    </iframe> -->
+  </div>
+  <!-- 功能区 -->
+  <div class="btn-box">
+    <!-- 消息框 -->
+    <div id="messageBox" class="message-box">
+      消息框
+    </div>
+    <!-- 登录接口获取父系同token -->
+    <div class="login-box">
+      <div>
+        <span>用户名：</span>
+        <input type="text" id="userInput">
+      </div>
+      <div>
+        <span>密码：</span>
+        <input type="text" id="pwdInput">
+      </div>
+      <button onclick="rlLogin()">登录</button>
+      <hr>
+      <p id="token"><span>Token：</span></p>
+    </div>
+    <!-- 数据对接 -->
+    <div class="ptmsg-data">
+        <span id="savePipelineInfo">
+          <button onclick="permitSaveInfo('savePipelineInfo','机会点')">机会点执行保存</button>
+          <button onclick="cancelCreate('savePipelineInfo')">机会点取消保存</button>
+        </span>
+      <span id="saveCompetitorInfo">
+          <button onclick="permitSaveInfo('saveCompetitorInfo','竞品')">竞品执行保存</button>
+          <button onclick="cancelCreate('saveCompetitorInfo')">竞品取消保存</button>
+        </span>
+      <span id="saveTAInfo">
+          <button onclick="permitSaveInfo('saveTAInfo','商圈')">商圈执行保存</button>
+          <button onclick="cancelCreate('saveTAInfo')">商圈取消保存</button>
+        </span>
+    </div>
+    <!-- 通讯传参 - 快速定位 -->
+    <div class="ptmsg-location">
+      <button onclick="quickFindPP()">找到机会点</button>
+      <button onclick="quickFindVS()">找到竞品点</button>
+      <button onclick="quickFindStore()">找到门店点</button>
+    </div>
+    <!-- 坐标点转多边形测试(1st:单点画圆，2st:双点扩充画圆，3st:多点扩充画多边形) -->
+    <div class="ptmsg-polygon">
+      <div>
+        <input id="radio1" type="radio" value="one" onclick="onePointDrawTa(event)">
+        单点画圆</input>
+        <input id="radio2" type="radio" value="two" onclick="twoPointDrawTa(event)">
+        双点画圆</input>
+        <input id="radio3" type="radio" value="many" onclick="manyPointDrawTa(event)">
+        多点扩充多边形</input>
+      </div>
+      <hr>
+      <div>
+        <div id="radius">
+          <span>商圈半径：</span>
+          <input id="radiusVal" type="text">
+          <span> km²</span>
+        </div>
+        <div id="expand">
+          <span>扩充距离：</span>
+          <input id="expandVal" type="text">
+          <span> km²</span>
+        </div>
+        <div id="expand-type">
+          <span>扩充方式：</span>
+          <input id="radio4" type="radio" value="cycle" onclick="expendTypeSelect(event)">
+          外接圆</input>
+          <input id="radio5" type="radio" value="polygon" onclick="expendTypeSelect(event)">
+          多边形</input>
+        </div>
+      </div>
+      <hr>
+      <button onclick="pickLocation()">拾取坐标</button>
+      <button onclick="createTa()">生成商圈</button>
+      <button onclick="deleteTa()">删除商圈</button>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+  // 变量
+  let user = document.getElementById('userInput'); // 锐力登录用户名DOM
+  let pwd = document.getElementById('pwdInput'); // 锐力登录用户密码DOM
+  let mapPage = document.getElementById('mapPage');// 地图页DOM
+  let receiver = document.getElementById('receiver').contentWindow; // ifram内嵌页DOM
+  let messageBox = document.getElementById('messageBox'); // 消息框DOM
+  let radius = document.getElementById('radius'); // 商圈生成 -- 商圈半径DOM
+  let expand = document.getElementById('expand'); // 商圈生成 -- 扩充距离DOM
+  let expandType = document.getElementById('expand-type'); // 商圈生成 -- 扩充方式DOM
+  let formData = {}; // 数据对接 -- 数据
+  let btnBoxDOMArr = []; // 数据对接 -- 按钮存储
+  let token = ''; // 锐力接口token
+  let drawTaMode = ''; // 商圈生成模式
+  let showToken = document.getElementById('token');
+  let expendTypeValue = undefined;
+  let radio1 = document.getElementById('radio1');
+  let radio2 = document.getElementById('radio2');
+  let radio3 = document.getElementById('radio3');
+  let radio4 = document.getElementById('radio4');
+  let radio5 = document.getElementById('radio5');
+
+
+  // 锐力接口表
+  let rlApi = {
+    savePipelineInfo: `http://222.71.8.115:54800/PMT/Api/sitesvision/CreatePP?token=${token}`,
+    saveTAInfo: `http://222.71.8.115:54800/PMT/Api/sitesvision/CreateTA?token=${token}`,
+    saveCompetitorInfo: `http://222.71.8.115:54800/PMT/Api/sitesvision/CreateCompetitor?token=${token}`,
+    login: 'http://222.71.8.115:54080/Login/Login?Sn=df84f838574ef92c07655ead9f5838b2'
+  }
+
+  // 登录获取token
+  function rlLogin() {
+    let loginParam = {
+      UserCode: user.value,
+      psd: pwd.value
+    }
+    axios({
+      method: 'post',
+      url: rlApi.login,
+      data: Qs.stringify(loginParam)
+    }).then(res => {
+      if (res.status == 200) {
+        mapPage.style.display = 'block';
+        token = res.data.Token;
+        let span = document.createElement('span');
+        showToken.innerHTML = `Token: ${token}`
+        messageBox.innerText = `锐力 —— 登录成功`;
+      } else {
+        messageBox.innerText = `锐力 —— 登录失败`;
+      }
+    }).catch(err => {
+      messageBox.innerText = `锐力 —— 登录失败`;
+    })
+  };
+
+  // 监听址见抛出的 message 事件
+  window.onload = function () {
+    window.addEventListener('message', function (e) { // 监听 message 事件
+      console.log(e)
+      if (e.data.api == 'saveCompetitorInfo') {
+        postMessageInfo('竞品', e, 'saveCompetitorInfo');
+      } else if (e.data.api == 'savePipelineInfo') {
+        postMessageInfo('机会项目', e, 'savePipelineInfo');
+      } else if (e.data.api == 'saveTAInfo') {
+        postMessageInfo('商圈', e, 'saveTAInfo');
+      }
+    });
+  }
+
+  // 通讯信息告知
+  function postMessageInfo(api, e, id) {
+    let btnItem = document.getElementById(`${id}`);
+    if (btnBoxDOMArr.indexOf(btnItem) == -1) {
+      btnBoxDOMArr.push(btnItem);
+    }
+    btnBoxDOMArr.forEach(e => {
+      e.style.display = 'none';
+    })
+    btnItem.style.display = 'inline-block';
+    if (e.data.action == "Request") {
+      formData = e.data.data;
+      messageBox.innerText = `址见 —— 请求保存${api}详情`;
+    } else if (e.data.action == "Success") {
+      messageBox.innerText = `址见 —— ${api}详情保存成功`;
+    }
+  };
+
+  // 向Iframe 内嵌页发送信息
+  function receiverFn(api, action, data) {
+    receiver.postMessage({
+      api,
+      action,
+      data
+    }, "*");
+  };
+
+  // 允许址见保存
+  function permitCreate(data, api) {
+    receiverFn(`${api}`, "Permit", data)
+  };
+
+  // 取消址见保存
+  function cancelCreate(api) {
+    receiverFn(`${api}`, "Cancel", null);
+    btnBoxDOMArr.forEach(e => {
+      e.style.display = 'none';
+    })
+  };
+
+  // 快速找到机会点
+  function quickFindPP() {
+    receiverFn('quickFind', "Permit", {
+      type: "pp",
+      code: "XK2022030119",
+    })
+  }
+
+  //  快速找到竞品
+  function quickFindVS() {
+    receiverFn('quickFind', "Permit", {
+      type: "vs",
+      code: "B0FFHH88ES",
+    })
+  }
+
+  // 快速找到已开门店点
+  function quickFindStore() {
+    receiverFn('quickFind', "Permit", {
+      type: "store",
+      code: "NJ123",
+    })
+  }
+
+  // 调用锐力保存接口
+  function permitSaveInfo(api, type) {
+    axios({
+      method: 'post',
+      url: rlApi[api],
+      data: Qs.stringify(formData)
+    }).then(res => {
+      if (res.data.Status == 1) {
+        permitCreate(res.data.Data, api);
+        messageBox.innerText = `锐力 —— ${type}详情保存成功`;
+      } else {
+        cancelCreate(api);
+        messageBox.innerText = `锐力 —— ${type}详情保存失败`;
+      }
+      btnBoxDOMArr.forEach(e => {
+        e.style.display = 'none';
+      })
+    }).catch(err => {
+      cancelCreate(api);
+      messageBox.innerText = `锐力 —— ${type}详情保存失败`;
+      btnBoxDOMArr.forEach(e => {
+        e.style.display = 'none';
+      })
+    })
+  };
+
+  // radio 选中/取消选中处理
+  function radioSetReset(radioArr, e) {
+    radioArr.forEach(k => {
+      k.checked = false;
+      k.c = 0;
+    })
+    if (e.target.c == 1) {
+      e.target.checked = false;
+      e.target.c = 0;
+    } else {
+      e.target.checked = true;
+      e.target.c = 1;
+    }
+  }
+
+  // 单点生成商圈 -- 以商圈半径画圆
+  function onePointDrawTa(e) {
+    radioSetReset([radio1, radio2, radio3], e);
+    if (e.target.checked) {
+      radius.style.display = 'block';
+      expand.style.display = 'none';
+      expandType.style.display = 'none';
+      drawTaMode = 'one';
+    }
+  }
+
+  // 双点生成商圈 -- 以直线长度作为直径，再以扩充距离作为扩充半径画扩充圆
+  function twoPointDrawTa(e) {
+    radioSetReset([radio1, radio2, radio3], e);
+    if (e.target.checked) {
+      radius.style.display = 'none';
+      expand.style.display = 'block';
+      expandType.style.display = 'none';
+      drawTaMode = 'two';
+    }
+  }
+
+  // 多点生成商圈 -- 多点组成多边形，再此基础上以扩充距离整体扩充为新的多边形
+  function manyPointDrawTa(e) {
+    radioSetReset([radio1, radio2, radio3], e);
+    if (e.target.checked) {
+      radius.style.display = 'none';
+      expand.style.display = 'block';
+      expandType.style.display = 'none';
+      drawTaMode = 'many';
+    }
+  }
+
+  // 扩展方式value赋值
+  function expendTypeSelect(e) {
+    radioSetReset([radio4, radio5], e);
+    expendTypeValue = e.target.value;
+  };
+
+  // 拾取坐标
+  function pickLocation() {
+    receiverFn('pickLocation', "Permit", {
+      drawTaMode,
+      radiusVal: document.getElementById('radiusVal').value,
+      expandVal: document.getElementById('expandVal').value
+    })
+  }
+
+  // 生成商圈
+  function createTa() {
+    receiverFn('createTa', "Permit", {
+      drawTaMode,
+      radiusVal: document.getElementById('radiusVal').value || 1,
+      expandVal: document.getElementById('expandVal').value || 0,
+      expandType: expendTypeValue || 'cycle',
+    })
+  }
+
+  // 删除商圈
+  function deleteTa() {
+    receiverFn('deleteTa', "Permit", drawTaMode)
+  }
+</script>
+
+</html>

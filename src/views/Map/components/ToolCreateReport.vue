@@ -1,6 +1,11 @@
 <script setup lang="ts">
-const activeName = ref<'Isochronous' | 'bufferArea' | 'custom'>('Isochronous');
+import { CreateFillLayer, CreateLineLayer, map } from '@/views/Map/Hooks';
+import { ElMessageBox } from 'element-plus';
+import { MapMouseEvent } from 'mapbox-gl';
+import { CoordinateTransform } from '@/utils';
+import { mapBoxIsochrone } from '@/apis/amap';
 
+const activeName = ref<'Isochronous' | 'bufferArea' | 'custom'>('Isochronous');
 /*  等时圈相关
 ------------------------------------------------ */
 type Type = 'walking' | 'cycling' | 'driving';
@@ -32,6 +37,92 @@ const changeIsochronousType = (val: Type) => {
     isochronousMin.value = 5;
     isochronousMax.value = 10;
   }
+};
+
+// 创建等时圈图层
+let isochronousFillLayer: CreateFillLayer | null;
+let isochronousLineLayer: CreateLineLayer | null;
+const createIsochronousLayer = () => {
+  isochronousFillLayer = new CreateFillLayer('isochronousFillLayer', {
+    'fill-color': '#cb45fe',
+    'fill-opacity': 0.3
+  });
+  isochronousLineLayer = new CreateLineLayer('isochronousLineLayer', {
+    'line-color': '#cb45fe',
+    'line-width': 2,
+    'line-opacity': 0.8
+  });
+};
+// option radio change
+const isochronousBtnChange = (val: 'reset' | 'draw' | '') => {
+  if (val === 'draw') {
+    calculateIsochronousData();
+  } else if (val === 'reset') {
+    clearIsochronousLayer();
+  }
+};
+// 调用 mapbox api 计算等时圈数据
+const calculateIsochronousData = () => {
+  map.value.setCursor('crosshair');
+  if (!isochronousFillLayer && !isochronousLineLayer) {
+    createIsochronousLayer();
+  }
+  const mapClick = async (e: MapMouseEvent) => {
+    try {
+      isochronousOption.value = '';
+      map.value.setCursor('default');
+      const filterType = isochronousType.value;
+      const minutes = isochronousTime.value;
+      const { lat, lon } = CoordinateTransform.gcj_decrypt(
+        e.lngLat.lat,
+        e.lngLat.lng
+      );
+      const { type, features } = await mapBoxIsochrone(
+        filterType,
+        lon,
+        lat,
+        minutes
+      );
+      // 图层添加数据
+      if (Array.isArray(features) && features.length > 0) {
+        // 坐标转换，将mapBox 返回的 WGS-84 坐标转为 GCJ-02
+        features.forEach(e => {
+          let coordinates = e.geometry.coordinates;
+          coordinates.forEach(f => {
+            f.forEach(j => {
+              let { lat, lon } = CoordinateTransform.gcj_encrypt(j[1], j[0]);
+              j[0] = lon;
+              j[1] = lat;
+            });
+          });
+        });
+        isochronousFillLayer?.features.push(...features);
+        isochronousFillLayer?.changeFeatures();
+        isochronousLineLayer?.features.push(...features);
+        isochronousLineLayer?.changeFeatures();
+      }
+      map.value.off('click', mapClick);
+    } catch (e) {
+      console.log(e);
+      map.value.off('click', mapClick);
+    }
+  };
+  map.value.once('click', mapClick);
+};
+
+// 清除等时圈图层
+const clearIsochronousLayer = () => {
+  ElMessageBox.confirm('确认清除所有已选取的等时圈嘛？')
+    .then(res => {
+      isochronousOption.value = '';
+      isochronousFillLayer?.removeLayer();
+      isochronousLineLayer?.removeLayer();
+      isochronousFillLayer = null;
+      isochronousLineLayer = null;
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 /*  缓冲区相关
@@ -98,7 +189,10 @@ export default {
       </div>
       <!-- 操作 -->
       <div class="option-btn">
-        <el-radio-group v-model="isochronousOption">
+        <el-radio-group
+          v-model="isochronousOption"
+          @change="isochronousBtnChange"
+        >
           <el-radio-button label="reset">清除</el-radio-button>
           <el-radio-button label="draw">选取</el-radio-button>
         </el-radio-group>
@@ -151,18 +245,22 @@ export default {
   &:deep(.el-tabs__header) {
     height: 100%;
   }
+
   &:deep(.el-tabs__item) {
     padding-left: 10px;
     padding-right: 18px;
   }
 }
+
 .option-row {
   margin: 10px 0;
+
   > span {
     font-size: 13px;
     color: #5e6677;
   }
 }
+
 .option-btn {
   @include box-size(100%, 35px);
   @include flex(row, center, center);
