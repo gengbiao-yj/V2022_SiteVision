@@ -231,6 +231,7 @@ export default {
   @include box-size(100vw, 100vh);
 
   .content-box {
+    @include box-size(1100px, 682px);
     @include abs-position(true);
     text-align: center;
     max-height: 80%;
@@ -263,14 +264,15 @@ export default {
         top: 12%;
         width: 100%;
         text-align: center;
+        font-size: 26px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #fff;
 
         .large {
-          letter-spacing: 3px;
-          margin-top: 10px;
           letter-spacing: 6px;
+          font-size: 40px;
+          margin-top: 8px;
         }
       }
     }
@@ -280,6 +282,7 @@ export default {
         width: 100%;
         text-align: left;
         color: rgba(13, 22, 46, 0.8);
+        padding: 0 80px;
         @include abs-position(true);
 
         .login-title {
@@ -348,28 +351,6 @@ export default {
         color: #999;
       }
     }
-  }
-}
-
-/*  媒体查询
------------------------------------------------- */
-@media screen and (max-width: 1920px) {
-  .content-box {
-    @include box-size(1100px, 682px);
-  }
-
-  .slogan-title {
-    font-size: 26px;
-
-    .large {
-      letter-spacing: 6px;
-      font-size: 40px;
-      margin-top: 8px;
-    }
-  }
-
-  .login-form {
-    padding: 0 80px;
   }
 }
 </style>

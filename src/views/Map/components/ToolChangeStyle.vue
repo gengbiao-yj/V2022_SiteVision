@@ -1,6 +1,6 @@
 <!-- 组件：地图切换 - 卫星路网图、矢量路网图 -->
 <script setup lang="ts">
-import { map } from '@/views/Map/Hooks';
+import { map } from '@/views/Map/utils';
 import { AMAP } from '@/plugin/Axios/config';
 
 const emits = defineEmits(['toolAccordion']);

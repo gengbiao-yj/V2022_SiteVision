@@ -14,7 +14,7 @@ export default {
     leftRight: '左右',
     upDown: '上下',
     sideBar: '主题侧栏',
-    topBar: '主题顶栏',
+    topBar: '深色顶栏',
     cancel: '主题取消'
   },
   // 菜单栏 | 数据管理，对应语言

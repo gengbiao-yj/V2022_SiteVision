@@ -8,7 +8,8 @@ import mapboxgl, {
   LinePaint,
   CirclePaint,
   GeoJSONSource,
-  FillPaint
+  FillPaint,
+  SymbolPaint
 } from 'mapbox-gl';
 import { basicStore } from '@/pinia';
 import { AMAP } from '@/plugin/Axios/config';
@@ -267,9 +268,12 @@ export function UseInitMap() {
  */
 class CreateLayer {
   protected key: string;
-  protected paint: LinePaint | CirclePaint | FillPaint;
+  protected paint: LinePaint | CirclePaint | FillPaint | SymbolPaint;
   public features = [] as Feature<Geometry, GeoJsonProperties>[]; // Geo 数据池
-  constructor(key: string, paint: LinePaint | CirclePaint | FillPaint) {
+  constructor(
+    key: string,
+    paint: LinePaint | CirclePaint | FillPaint | SymbolPaint
+  ) {
     this.key = key;
     this.paint = paint;
   }
@@ -313,28 +317,11 @@ class CreateLayer {
     if ('coordinates' in geometry) {
       geometry.coordinates.length = 0;
     }
-    // 清除标记
-    const properties = this.features[index].properties as GeoJsonProperties;
-    if (properties && 'marker' in properties) {
-      if ('remove' in properties.marker) {
-        properties.marker.remove();
-        properties.marker = null;
-      }
-    }
     this.changeFeatures();
   }
 
   // 清除所有feature数据
   public clearAllFeature() {
-    this.features.forEach(feature => {
-      const properties = feature.properties as GeoJsonProperties;
-      if (properties && 'marker' in properties) {
-        if ('remove' in properties.marker) {
-          properties.marker.remove();
-          properties.marker = null;
-        }
-      }
-    });
     this.features.length = 0;
     this.changeFeatures();
   }
@@ -397,6 +384,55 @@ export class CreateCycleLayer extends CreateLayer {
           type: 'circle',
           source: `${this.key}`,
           paint: _paint
+        });
+      }
+    }
+  }
+}
+
+/**
+ * 图片 marker 图层
+ */
+export class CreateImgMarkerLayer extends CreateLayer {
+  protected imgPath: string;
+  protected iconSize: number;
+  constructor(key: string, paint: SymbolPaint, img: string, iconSize = 1) {
+    super(key, paint);
+    this.imgPath = img;
+    this.iconSize = iconSize;
+    this.createMapImage();
+    this.createLayer();
+  }
+  // 地图增加图片
+  public createMapImage() {
+    if (map.value.hasImage(this.key + 'image')) return;
+    map.value.loadImage(this.imgPath, (err, img) => {
+      if (err) throw err;
+      if (img) {
+        map.value.addImage(this.key + 'image', img);
+      } else {
+        throw new Error('image is undefined');
+      }
+    });
+  }
+
+  // 创建图层
+  public createLayer() {
+    if (!map.value.getLayer(`${this.key}`)) {
+      if (!map.value.getSource(`${this.key}`)) {
+        const _paint = this.paint as SymbolPaint;
+        this.createFeatureCollectionSource();
+        map.value.addLayer({
+          id: `${this.key}`,
+          type: 'symbol',
+          source: `${this.key}`,
+          paint: _paint,
+          layout: {
+            'icon-image': `${this.key}image`,
+            'icon-size': this.iconSize,
+            'icon-offset': [0, -20],
+            'icon-allow-overlap': true
+          }
         });
       }
     }

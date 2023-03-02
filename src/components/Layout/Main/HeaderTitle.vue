@@ -1,6 +1,12 @@
 <!-- name: -->
 <script lang="ts" setup>
 import { busOn, getWatchBrowserWidth } from '@/utils/hooks';
+const props = defineProps({
+  darkHeader: {
+    type: Boolean,
+    default: true
+  }
+});
 
 /*  订阅总线事件
 ------------------------------------------------ */
@@ -41,7 +47,12 @@ export default {
 
 <template>
   <img src="@/assets/img/logo2.png" />
-  <span v-show="!isAsideMenuCollapse"> {{ $t(`system.systemName`) }} </span>
+  <span
+    v-show="!isAsideMenuCollapse"
+    :style="{ color: props.darkHeader ? '#fff' : '#000' }"
+  >
+    {{ $t(`system.systemName`) }}
+  </span>
 </template>
 
 <style scoped lang="scss">
@@ -49,7 +60,6 @@ img {
   height: 30px;
 }
 span {
-  color: white;
   margin-left: 10px;
   font-size: 15px;
 }

@@ -6,7 +6,7 @@ import {
   maxZoomCorrection,
   startZoom,
   map
-} from '@/views/Map/Hooks';
+} from '@/views/Map/utils';
 
 // 地图放大
 const mapZoomMax = () => {

@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { CreateFillLayer, CreateLineLayer, map } from '@/views/Map/Hooks';
+import {
+  CreateFillLayer,
+  CreateImgMarkerLayer,
+  CreateLineLayer,
+  map
+} from '@/views/Map/utils';
 import { ElMessageBox } from 'element-plus';
 import { MapMouseEvent } from 'mapbox-gl';
-import { CoordinateTransform } from '@/utils';
+import { CoordinateTransform, calculateCenter } from '@/utils';
 import { mapBoxIsochrone } from '@/apis/amap';
+import { Position } from 'geojson';
 
 const activeName = ref<'Isochronous' | 'bufferArea' | 'custom'>('Isochronous');
 /*  等时圈相关
@@ -42,6 +48,7 @@ const changeIsochronousType = (val: Type) => {
 // 创建等时圈图层
 let isochronousFillLayer: CreateFillLayer | null;
 let isochronousLineLayer: CreateLineLayer | null;
+let isochronousMarkerLayer: CreateImgMarkerLayer | null;
 const createIsochronousLayer = () => {
   isochronousFillLayer = new CreateFillLayer('isochronousFillLayer', {
     'fill-color': '#cb45fe',
@@ -52,6 +59,12 @@ const createIsochronousLayer = () => {
     'line-width': 2,
     'line-opacity': 0.8
   });
+  isochronousMarkerLayer = new CreateImgMarkerLayer(
+    'isochronousMarkerLayer',
+    { 'icon-opacity': 1 },
+    'http://222.71.8.115:58089/api/images/com/slmcom.png',
+    0.5
+  );
 };
 // option radio change
 const isochronousBtnChange = (val: 'reset' | 'draw' | '') => {
@@ -64,7 +77,11 @@ const isochronousBtnChange = (val: 'reset' | 'draw' | '') => {
 // 调用 mapbox api 计算等时圈数据
 const calculateIsochronousData = () => {
   map.value.setCursor('crosshair');
-  if (!isochronousFillLayer && !isochronousLineLayer) {
+  if (
+    !isochronousFillLayer &&
+    !isochronousLineLayer &&
+    !isochronousMarkerLayer
+  ) {
     createIsochronousLayer();
   }
   const mapClick = async (e: MapMouseEvent) => {
@@ -88,14 +105,25 @@ const calculateIsochronousData = () => {
       if (Array.isArray(features) && features.length > 0) {
         // 坐标转换，将mapBox 返回的 WGS-84 坐标转为 GCJ-02
         features.forEach(e => {
-          let coordinates = e.geometry.coordinates;
-          coordinates.forEach(f => {
-            f.forEach(j => {
-              let { lat, lon } = CoordinateTransform.gcj_encrypt(j[1], j[0]);
-              j[0] = lon;
-              j[1] = lat;
-            });
+          e.geometry.coordinates[0].forEach(j => {
+            let { lat, lon } = CoordinateTransform.gcj_encrypt(j[1], j[0]);
+            j[0] = lon;
+            j[1] = lat;
           });
+          if (e.properties) {
+            const centerPoint = calculateCenter(
+              e.geometry.coordinates[0]
+            ) as Position;
+            isochronousMarkerLayer?.features.push({
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: centerPoint
+              },
+              properties: {}
+            });
+            isochronousMarkerLayer?.changeFeatures();
+          }
         });
         isochronousFillLayer?.features.push(...features);
         isochronousFillLayer?.changeFeatures();
@@ -118,8 +146,10 @@ const clearIsochronousLayer = () => {
       isochronousOption.value = '';
       isochronousFillLayer?.removeLayer();
       isochronousLineLayer?.removeLayer();
+      isochronousMarkerLayer?.removeLayer();
       isochronousFillLayer = null;
       isochronousLineLayer = null;
+      isochronousMarkerLayer = null;
     })
     .catch(err => {
       console.log(err);

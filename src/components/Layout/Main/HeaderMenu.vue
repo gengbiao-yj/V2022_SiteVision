@@ -18,9 +18,14 @@ const props = defineProps({
     type: String,
     required: true
   },
-  // 为顶烂时，是否采用主题色
-  primaryHeader: {
+  // 为顶烂时，是否采用深色背景
+  darkHeader: {
     type: Boolean,
+    required: true
+  },
+  // 深色背景色
+  darkHeaderColor: {
+    type: String,
     required: true
   },
   // 为侧栏时，是否使用主题色
@@ -59,8 +64,14 @@ const menuId = ref('defaultMenu');
  * menu 主题判断逻辑
  * @param val
  */
-const judgeMenuPrimary = (color: string, aside: boolean, header: boolean) => {
-  if (aside || header) {
+const judgeMenuPrimary = (
+  color: string,
+  aside: boolean,
+  darkHeader: boolean
+) => {
+  if (darkHeader) {
+    setMenuPrimary('#e8e8e8', '#ffd04b', props.darkHeaderColor);
+  } else if (aside) {
     setMenuPrimary('#e8e8e8', '#fff', color);
   } else {
     setMenuPrimary('#303133', color, '#fff');
@@ -81,14 +92,10 @@ const setMenuPrimary = (tc: string, atc: string, mbc: string) => {
 
 // 监控设置变化
 watch(
-  [
-    () => props.primaryColor,
-    () => props.primaryAside,
-    () => props.primaryHeader
-  ],
-  ([color, aside, header]) => {
-    menuId.value = aside || header ? 'primaryMenu' : 'defaultMenu';
-    judgeMenuPrimary(color, aside, header);
+  [() => props.primaryColor, () => props.primaryAside, () => props.darkHeader],
+  ([color, aside, darkHeader]) => {
+    menuId.value = aside || darkHeader ? 'darkMenu' : 'defaultMenu';
+    judgeMenuPrimary(color, aside, darkHeader);
   },
   {
     immediate: true

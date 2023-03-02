@@ -21,6 +21,12 @@ basicStore.setBaseUrl(baseURL);
 // 主题色初始化
 const systemSettings = getSystemParams();
 const rgb = colorTransition(systemSettings.primaryColor, 'rgb') as rgbType;
+// header 深色背景色
+document.documentElement.style.setProperty(
+  '--dark-header-color',
+  systemSettings.darkHeaderColor
+);
+// 主题色
 document.documentElement.style.setProperty('--primary-color-r', rgb.r + '');
 document.documentElement.style.setProperty('--primary-color-g', rgb.g + '');
 document.documentElement.style.setProperty('--primary-color-b', rgb.b + '');

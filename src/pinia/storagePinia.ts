@@ -23,6 +23,7 @@ export default defineStore('basicPinia', () => {
   ------------------------------------------------ */
   const systemParams = ref<SystemSetType>({
     primaryColor: '#3861c8',
+    darkHeaderColor: '#4a4a4a',
     historyPrimaryCol: [
       '#3861c8',
       '#EC5A69',

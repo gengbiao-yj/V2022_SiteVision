@@ -39,6 +39,52 @@
   }
 }
 
+/// src\components\Layout\Main\HeaderMenu.vue  主题背景样式修改
+#defaultMenu {
+  // hover 状态样式重写
+  .el-sub-menu__title:hover,
+  .el-menu-item:hover {
+    background: none;
+    > span,
+    svg {
+      transition: all 0.2s ease;
+      color: var(--primary-color);
+    }
+  }
+
+  // focus 状态增加背景样式
+  .el-menu-item.is-active {
+    background-color: rgba(
+      var(--primary-color-r),
+      var(--primary-color-g),
+      var(--primary-color-b),
+      0.2
+    );
+  }
+}
+
+#darkMenu {
+  // hover 状态样式重写
+  .el-sub-menu__title:hover,
+  .el-menu-item:hover {
+    background: none;
+    > span,
+    svg {
+      transition: all 0.2s ease;
+      color: white;
+    }
+  }
+
+  // focus 状态增加背景样式
+  .el-menu-item.is-active {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  //&.el-menu--horizontal {
+  //  //border-bottom: none !important;
+  //}
+}
+
 /// src\components\PublicGlobal\SvTableColumnOption.vue  表格列配置的弹窗样式
 // el-tree 组件样式覆盖
 .table-column-tree {
@@ -108,47 +154,6 @@
   }
   .el-menu-item.is-active {
     background-color: rgba(255, 255, 255, 0.4) !important;
-  }
-}
-
-#defaultMenu {
-  // hover 状态样式重写
-  .el-sub-menu__title:hover,
-  .el-menu-item:hover {
-    background: none;
-    > span,
-    svg {
-      transition: all 0.2s ease;
-      color: var(--primary-color);
-    }
-  }
-
-  // focus 状态增加背景样式
-  .el-menu-item.is-active {
-    background-color: rgba(
-      var(--primary-color-r),
-      var(--primary-color-g),
-      var(--primary-color-b),
-      0.2
-    );
-  }
-}
-
-#primaryMenu {
-  // hover 状态样式重写
-  .el-sub-menu__title:hover,
-  .el-menu-item:hover {
-    background: none;
-    > span,
-    svg {
-      transition: all 0.2s ease;
-      color: white;
-    }
-  }
-
-  // focus 状态增加背景样式
-  .el-menu-item.is-active {
-    background-color: rgba(255, 255, 255, 0.3);
   }
 }
 

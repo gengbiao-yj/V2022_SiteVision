@@ -16,9 +16,6 @@ basicStore.$subscribe(
     primaryAside.value =
       state.systemParams.primaryAside &&
       state.systemParams.layoutType === 'LeftRight';
-    primaryBreadcrum.value =
-      state.systemParams.primaryHeader &&
-      state.systemParams.layoutType === 'LeftRight';
   },
   {
     immediate: true
@@ -62,11 +59,12 @@ export default {
         v-show="!isAsideDrawer"
         :class="{
           asideCollapse: isAsideMenuCollapse,
-          asideOpen: !isAsideMenuCollapse
+          asideOpen: !isAsideMenuCollapse,
+          'primary-bg-color': primaryAside
         }"
       >
         <div class="aside-title">
-          <HeaderTitle />
+          <HeaderTitle :dark-header="primaryAside" />
         </div>
         <div
           class="aside-menu"
@@ -149,7 +147,6 @@ export default {
   .aside-title {
     @include box-size(100%, 50px);
     @include flex(row, flex-start, flex-end);
-    @include primary-bg-color(1);
     overflow: hidden;
     border-bottom: 1px dashed #a8a8a8;
     padding-left: 15px;

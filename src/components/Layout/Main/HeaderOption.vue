@@ -6,8 +6,8 @@ import SystemSetting from './SystemSetting.vue';
 import { ElMessageBox } from 'element-plus';
 
 const props = defineProps({
-  // 上下布局，顶栏是否采用主题背景色
-  primaryHeader: {
+  // 上下布局，顶栏是否采用深色背景
+  darkHeader: {
     type: Boolean,
     required: true
   },
@@ -17,7 +17,7 @@ const props = defineProps({
     required: true
   }
 });
-const isPrimary = computed(() => props.primaryHeader || props.primaryBread); // 是否设置主题背景色
+const isDarkHeader = computed(() => props.darkHeader || props.primaryBread); // 是否设置为深色背景
 
 const router = useRouter();
 // 获取用户信息
@@ -68,7 +68,7 @@ export default {
       <template #reference>
         <sv-badge :content="11">
           <span class="svg-item">
-            <Bell class="svg-20" :class="{ 'color-white': isPrimary }" />
+            <Bell class="svg-20" :class="{ 'color-white': isDarkHeader }" />
           </span>
         </sv-badge>
       </template>
@@ -76,15 +76,15 @@ export default {
     </el-popover>
     <!-- 刷新 -->
     <span class="svg-item" @click="refresh">
-      <Refresh class="svg-20" :class="{ 'color-white': isPrimary }" />
+      <Refresh class="svg-20" :class="{ 'color-white': isDarkHeader }" />
     </span>
     <!-- 全屏 -->
     <span class="svg-item" @click="clickFullScreen">
-      <FullScreen class="svg-20" :class="{ 'color-white': isPrimary }" />
+      <FullScreen class="svg-20" :class="{ 'color-white': isDarkHeader }" />
     </span>
     <!-- 设置 -->
     <span class="svg-item" @click="optionDrawer = true">
-      <Setting class="svg-20" :class="{ 'color-white': isPrimary }" />
+      <Setting class="svg-20" :class="{ 'color-white': isDarkHeader }" />
     </span>
     <!-- 用户操作 -->
     <el-popover

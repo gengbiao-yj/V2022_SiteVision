@@ -1,5 +1,7 @@
 :root {
+  /// 这里两个颜色的配置在 pinia 保存的系统参数里
   //--primary-color: #5aa3ec; // 主题色
+  //--dark-header-color: #4a4a4a; // 顶部深色背景色
 }
 .color-red {
   color: crimson;
@@ -15,4 +17,8 @@
 
 .primary-bg-color {
   background-color: var(--primary-color) !important;
+}
+
+.dark-header-bg-color {
+  background-color: var(--dark-header-color) !important;
 }

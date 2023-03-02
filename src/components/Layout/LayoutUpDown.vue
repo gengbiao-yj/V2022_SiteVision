@@ -6,12 +6,14 @@ import HeaderOption from '@comps/Layout/Main/HeaderOption.vue';
 import HeaderTabs from '@comps/Layout/Main/HeaderTabs.vue';
 import { basicStore } from '@/pinia';
 
-const primaryHeader = ref(false); // 顶部菜单栏是否使用主题色
+const darkHeader = ref(false); // 顶部菜单栏是否深色
 const primaryColor = ref('#fff'); // 系统主题色
+const darkHeaderColor = ref('#fff'); // header 深色背景色
 basicStore.$subscribe(
   (mutation, state) => {
     primaryColor.value = state.systemParams.primaryColor;
-    primaryHeader.value =
+    darkHeaderColor.value = state.systemParams.darkHeaderColor;
+    darkHeader.value =
       state.systemParams.primaryHeader &&
       state.systemParams.layoutType === 'UpDown';
   },
@@ -31,26 +33,29 @@ export default {
     <el-container>
       <el-header height="50px">
         <div class="header">
-          <div class="header-left">
-            <HeaderTitle />
+          <div
+            class="header-left"
+            :style="{
+              'background-color': darkHeader ? darkHeaderColor : '#fff'
+            }"
+          >
+            <HeaderTitle :dark-header="darkHeader" />
           </div>
           <div class="header-menu">
             <HeaderMenu
               :primary-color="primaryColor"
               :primary-aside="false"
-              :primary-header="primaryHeader"
+              :dark-header="darkHeader"
+              :dark-header-color="darkHeaderColor"
             />
           </div>
           <div
             class="header-right"
-            :class="{
-              'primary-bg-color': primaryHeader
+            :style="{
+              'background-color': darkHeader ? darkHeaderColor : '#fff'
             }"
           >
-            <HeaderOption
-              :primary-bread="false"
-              :primary-header="primaryHeader"
-            />
+            <HeaderOption :primary-bread="false" :dark-header="darkHeader" />
           </div>
         </div>
       </el-header>
@@ -94,20 +99,22 @@ export default {
   .header {
     @include box-size(100%, 50px);
     @include flex(row, space-between, center);
-    border-bottom: 1px solid #dcdfe6;
+
     &-left {
       @include box-size(210px, 100%);
       @include flex(row, flex-start, flex-end);
-      @include primary-bg-color(1);
       padding-left: 15px;
       padding-bottom: 10px;
+      border-bottom: 1px #dcdfe6 solid;
     }
     &-menu {
       @include box-size(calc(100% - 510px), 100%);
+      border-bottom: 1px #dcdfe6 solid;
     }
     &-right {
       @include box-size(300px, 100%);
       padding-right: 5px;
+      border-bottom: 1px #dcdfe6 solid;
     }
   }
 }

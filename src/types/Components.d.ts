@@ -18,6 +18,7 @@ interface POIItem {
 
 interface SystemSetType {
   primaryColor: string; // 当前主题色
+  darkHeaderColor: string; // 网页 header 深色背景
   historyPrimaryCol: Array<string>; // 历史主题色, max: 5
   layoutType: 'UpDown' | 'LeftRight'; // 导航栏布局
   primaryAside: boolean; // 侧边导航栏主题色

@@ -13,8 +13,8 @@ export default {
     language: 'Language',
     leftRight: 'Left&Right',
     upDown: 'Up&Down',
-    sideBar: 'sideBar',
-    topBar: 'topBar',
+    sideBar: 'primarySide',
+    topBar: 'darkHeader',
     cancel: 'cancel'
   },
   // 菜单栏 | 数据管理，对应语言

@@ -1,7 +1,5 @@
 <!-- 系统设置 - 侧拉抽屉 -->
 <script setup lang="ts">
-/*  init
------------------------------------------------- */
 import { basicStore } from '@/pinia';
 import { useI18n } from 'vue-i18n';
 
@@ -62,6 +60,9 @@ const selectOldPrimary = (e: string) => {
 
 // 选择布局方式
 const selectLayoutType = (e: 'UpDown' | 'LeftRight') => {
+  if (e === 'UpDown') {
+    systemSettings.value.primaryHeader = true;
+  }
   systemSettings.value.layoutType = e;
   setSystemParams(systemSettings.value);
 };
@@ -158,7 +159,10 @@ export default {
       <el-divider> {{ $t(`system.layOutPrimary`) }} </el-divider>
       <div class="layout-type-box">
         <!-- 侧边栏主题色 -->
-        <div class="layout-type">
+        <div
+          v-show="systemSettings.layoutType == 'LeftRight'"
+          class="layout-type"
+        >
           <div @click="isMenuPrimary(true, false)">
             <div class="layout-aside primary-bg-color"></div>
           </div>
@@ -166,9 +170,12 @@ export default {
           <span v-if="systemSettings.primaryAside" class="circle-tip"></span>
         </div>
         <!-- 顶栏主题色 -->
-        <div class="layout-type">
+        <div v-show="systemSettings.layoutType == 'UpDown'" class="layout-type">
           <div @click="isMenuPrimary(false, true)">
-            <div class="layout-header primary-bg-color"></div>
+            <div
+              class="layout-header"
+              :style="{ 'background-color': systemSettings.darkHeaderColor }"
+            ></div>
           </div>
           <span>{{ $t(`system.topBar`) }}</span>
           <span v-if="systemSettings.primaryHeader" class="circle-tip"></span>
@@ -181,7 +188,12 @@ export default {
           </div>
           <span>{{ $t(`system.cancel`) }}</span>
           <span
-            v-if="!systemSettings.primaryHeader && !systemSettings.primaryAside"
+            v-if="
+              (!systemSettings.primaryHeader &&
+                systemSettings.layoutType == 'UpDown') ||
+              (!systemSettings.primaryAside &&
+                systemSettings.layoutType == 'LeftRight')
+            "
             class="circle-tip"
           ></span>
         </div>

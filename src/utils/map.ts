@@ -1,3 +1,9 @@
+/**
+ * 坐标转换
+ * @author GengBiao
+ */
+import { Position } from 'geojson';
+
 export const CoordinateTransform = {
   // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
   PI: 3.14159265358979324,
@@ -178,4 +184,23 @@ export const CoordinateTransform = {
       3.0;
     return ret;
   }
+};
+
+export const calculateCenter = (points: Position[]) => {
+  let area = 0.0; //多边形面积
+  let Gx = 0.0,
+    Gy = 0.0; // 重心的x、y
+  for (let i = 1; i <= points.length; i++) {
+    const iLat = Number(points[i % points.length][1]);
+    const iLng = Number(points[i % points.length][0]);
+    const nextLat = Number(points[i - 1][1]);
+    const nextLng = Number(points[i - 1][0]);
+    const temp = (iLat * nextLng - iLng * nextLat) / 2.0;
+    area += temp;
+    Gx += (temp * (iLat + nextLat)) / 3.0;
+    Gy += (temp * (iLng + nextLng)) / 3.0;
+  }
+  Gx = Gx / area;
+  Gy = Gy / area;
+  return [Gy, Gx];
 };

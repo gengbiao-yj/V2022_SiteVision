@@ -1,6 +1,6 @@
 import { DataCrypto, StorageUtils } from '@/utils/storage';
 import { checkMail, checkPhone, checkNewPassword } from '@/utils/validator';
-import { CoordinateTransform } from '@/utils/map';
+import { CoordinateTransform, calculateCenter } from '@/utils/map';
 
 const cryptoData = new DataCrypto();
 const storage = new StorageUtils();
@@ -147,5 +147,6 @@ export {
   throttle,
   getNewDate,
   dataURLToBlob,
-  CoordinateTransform
+  CoordinateTransform,
+  calculateCenter
 };
