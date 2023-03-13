@@ -1,6 +1,10 @@
 import { ref, Ref, onMounted } from 'vue';
-import mapboxgl, {
-  Map,
+import mapboxgl, { Map } from 'mapbox-gl';
+import { basicStore } from '@/pinia';
+import { AMAP } from '@/plugin/Axios/config';
+import { amapIP } from '@/apis/amap';
+import { throttle } from '@/utils';
+import type {
   MapWheelEvent,
   MapMouseEvent,
   LngLat,
@@ -11,11 +15,7 @@ import mapboxgl, {
   FillPaint,
   SymbolPaint
 } from 'mapbox-gl';
-import { basicStore } from '@/pinia';
-import { AMAP } from '@/plugin/Axios/config';
-import { amapIP } from '@/apis/amap';
-import { throttle } from '@/utils';
-import {
+import type {
   Feature,
   FeatureCollection,
   GeoJsonProperties,

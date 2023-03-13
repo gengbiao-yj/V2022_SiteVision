@@ -65,6 +65,7 @@ declare module '@vue/runtime-core' {
     SvAreaData: typeof import('./src/components/PublicGlobal/SvAreaData.vue')['default']
     SvBadge: typeof import('./src/components/PublicGlobal/SvBadge.vue')['default']
     SvCopyrightLine: typeof import('./src/components/PublicGlobal/SvCopyrightLine.vue')['default']
+    SvDrawer: typeof import('./src/components/PublicGlobal/SvDrawer.vue')['default']
     SvFullScreen: typeof import('./src/components/PublicGlobal/SvFullScreen.vue')['default']
     SvReplaceImg: typeof import('./src/components/PublicGlobal/SvReplaceImg.vue')['default']
     SvTableBox: typeof import('./src/components/PublicGlobal/SvTableBox.vue')['default']

@@ -60,7 +60,7 @@ export function setupGlobalDirective(app: App) {
 
   /**
    * 快元素宽度折叠
-   *  binding.arg [折叠后宽度,展开后补充宽度]
+   *  binding.arg [折叠后宽度,展开宽度,展开后补充宽度]
    */
   app.directive('collapseW', (el, binding: DirectiveBinding<boolean>) => {
     el.style.transition = 'all ease-in-out 0.3s';

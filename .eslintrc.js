@@ -124,6 +124,7 @@ module.exports = {
       }
     ], // 构造函数要以大写字母开头, 但调用大写字母开头的函数不一定需要new
     'new-parens': 2, // 无参的构造函数调用时要带上括号
+    '@typescript-eslint/no-var-requires': 'off', // 关闭 require 应用限制
     'accessor-pairs': 2, // 对象中定义了存值器，一定要对应的定义取值器
     'constructor-super': 2, // 子类的构造器中一定要调用 super
     'no-array-constructor': 'error', // 使用数组字面量而不是构造器

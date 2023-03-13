@@ -6,10 +6,11 @@ import {
   map
 } from '@/views/Map/utils';
 import { ElMessageBox } from 'element-plus';
-import { MapMouseEvent } from 'mapbox-gl';
 import { CoordinateTransform, calculateCenter } from '@/utils';
 import { mapBoxIsochrone } from '@/apis/amap';
-import { Position } from 'geojson';
+import SvDrawer from '@comps/PublicGlobal/SvDrawer.vue';
+import type { MapMouseEvent } from 'mapbox-gl';
+import type { Position } from 'geojson';
 
 const activeName = ref<'Isochronous' | 'bufferArea' | 'custom'>('Isochronous');
 /*  等时圈相关
@@ -62,10 +63,22 @@ const createIsochronousLayer = () => {
   isochronousMarkerLayer = new CreateImgMarkerLayer(
     'isochronousMarkerLayer',
     { 'icon-opacity': 1 },
-    'http://222.71.8.115:58089/api/images/com/slmcom.png',
+    require('@/assets/img/map/slmcom.png'),
     0.5
   );
+  map.value.on('mouseenter', 'isochronousMarkerLayer', () => {
+    map.value.setCursor('pointer');
+  });
+  map.value.on('mouseleave', 'isochronousMarkerLayer', () => {
+    map.value.setCursor('');
+  });
+  map.value.on('click', 'isochronousFillLayer', (e: any) => {
+    console.log(e.features);
+    coordinatesClicked.value = e.features[0].geometry.coordinates;
+    svDrawer.value.show(true);
+  });
 };
+
 // option radio change
 const isochronousBtnChange = (val: 'reset' | 'draw' | '') => {
   if (val === 'draw') {
@@ -167,9 +180,10 @@ const bufferAreaMarks = ref({
   5000: '5000m'
 });
 
-/*  自定义相关
------------------------------------------------- */
 const customOption = ref<'reset' | 'draw' | ''>(''); // 操作
+
+const svDrawer = ref(); // 商圈分析弹窗
+const coordinatesClicked = ref<Position[][]>([]);
 </script>
 <script lang="ts">
 export default {
@@ -261,12 +275,15 @@ export default {
       <!-- 操作 -->
       <div class="option-btn">
         <el-radio-group v-model="customOption">
-          <el-radio-button label="reset">清除</el-radio-button>
+          <el-radio-button label="reset">清空</el-radio-button>
           <el-radio-button label="draw">选取</el-radio-button>
         </el-radio-group>
       </div>
     </el-tab-pane>
   </el-tabs>
+  <SvDrawer ref="svDrawer">
+    {{ coordinatesClicked }}
+  </SvDrawer>
 </template>
 
 <style scoped lang="scss">
