@@ -4,15 +4,26 @@ const props = defineProps({
   title: {
     type: String,
     default: '分析报告'
+  },
+  modelValue: {
+    type: Boolean,
+    require: true
   }
 });
 
-const show = shallowRef(false);
+const emits = defineEmits(['update:modelValue']);
+
+const show = ref(props.modelValue);
+watch(
+  () => props.modelValue,
+  (val: boolean) => (show.value = val)
+);
 const arg = [0, 360, 0];
 
-defineExpose({
-  show: (val: boolean) => (show.value = val)
-});
+const changeShow = () => {
+  show.value = !show.value;
+  emits('update:modelValue', show.value);
+};
 </script>
 <template>
   <teleport to="body">
@@ -25,7 +36,7 @@ defineExpose({
         v-rotateY:180="true"
         class="icon svg-40 collapse-icon"
         aria-hidden="true"
-        @click="show = !show"
+        @click="changeShow"
       >
         <use href="#icon-zuohua"></use>
       </svg>

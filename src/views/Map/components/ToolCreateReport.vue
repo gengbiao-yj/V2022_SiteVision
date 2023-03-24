@@ -1,85 +1,24 @@
 <script setup lang="ts">
-import {
-  CreateFillLayer,
-  CreateImgMarkerLayer,
-  CreateLineLayer,
-  map
-} from '@/views/Map/utils';
-import { ElMessageBox } from 'element-plus';
-import { CoordinateTransform, calculateCenter } from '@/utils';
-import { mapBoxIsochrone } from '@/apis/amap';
 import SvDrawer from '@comps/PublicGlobal/SvDrawer.vue';
-import type { MapMouseEvent } from 'mapbox-gl';
-import type { Position } from 'geojson';
-
 const activeName = ref<'Isochronous' | 'bufferArea' | 'custom'>('Isochronous');
-/*  等时圈相关
------------------------------------------------- */
-type Type = 'walking' | 'cycling' | 'driving';
-const isochronousType = ref<Type>('walking'); // 类型
-const isochronousTime = ref<number>(5); // 时间
-const isochronousOption = ref<'reset' | 'draw' | ''>(''); // 操作
-type Marks = '1min' | '5min' | '10min' | '30min';
-const isochronousMarks = ref<Record<number, Marks>>({
-  1: '1min',
-  30: '30min'
-});
-const isochronousMin = ref<1 | 5>(1);
-const isochronousMax = ref<10 | 30>(30);
-const changeIsochronousType = (val: Type) => {
-  if (val === 'walking' || val === 'cycling') {
-    isochronousMarks.value = {
-      1: '1min',
-      30: '30min'
-    };
-    isochronousTime.value = 5;
-    isochronousMin.value = 1;
-    isochronousMax.value = 30;
-  } else if (val === 'driving') {
-    isochronousMarks.value = {
-      5: '5min',
-      10: '10min'
-    };
-    isochronousTime.value = 10;
-    isochronousMin.value = 5;
-    isochronousMax.value = 10;
-  }
-};
 
-// 创建等时圈图层
-let isochronousFillLayer: CreateFillLayer | null;
-let isochronousLineLayer: CreateLineLayer | null;
-let isochronousMarkerLayer: CreateImgMarkerLayer | null;
-const createIsochronousLayer = () => {
-  isochronousFillLayer = new CreateFillLayer('isochronousFillLayer', {
-    'fill-color': '#cb45fe',
-    'fill-opacity': 0.3
-  });
-  isochronousLineLayer = new CreateLineLayer('isochronousLineLayer', {
-    'line-color': '#cb45fe',
-    'line-width': 2,
-    'line-opacity': 0.8
-  });
-  isochronousMarkerLayer = new CreateImgMarkerLayer(
-    'isochronousMarkerLayer',
-    { 'icon-opacity': 1 },
-    require('@/assets/img/map/slmcom.png'),
-    0.5
-  );
-  map.value.on('mouseenter', 'isochronousMarkerLayer', () => {
-    map.value.setCursor('pointer');
-  });
-  map.value.on('mouseleave', 'isochronousMarkerLayer', () => {
-    map.value.setCursor('');
-  });
-  map.value.on('click', 'isochronousFillLayer', (e: any) => {
-    console.log(e.features);
-    coordinatesClicked.value = e.features[0].geometry.coordinates;
-    svDrawer.value.show(true);
-  });
-};
+/**
+ * 等时圈相关
+ */
+import {
+  calculateIsochronousData,
+  clearIsochronousLayer,
+  changeIsochronousType,
+  isochronousTime,
+  isochronousType,
+  isochronousMin,
+  isochronousMax,
+  isochronousMarks,
+  isochronousOption,
+  isochronousCoordinates,
+  isochronousDrawer
+} from '@/views/Map/components/ToolCreareReport/IsochronousLayer';
 
-// option radio change
 const isochronousBtnChange = (val: 'reset' | 'draw' | '') => {
   if (val === 'draw') {
     calculateIsochronousData();
@@ -87,103 +26,65 @@ const isochronousBtnChange = (val: 'reset' | 'draw' | '') => {
     clearIsochronousLayer();
   }
 };
-// 调用 mapbox api 计算等时圈数据
-const calculateIsochronousData = () => {
-  map.value.setCursor('crosshair');
-  if (
-    !isochronousFillLayer &&
-    !isochronousLineLayer &&
-    !isochronousMarkerLayer
-  ) {
-    createIsochronousLayer();
+
+/**
+ * 缓冲区相关
+ */
+import {
+  bufferAreaRadius,
+  bufferAreaOption,
+  bufferAreaMin,
+  bufferAreaMax,
+  bufferAreaMarks,
+  bufferDrawer,
+  bufferCoordinates,
+  calculateBufferAreaData,
+  clearBufferAreaLayer
+} from '@/views/Map/components/ToolCreareReport/BufferAreaLayer';
+const bufferBtnChange = (val: 'reset' | 'draw' | '') => {
+  if (val === 'draw') {
+    calculateBufferAreaData();
+  } else if (val === 'reset') {
+    clearBufferAreaLayer();
   }
-  const mapClick = async (e: MapMouseEvent) => {
-    try {
-      isochronousOption.value = '';
-      map.value.setCursor('default');
-      const filterType = isochronousType.value;
-      const minutes = isochronousTime.value;
-      // 坐标转换，将点击地图获取的 GCJ-02 坐标转为 WGS-84
-      const { lat, lon } = CoordinateTransform.gcj_decrypt(
-        e.lngLat.lat,
-        e.lngLat.lng
-      );
-      const { type, features } = await mapBoxIsochrone(
-        filterType,
-        lon,
-        lat,
-        minutes
-      );
-      // 图层添加数据
-      if (Array.isArray(features) && features.length > 0) {
-        // 坐标转换，将mapBox 返回的 WGS-84 坐标转为 GCJ-02
-        features.forEach(e => {
-          e.geometry.coordinates[0].forEach(j => {
-            let { lat, lon } = CoordinateTransform.gcj_encrypt(j[1], j[0]);
-            j[0] = lon;
-            j[1] = lat;
-          });
-          if (e.properties) {
-            const centerPoint = calculateCenter(
-              e.geometry.coordinates[0]
-            ) as Position;
-            isochronousMarkerLayer?.features.push({
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: centerPoint
-              },
-              properties: {}
-            });
-            isochronousMarkerLayer?.changeFeatures();
-          }
-        });
-        isochronousFillLayer?.features.push(...features);
-        isochronousFillLayer?.changeFeatures();
-        isochronousLineLayer?.features.push(...features);
-        isochronousLineLayer?.changeFeatures();
-      }
-      map.value.off('click', mapClick);
-    } catch (e) {
-      console.log(e);
-      map.value.off('click', mapClick);
-    }
-  };
-  map.value.once('click', mapClick);
 };
 
-// 清除等时圈图层
-const clearIsochronousLayer = () => {
-  ElMessageBox.confirm('确认清除所有已选取的等时圈嘛？')
-    .then(res => {
-      isochronousOption.value = '';
-      isochronousFillLayer?.removeLayer();
-      isochronousLineLayer?.removeLayer();
-      isochronousMarkerLayer?.removeLayer();
-      isochronousFillLayer = null;
-      isochronousLineLayer = null;
-      isochronousMarkerLayer = null;
-    })
-    .catch(err => {
-      console.log(err);
-    });
+/**
+ * 自定义相关
+ */
+import {
+  measureArea,
+  customDrawer,
+  customCoordinates,
+  clearCustomLayer,
+  customOption,
+  btnDisabled
+} from '@/views/Map/components/ToolCreareReport/CustomLayer';
+const customBtnChange = (val: 'reset' | 'draw' | '') => {
+  if (val === 'draw') {
+    measureArea();
+  } else if (val === 'reset') {
+    clearCustomLayer();
+  }
 };
-
-/*  缓冲区相关
------------------------------------------------- */
-const bufferAreaRadius = ref<number>(5); // 缓冲区半径
-const bufferAreaOption = ref<'reset' | 'draw' | ''>(''); // 操作
-const bufferAreaMin = ref<number>(100); // 操作
-const bufferAreaMax = ref<number>(5000); // 操作
-const bufferAreaMarks = ref({
-  100: '100m',
-  5000: '5000m'
-});
-
-const customOption = ref<'reset' | 'draw' | ''>(''); // 操作
-
-const svDrawer = ref(); // 商圈分析弹窗
-const coordinatesClicked = ref<Position[][]>([]);
+/**
+ * 查看报告
+ */
+const reportDrawer = ref<boolean>(false);
+const reportCoordinates = ref<any>(); // 被点击商圈的坐标集合
+watch(
+  [
+    () => isochronousDrawer.value,
+    () => bufferDrawer.value,
+    () => customDrawer.value
+  ],
+  ([v1, v2, v3]) => {
+    reportDrawer.value = v1 || v2 || v3;
+    v1 && (reportCoordinates.value = isochronousCoordinates.value);
+    v2 && (reportCoordinates.value = bufferCoordinates.value);
+    v3 && (reportCoordinates.value = customCoordinates.value);
+  }
+);
 </script>
 <script lang="ts">
 export default {
@@ -265,7 +166,7 @@ export default {
       </div>
       <!-- 操作 -->
       <div class="option-btn">
-        <el-radio-group v-model="bufferAreaOption">
+        <el-radio-group v-model="bufferAreaOption" @change="bufferBtnChange">
           <el-radio-button label="reset">清除</el-radio-button>
           <el-radio-button label="draw">选取</el-radio-button>
         </el-radio-group>
@@ -274,15 +175,19 @@ export default {
     <el-tab-pane label="自定义" name="custom">
       <!-- 操作 -->
       <div class="option-btn">
-        <el-radio-group v-model="customOption">
+        <el-radio-group
+          v-model="customOption"
+          :disabled="btnDisabled"
+          @change="customBtnChange"
+        >
           <el-radio-button label="reset">清空</el-radio-button>
           <el-radio-button label="draw">选取</el-radio-button>
         </el-radio-group>
       </div>
     </el-tab-pane>
   </el-tabs>
-  <SvDrawer ref="svDrawer">
-    {{ coordinatesClicked }}
+  <SvDrawer v-model="reportDrawer">
+    {{ reportCoordinates }}
   </SvDrawer>
 </template>
 

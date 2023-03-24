@@ -4,11 +4,12 @@ import {
   map,
   CreateLineLayer,
   CreateCycleLayer,
-  CreateFillLayer
+  CreateFillLayer,
+  getLength,
+  getArea
 } from '@/views/Map/utils';
 import { MapMouseEvent, MarkerOptions, LngLatLike, Marker } from 'mapbox-gl';
 import { Position } from 'geojson';
-import * as turf from '@turf/turf';
 
 const measure = ref<'1' | '2' | '3'>('3'); // 测量工具类别：1- 测距离 2- 测面积 3- 初始状态
 
@@ -122,24 +123,10 @@ const getMeasureLineRes = (coords: LngLatLike) => {
     anchor: 'left',
     offset: [8, 0]
   };
-  ele.innerHTML = MLCurrentPoints.length === 0 ? '起点' : getLength(coords);
+  ele.innerHTML =
+    MLCurrentPoints.length === 0 ? '起点' : getLength(MLCurrentPoints, coords);
   const marker = new Marker(option).setLngLat(coords).addTo(map.value);
   MLCurrentTooltips.push(marker);
-};
-
-/**
- * 计算直线距离
- */
-const getLength = (coords: LngLatLike) => {
-  const _points = MLCurrentPoints.concat([coords] as Position[]);
-  const line = turf.lineString(_points);
-  let len: number | string = turf.length(line);
-  if (len < 1) {
-    len = Math.round(len * 1000) + 'm';
-  } else {
-    len = len.toFixed(2) + 'km';
-  }
-  return len;
 };
 
 /**
@@ -200,7 +187,7 @@ const measureMoveLine = (e: MapMouseEvent) => {
     const index = MLFixLine.features.length - 1;
     MLPreCurrentPoints = [...MLCurrentPoints, point];
     const newFixLinePoints = computeFixedLinePoints(MLPreCurrentPoints);
-    MLTooltipEl.innerText = getLength(point);
+    MLTooltipEl.innerText = getLength(MLCurrentPoints, point);
     MLFixLine.changeIndexFeature(index, newFixLinePoints);
   } else {
     MLTooltipEl.innerText = '点击左键开始测量，右键结束测量';
@@ -306,19 +293,6 @@ const measureAreaRightClick = () => {
   map.value.setCursor('default');
 };
 
-// 测量面积
-const getArea = (coords?: LngLatLike) => {
-  let pts = coords ? MApoints.concat([coords] as Position[]) : [...MApoints];
-  pts = pts.concat([MApoints[0]]);
-  const polygon = turf.polygon([pts]);
-  const area: number = turf.area(polygon);
-  if (Math.floor(area) < 1000) {
-    return Math.round(area) + 'm²';
-  } else {
-    return (area / 1000000).toFixed(2) + 'km²';
-  }
-};
-
 // 鼠标拖动动态变更测量面积
 const measureMoveArea = (e: MapMouseEvent) => {
   const point: LngLatLike = [e.lngLat.lng, e.lngLat.lat];
@@ -330,7 +304,7 @@ const measureMoveArea = (e: MapMouseEvent) => {
     const fillMovePoints = [[...MApoints, point, MApoints[0]]];
     const index = MAFillLayer.features.length - 1;
     MAFillLayer.changeIndexFeature(index, fillMovePoints);
-    MLTooltipEl.innerText = getArea(point);
+    MLTooltipEl.innerText = getArea(MApoints, point);
   }
   MLTooltip.setLngLat(point);
 };
@@ -342,7 +316,7 @@ const getMARes = () => {
   let endPoint = MApoints[MApoints.length - 1] as LngLatLike;
   let el: HTMLDivElement | null = document.createElement('div');
   el.setAttribute('class', 'measure-area-close');
-  el.innerText = getArea() + ' ×';
+  el.innerText = getArea(MApoints) + ' ×';
   const option: MarkerOptions = {
     element: el,
     anchor: 'top',

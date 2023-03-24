@@ -1,5 +1,5 @@
 import { ref, Ref, onMounted } from 'vue';
-import mapboxgl, { Map } from 'mapbox-gl';
+import mapboxgl, { LngLatLike, Map } from 'mapbox-gl';
 import { basicStore } from '@/pinia';
 import { AMAP } from '@/plugin/Axios/config';
 import { amapIP } from '@/apis/amap';
@@ -22,6 +22,7 @@ import type {
   Geometry,
   Position
 } from 'geojson';
+import * as turf from '@turf/turf';
 
 /**
  * 继承 MapBox 的 Map 类，并增加封装方法
@@ -148,13 +149,15 @@ const mapOnWheel = (map: Map) => {
       }
       if (wheelDelta > 0) {
         // 缩小处理
-        startZoom.value = Math.floor(startZoom.value - 1);
+        startZoom.value = Math.floor(startZoom.value - 0.5);
         if (startZoom.value <= minZoom) startZoom.value = minZoom;
         mapFly(latlng);
       } else if (wheelDelta < 0) {
         // 放大处理
-        startZoom.value = startZoom.value + 1;
-        if (startZoom.value >= maxZoom) startZoom.value = maxZoomCorrection;
+        startZoom.value = startZoom.value + 0.5;
+        if (startZoom.value >= maxZoomCorrection) {
+          startZoom.value = maxZoomCorrection;
+        }
         mapFly(mouseCurrentLatlng);
       }
 
@@ -206,6 +209,7 @@ export function UseInitMap() {
           VECTORNROAD: {
             type: 'raster',
             tiles: [AMAP.AMAP_VECTORNROAD],
+            scheme: 'xyz',
             tileSize: 256
           },
           SATELLITE: {
@@ -464,3 +468,69 @@ export class CreateFillLayer extends CreateLayer {
     }
   }
 }
+
+/*  工具函数
+------------------------------------------------ */
+/**
+ * 计算圆圈坐标genjson数据
+ * @param {Array} center 中心点 [lng,lat]
+ * @param {Number} radiusInKm 半径 Km
+ * @param {Number} points 圆圈的等分顶点数
+ */
+export const createGeoJSONCircle = (
+  center: [number, number],
+  radiusInKm: number,
+  points = 32
+) => {
+  const coords = {
+    latitude: center[1],
+    longitude: center[0]
+  };
+  const km = radiusInKm;
+  const ret = [];
+  const distanceX = km / (111.32 * Math.cos((coords.latitude * Math.PI) / 180));
+  const distanceY = km / 110.574;
+  let theta, x, y;
+  for (let i = 0; i < points; i++) {
+    theta = (i / points) * (2 * Math.PI);
+    x = distanceX * Math.cos(theta);
+    y = distanceY * Math.sin(theta);
+    ret.push([coords.longitude + x, coords.latitude + y]);
+  }
+  ret.push(ret[0]);
+  return ret;
+};
+
+/**
+ *  测量面积
+ * @param coords
+ * @param points
+ */
+export const getArea = (points: Position[], coords?: LngLatLike) => {
+  let pts = coords ? points.concat([coords] as Position[]) : [...points];
+  pts = pts.concat([pts[0]]);
+  const polygon = turf.polygon([pts]);
+  const area: number = turf.area(polygon);
+  if (Math.floor(area) < 1000) {
+    return Math.round(area) + 'm²';
+  } else {
+    return (area / 1000000).toFixed(2) + 'km²';
+  }
+};
+
+/**
+ * 测量距离
+ * @param points
+ * @param coords
+ */
+export const getLength = (points: Position[], coords: LngLatLike) => {
+  const _points = points.concat([coords] as Position[]);
+  const line = turf.lineString(_points);
+  let len: number | string = turf.length(line);
+  if (len < 1) {
+    len = Math.round(len * 1000) + 'm';
+  } else {
+    len = len.toFixed(2) + 'km';
+  }
+  return len;
+};

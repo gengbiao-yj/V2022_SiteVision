@@ -214,6 +214,7 @@ module.exports = {
     // 'no-useless-constructor': 2, // 禁止不必要的构造函数
     'no-debugger': process.env.NODE_ENV === 'prod' ? 2 : 0, // 禁用 debugger
     'no-async-promise-executor': 'off', // Promise 回调函数禁止使用 async
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-types': [
       'error',
       {

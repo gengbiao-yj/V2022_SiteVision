@@ -136,5 +136,9 @@ export default {
     padding: 2px;
     color: red;
   }
+  &:deep(.font-13-500) {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
 }
 </style>
